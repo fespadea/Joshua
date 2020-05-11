@@ -64,9 +64,5 @@ if (attack == AT_USPECIAL){
 }
 
 if (attack == AT_DSPECIAL){
-    if (window == 2 && !was_parried){
-        can_jump = true;
-    }
-    can_fast_fall = false;
-    can_move = false
+    if(state_timer == 1 && !batitPlaced) instance_create(x, y, "obj_article1");
 }
