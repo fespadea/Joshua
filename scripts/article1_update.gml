@@ -131,7 +131,9 @@ if(batitHealth < 1){
             if(!repeatHitbox && place_meeting(x, y, other)){
                 other.attacksFaced[other.numDamages] = id;
                 other.numDamages++;
+                other.hitstop += hitpause + extra_hitpause;
                 other.batitHealth -= min(damage, other.batitHealth);
+                sound_play(sound_effect);
             }
         }
     }
