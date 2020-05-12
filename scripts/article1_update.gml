@@ -64,6 +64,17 @@ if(state == 0){ //idle
 } else if(state == 5){ //killed
     if(state_timer == 1) sprite_index = sprite[5];
     if(image_index < 5) image_index = floor(state_timer)/12;
+} else if(state == 6){ //knockback
+    if(state_timer == 1){
+        sprite_index = sprite[6];
+        image_index = 0;
+        hsp = lengthdir_x(knockBackPower, knockBackAngle);
+        vsp = lengthdir_y(knockBackPower, knockBackAngle);
+        if(hsp < 0) spr_dir = -1;
+        else if(hsp > 0) spr_dir = 1;
+    }
+    checkForDamage()
+    if(hsp == 0 && vsp == 0) changeState(0);
 }
 
 article_timer++;
@@ -71,7 +82,16 @@ state_timer++;
 depth = player_id.depth - 1;
 can_be_grounded = true;
 if(free){
-    vsp += player_id.grav;
+    if(state != 6) vsp += player_id.hitstun_grav;
+    else vsp += player_id.gravity_speed;
+    if(vsp > 0)
+        vsp -= min(player_id.air_friction, vsp);
+    else if(vsp < 0)
+        vsp += min(player_id.air_friction, -vsp);
+    if(hsp > 0)
+        hsp -= min(player_id.air_friction, hsp);
+    else if(hsp < 0)
+        hsp += min(player_id.air_friction, -hsp);
 } else {
     if(hsp > 0)
         hsp -= min(player_id.ground_friction, hsp);
@@ -99,6 +119,7 @@ if(newDir != spr_dir){
 if(batitHealth < 1){
     changeState(5);
 } else {
+    var previousNumDamages = numDamages;
     with pHitBox{
         if(other.player_id != player_id){
             var repeatHitbox = false;
@@ -114,5 +135,9 @@ if(batitHealth < 1){
             }
         }
     }
-    if(batitHealth < 1) changeState(5);
+    if(previousNumDamages < numDamages){
+        knockBackAngle = get_hitbox_angle(attacksFaced[numDamages-1]);
+        knockBackPower = attacksFaced[numDamages-1].kb_value + attacksFaced[numDamages-1].kb_scale*(50-batitHealth)/5;
+        changeState(6);
+    }
 }

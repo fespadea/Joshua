@@ -19,9 +19,12 @@ bumpBox = noone;
 batitHealth = 50;
 numDamages = 0;
 attacksFaced[0] = noone;
+knockBackAngle = 0;
+knockBackPower = 0;
 
 BOTTOM_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) + get_stage_data(SD_BOTTOM_BLASTZONE);
 
+sprite[6] = sprite_get("batit_hurt");
 sprite[5] = sprite_get("batit_dead");
 sprite[4] = sprite_get("batit_intro");
 sprite[3] = sprite_get("batit_kicked");
