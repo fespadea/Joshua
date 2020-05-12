@@ -11,3 +11,9 @@ if(batitPlaced){
     move_cooldown[AT_DSPECIAL] = 300;
     batitFell = false;
 }
+
+//new parry sound
+if(state == PS_PARRY){
+    sound_stop(asset_get("sfx_parry_use"));
+    if(state_timer == 1) sound_play(sound_get("JoshuaParryUse"));
+}
