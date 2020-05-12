@@ -102,3 +102,4 @@ bubble_y = 8;
 batitPlaced = false;
 batitArticle = noone;
 batitDied = false;
+batitFell = false;

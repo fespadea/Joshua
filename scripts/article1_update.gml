@@ -99,7 +99,10 @@ if(free){
     else if(hsp < 0)
         hsp += min(player_id.ground_friction, -hsp);
 }
-if(y > BOTTOM_BLASTZONE_Y_POS) despawn();
+if(y > BOTTOM_BLASTZONE_Y_POS){
+    player_id.batitFell = true;
+    despawn();
+}
 
 #define changeState(newState)
 state = newState;

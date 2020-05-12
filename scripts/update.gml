@@ -6,4 +6,8 @@ if(batitPlaced){
 } else if(batitDied){
     move_cooldown[AT_DSPECIAL] = 600;
     batitDied = false;
+    batitFell = false;
+} else if(batitFell){
+    move_cooldown[AT_DSPECIAL] = 300;
+    batitFell = false;
 }
