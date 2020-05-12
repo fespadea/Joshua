@@ -13,14 +13,9 @@ if (attack == AT_NSPECIAL){
 }
 
 if (attack == AT_FSPECIAL){
-    if (window == 2){
-        if (special_pressed){
-            window = 3;
-            window_timer = 0;
-            destroy_hitboxes();
-        }
+    if(state_timer == 1 && batitPlaced){
+        if(place_meeting(x, y, batitArticle)) batitArticle.state = 2;
     }
-    can_fast_fall = false;
 }
 
 if (attack == AT_USPECIAL){
@@ -64,5 +59,15 @@ if (attack == AT_USPECIAL){
 }
 
 if (attack == AT_DSPECIAL){
-    if(state_timer == 1 && !batitPlaced) instance_create(x, y, "obj_article1");
+    if(window == 1 && window_timer == get_window_value(AT_DSPECIAL, 1, AG_WINDOW_LENGTH) && !batitPlaced)
+        batitArticle = instance_create(x+12*spr_dir, y, "obj_article1");
+}
+
+if (attack == AT_FTILT || attack == AT_FAIR || attack == AT_BAIR){
+    if(state_timer == 1 && batitPlaced){
+        with batitArticle{
+            state = 1;
+            state_timer = 0;
+        }
+    }
 }

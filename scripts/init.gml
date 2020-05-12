@@ -12,7 +12,7 @@ pratfall_anim_speed = .25;
 
 walk_speed = 3.25;
 walk_accel = 0.2;
-walk_turn_time = 6;
+walk_turn_time = 12;
 initial_dash_time = 14;
 initial_dash_speed = 8;
 dash_speed = 7.5;
@@ -100,3 +100,4 @@ bubble_y = 8;
 
 // Batit variables
 batitPlaced = false;
+batitArticle = noone;
