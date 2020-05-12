@@ -14,7 +14,7 @@ if (attack == AT_NSPECIAL){
 
 if (attack == AT_FSPECIAL){
     if(state_timer == 1 && batitPlaced){
-        if(place_meeting(x, y, batitArticle)) batitArticle.state = 2;
+        if(batitArticle.state == 0 && place_meeting(x, y, batitArticle)) batitArticle.state = 2;
     }
 }
 

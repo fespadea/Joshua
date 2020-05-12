@@ -64,6 +64,7 @@ if(state == 0){ //idle
 } else if(state == 5){ //killed
     if(state_timer == 1) sprite_index = sprite[5];
     if(image_index < 5) image_index = floor(state_timer)/12;
+    if(state_timer > 70) changeState(2);
 } else if(state == 6){ //knockback
     if(state_timer == 1){
         sprite_index = sprite[6];
@@ -73,7 +74,7 @@ if(state == 0){ //idle
         if(hsp < 0) spr_dir = -1;
         else if(hsp > 0) spr_dir = 1;
     }
-    checkForDamage()
+    checkForDamage();
     if(hsp == 0 && vsp == 0) changeState(0);
 }
 
@@ -117,7 +118,8 @@ if(newDir != spr_dir){
 
 #define checkForDamage()
 if(batitHealth < 1){
-    changeState(5);
+    player_id.batitDied = true;
+    if(state != 6) changeState(5);
 } else {
     var previousNumDamages = numDamages;
     with pHitBox{
@@ -134,6 +136,7 @@ if(batitHealth < 1){
                 other.hitstop += hitpause + extra_hitpause;
                 other.batitHealth -= min(damage, other.batitHealth);
                 sound_play(sound_effect);
+                spawn_hit_fx( other.x, other.y-20, hit_effect);
             }
         }
     }

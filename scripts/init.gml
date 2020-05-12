@@ -101,3 +101,4 @@ bubble_y = 8;
 // Batit variables
 batitPlaced = false;
 batitArticle = noone;
+batitDied = false;
