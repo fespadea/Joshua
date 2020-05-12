@@ -66,8 +66,10 @@ if (attack == AT_DSPECIAL){
 if (attack == AT_FTILT || attack == AT_FAIR || attack == AT_BAIR){
     if(state_timer == 1 && batitPlaced){
         with batitArticle{
-            state = 1;
-            state_timer = 0;
+            if(state == 0){
+                state = 1;
+                state_timer = 0;
+            }
         }
     }
 }
