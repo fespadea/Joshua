@@ -87,7 +87,7 @@ if (attack == AT_UTILT){
     }
 }
 
-
+// made Dattack work in 2 parts
 if(attack == AT_DATTACK){
     if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS) - 1){
         if(finishDattack){

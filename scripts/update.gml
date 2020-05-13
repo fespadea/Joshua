@@ -1,8 +1,9 @@
 // update
 
-// don't allow dspecial if batit is placed
+// don't allow dspecial/fstrong if batit is placed
 if(batitPlaced){
     move_cooldown[AT_DSPECIAL] = 2;
+    move_cooldown[AT_FSTRONG] = 2;
 } else if(batitDied){
     move_cooldown[AT_DSPECIAL] = 600;
     batitDied = false;
