@@ -73,3 +73,27 @@ if (attack == AT_FTILT || attack == AT_FAIR || attack == AT_BAIR){
         }
     }
 }
+
+if(attack == AT_DATTACK){
+    if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS) - 1){
+        if(finishDattack){
+            if(window_timer == 1) sound_play(asset_get("sfx_swipe_heavy1"));
+            else if(window_timer > 4){
+                set_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS), AG_WINDOW_TYPE, 9);
+                window = get_attack_value(AT_DATTACK, AG_NUM_WINDOWS);
+                window_timer = 0;
+                initialDattackY = y;
+                vsp = -6;
+            }
+        } else if (window_timer == get_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS) - 1, AG_WINDOW_LENGTH) - 1){
+            spr_dir *= -1;
+            state = PS_IDLE;
+            state_timer = 0;
+            pHurtBox.sprite_index = hurtbox_spr;
+        }
+    } else if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS)){
+        if(y >= initialDattackY || !free){
+            set_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS), AG_WINDOW_TYPE, 0);
+        }
+    }
+}
