@@ -13,6 +13,7 @@ if(state == 0){ //idle
         if(hitByDTilt) changeState(3);
     }
 } else if(state == 1){ // ftilt/fair/bair attack
+    checkForDamage()
     if(state_timer == 1){
         sprite_index = sprite[1];
         if(player_id.attack == AT_BAIR)
@@ -76,6 +77,23 @@ if(state == 0){ //idle
     }
     checkForDamage();
     if(hsp == 0 && vsp == 0) changeState(0);
+} else if(state == 7){ // utilt attack
+    checkForDamage()
+    if(state_timer == 1){
+        sprite_index = sprite[7];
+    }
+    if(state_timer < 16){
+        image_index = floor(state_timer/8);
+    } else if (state_timer < 18){
+        image_index = 2;
+    } else {
+        image_index = floor(state_timer/8) + 6;
+    }
+    if(state_timer == 16){
+        create_hitbox(AT_UTILT, 2, x, y-49);
+    } else if (state_timer == 32){
+        changeState(0);
+    }
 }
 
 article_timer++;

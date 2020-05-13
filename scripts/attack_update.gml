@@ -63,6 +63,7 @@ if (attack == AT_DSPECIAL){
         batitArticle = instance_create(x+12*spr_dir, y, "obj_article1");
 }
 
+// batit ftilt/fair/bair projectile
 if (attack == AT_FTILT || attack == AT_FAIR || attack == AT_BAIR){
     if(state_timer == 1 && batitPlaced){
         with batitArticle{
@@ -73,6 +74,19 @@ if (attack == AT_FTILT || attack == AT_FAIR || attack == AT_BAIR){
         }
     }
 }
+
+// utilt batit projectile
+if (attack == AT_UTILT){
+    if(state_timer == 1 && batitPlaced){
+        with batitArticle{
+            if(state == 0){
+                state = 7;
+                state_timer = 0;
+            }
+        }
+    }
+}
+
 
 if(attack == AT_DATTACK){
     if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS) - 1){
@@ -87,9 +101,7 @@ if(attack == AT_DATTACK){
             }
         } else if (window_timer == get_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS) - 1, AG_WINDOW_LENGTH) - 1){
             spr_dir *= -1;
-            state = PS_IDLE;
-            state_timer = 0;
-            pHurtBox.sprite_index = hurtbox_spr;
+            set_state(PS_IDLE);
         }
     } else if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS)){
         if(y >= initialDattackY || !free){
