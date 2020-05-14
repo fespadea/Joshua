@@ -52,6 +52,8 @@ sprite_change_offset("taunt", 32, 62);
 
 sprite_change_offset("plat", 64, 94);
 
+set_victory_theme(sound_get("notdotbatit"));
+
 //projectiles
 sprite_change_offset("dspecial_2_proj", 18, 25);
 
