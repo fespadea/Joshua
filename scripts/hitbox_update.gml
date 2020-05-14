@@ -8,4 +8,10 @@ if(attack == AT_FTILT && hbox_num == 1){
     } else {
         image_index = hitbox_timer/8 % 2 + 4;
     }
+} else if (attack == AT_DSPECIAL_2 && hbox_num == 1){
+    if(!free){
+        sound_play(sound_effect);
+        spawn_hit_fx(x, y, hit_effect);
+        length = 0;
+    }
 }

@@ -23,9 +23,11 @@ numDamages = 0;
 attacksFaced[0] = noone;
 knockBackAngle = 0;
 knockBackPower = 0;
+explode = 0;
 
 BOTTOM_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) + get_stage_data(SD_BOTTOM_BLASTZONE);
 
+sprite[8] = sprite_get("batit_explode");
 sprite[7] = sprite_get("batit_utilt");
 sprite[6] = sprite_get("batit_hurt");
 sprite[5] = sprite_get("batit_dead");

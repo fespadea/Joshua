@@ -103,6 +103,7 @@ batitPlaced = false;
 batitArticle = noone;
 batitDied = false;
 batitFell = false;
+batitDelay = 0;
 
 // Dattack variable
 finishDattack = false;

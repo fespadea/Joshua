@@ -4,15 +4,27 @@ if(state == 0){ //idle
     checkForDamage()
     if(state_timer == 1) sprite_index = sprite[0];
     image_index = floor(state_timer/8);
-    if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG){
+    if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2){
         with pHitBox {
-            if(((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG) && player == other.player_id.player) {
-                other.hitByDTilt = place_meeting(x, y, other);
-                other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
-                other.nudgeAngle = degtorad(get_hitbox_angle(id));
+            if(player == other.player_id.player) {
+                if (attack == AT_DSPECIAL_2 && hbox_num == 1){
+                    if(!destroyed && place_meeting(x, y, other)){
+                        other.explode = sound_effect;
+                        length = hitbox_timer + 1;
+                    }
+                } else if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG){
+                    if(place_meeting(x, y, other)){
+                        other.hitByDTilt = true;
+                        other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
+                        other.nudgeAngle = degtorad(get_hitbox_angle(id));
+                    }
+
+                } 
+                
             }
         }
-        if(hitByDTilt) changeState(3);
+        if(explode) changeState(8);
+        else if(hitByDTilt) changeState(3);
     }
 } else if(state == 1){ // ftilt/fair/bair attack
     checkForDamage()
@@ -94,6 +106,19 @@ if(state == 0){ //idle
         create_hitbox(AT_UTILT, 2, x, y-49);
     } else if (state_timer == 32){
         changeState(0);
+    }
+} else if(state == 8){ // exploding attack
+    if(state_timer == 1){
+        sprite_index = sprite[8];
+    }
+    image_index = floor(state_timer/6);
+    if(state_timer == 25){
+        sound_play(explode);
+        create_hitbox(AT_DSPECIAL_2, 2, x+2*spr_dir, y-25);
+    }
+    if(image_index > 9){
+        player_id.batitDied = true;
+        despawn();
     }
 }
 

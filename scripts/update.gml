@@ -2,17 +2,18 @@
 
 // don't allow dspecial/fstrong if batit is placed
 if(batitPlaced){
-    move_cooldown[AT_DSPECIAL] = 2;
+    batitDelay = 2;
     move_cooldown[AT_FSTRONG] = 2;
     move_cooldown[AT_USTRONG] = 2;
 } else if(batitDied){
-    move_cooldown[AT_DSPECIAL] = 600;
+    batitDelay = 600;
     batitDied = false;
     batitFell = false;
 } else if(batitFell){
-    move_cooldown[AT_DSPECIAL] = 300;
+    batitDelay = 300;
     batitFell = false;
 }
+batitDelay--;
 
 //new parry sound
 if(state == PS_PARRY){

@@ -47,6 +47,10 @@ sprite_change_offset("taunt", 32, 62);
 
 sprite_change_offset("plat", 64, 94);
 
+//projectiles
+sprite_change_offset("dspecial_2_proj", 18, 25);
+
+//batit
 sprite_change_offset("batit", 8, 48);
 sprite_change_offset("batit_intro", 12, 54);
 sprite_change_offset("batit_dead", 12, 54);
@@ -54,5 +58,7 @@ sprite_change_offset("batit_ftilt", 62, 126);
 sprite_change_offset("batit_utilt", 28, 66);
 sprite_change_offset("batit_kicked", 22, 63);
 sprite_change_offset("batit_hurt", 22, 63);
+sprite_change_offset("batit_explode", 56, 88);
+//batit projectiles
 sprite_change_offset("batit_proj", 32, 30);
 sprite_change_offset("batit_utilt_proj", 31, 26);

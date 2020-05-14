@@ -109,3 +109,8 @@ if(attack == AT_DATTACK){
         }
     }
 }
+
+// change AT_DSPECIAL_2 to land when landing
+if(attack == AT_DSPECIAL_2 && !free){
+    set_state(PS_LAND);
+}
