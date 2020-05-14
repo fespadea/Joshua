@@ -15,6 +15,8 @@ ignores_walls = false;
 
 player_id.batitPlaced = true;
 hitByDTilt = false;
+nudgeDamage = 0;
+nudgeAngle = 0;
 bumpBox = noone;
 batitHealth = 50;
 numDamages = 0;

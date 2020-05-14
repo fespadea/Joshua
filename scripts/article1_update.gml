@@ -4,10 +4,12 @@ if(state == 0){ //idle
     checkForDamage()
     if(state_timer == 1) sprite_index = sprite[0];
     image_index = floor(state_timer/8);
-    if(player_id.attack == AT_DTILT){
+    if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG){
         with pHitBox {
-            if(attack == AT_DTILT && hbox_num == 1 && player == other.player_id.player) {
+            if(((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG) && player == other.player_id.player) {
                 other.hitByDTilt = place_meeting(x, y, other);
+                other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
+                other.nudgeAngle = degtorad(get_hitbox_angle(id));
             }
         }
         if(hitByDTilt) changeState(3);
@@ -35,17 +37,14 @@ if(state == 0){ //idle
     }
 } else if(state == 2){ //despawn
     despawn();
-} else if(state == 3){ // dtilt nudge
+} else if(state == 3){ // dtilt/dstrong nudge
     if(state_timer == 1){
         changeDir(player_id.spr_dir)
-        hsp = 5*spr_dir;
-        vsp = -2;
+        hsp = nudgeDamage*cos(nudgeAngle);
+        vsp = -nudgeDamage*sin(nudgeAngle);
         bumpBox = create_hitbox(AT_DTILT, 2, x, y-20);
         bumpBox.spr_dir = player_id.spr_dir;
         sprite_index = sprite[3];
-    } else if(player_id.state != PS_ATTACK_GROUND){
-        hitByDTilt = false;
-        changeState(0);
     } else if(hsp != 0){
         bumpBox.x = x;
         bumpBox.y = y + bumpBox.y_pos;
@@ -56,6 +55,8 @@ if(state == 0){ //idle
             image_index  = 3;
     } else {
         bumpBox.length = 0;
+        hitByDTilt = false;
+        changeState(0);
     }
 } else if(state == 4){ //spawn
     checkForDamage()
