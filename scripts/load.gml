@@ -1,6 +1,9 @@
 sprite_change_offset("idle", 18, 62);
 sprite_change_offset("hurtbox", 18, 62);
-sprite_change_offset("hurt", 32, 62);
+sprite_change_offset("hurt", 25, 54);
+sprite_change_offset("hitstun_hurtbox", 25, 54);
+sprite_change_offset("bighurt", 25, 54);
+sprite_change_offset("spinhurt", 43, 64);
 sprite_change_offset("crouch", 20, 60);
 sprite_change_offset("crouchbox", 20, 60);
 sprite_change_offset("walk", 18, 64);

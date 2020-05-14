@@ -1,7 +1,7 @@
 hurtbox_spr = sprite_get("hurtbox");
 crouchbox_spr = sprite_get("crouchbox");
 air_hurtbox_spr = -1;
-hitstun_hurtbox_spr = -1;
+hitstun_hurtbox_spr = sprite_get("hitstun_hurtbox");
 
 char_height = 52;
 idle_anim_speed = .1;
