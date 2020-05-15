@@ -124,6 +124,7 @@ if(state == 0){ //idle
         sprite_index = sprite[9];
     } else if(state_timer == 37 || state_timer == 49){
         create_hitbox(AT_NSPECIAL, 1, x+9*spr_dir, y-25);
+        sound_play(asset_get("sfx_rag_plant_shoot"));
     } else if(image_index > 10){
         changeState(0);
     }

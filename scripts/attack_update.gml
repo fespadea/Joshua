@@ -94,6 +94,7 @@ if (attack == AT_NSPECIAL){
             if(state == 0){
                 state = 9;
                 state_timer = 0;
+                other.move_cooldown[AT_NSPECIAL] = 300;
             }
         }
     }
