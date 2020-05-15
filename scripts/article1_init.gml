@@ -10,7 +10,7 @@ spr_dir = player_id.spr_dir;
 depth = player_id.depth - 1;
 uses_shader = true;
 
-can_be_grouunded = true;
+can_be_grounded = true;
 ignores_walls = false;
 
 player_id.batitPlaced = true;
