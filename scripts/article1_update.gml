@@ -108,17 +108,24 @@ if(state == 0){ //idle
         changeState(0);
     }
 } else if(state == 8){ // exploding attack
+    image_index = floor(state_timer/6);
     if(state_timer == 1){
         sprite_index = sprite[8];
-    }
-    image_index = floor(state_timer/6);
-    if(state_timer == 25){
+    } else if(state_timer == 25){
         sound_play(explode);
         create_hitbox(AT_DSPECIAL_2, 2, x+2*spr_dir, y-25);
-    }
-    if(image_index > 9){
+    } else if(image_index > 9){
         player_id.batitDied = true;
         despawn();
+    }
+} else if(state == 9){ //nspecial attack
+    image_index = floor(state_timer/6);
+    if(state_timer == 1){
+        sprite_index = sprite[9];
+    } else if(state_timer == 37 || state_timer == 49){
+        create_hitbox(AT_NSPECIAL, 1, x+9*spr_dir, y-25);
+    } else if(image_index > 10){
+        changeState(0);
     }
 }
 

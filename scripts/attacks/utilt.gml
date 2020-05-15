@@ -48,7 +48,6 @@ set_hitbox_value(AT_UTILT, 2, HG_BASE_KNOCKBACK, 5);
 set_hitbox_value(AT_UTILT, 2, HG_KNOCKBACK_SCALING, .8);
 set_hitbox_value(AT_UTILT, 2, HG_BASE_HITPAUSE, 1);
 set_hitbox_value(AT_UTILT, 2, HG_HITPAUSE_SCALING, .7);
-set_hitbox_value(AT_UTILT, 2, HG_HITSTUN_MULTIPLIER, -1);
 set_hitbox_value(AT_UTILT, 2, HG_PROJECTILE_SPRITE, sprite_get("batit_utilt_proj"));
 set_hitbox_value(AT_UTILT, 2, HG_PROJECTILE_MASK, sprite_get("batit_utilt_proj"));
 set_hitbox_value(AT_UTILT, 2, HG_VISUAL_EFFECT, 17);

@@ -66,6 +66,9 @@ sprite_change_offset("batit_utilt", 28, 66);
 sprite_change_offset("batit_kicked", 22, 63);
 sprite_change_offset("batit_hurt", 22, 63);
 sprite_change_offset("batit_explode", 56, 88);
+sprite_change_offset("batit_nspecial", 62, 126);
 //batit projectiles
 sprite_change_offset("batit_proj", 32, 30);
 sprite_change_offset("batit_utilt_proj", 31, 26);
+sprite_change_offset("batit_nspecial_proj", 34, 32);
+sprite_change_offset("batit_nspecial_particle_fx", 8, 8);
