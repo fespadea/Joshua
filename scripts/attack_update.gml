@@ -127,3 +127,10 @@ if(attack == AT_DATTACK){
 if(attack == AT_DSPECIAL_2 && !free){
     set_state(PS_LAND);
 }
+
+// made Uair work in 2 parts
+if(attack == AT_UAIR){
+    if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
+        if(!finishUair) window = 4;
+    }
+}

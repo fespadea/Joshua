@@ -105,6 +105,9 @@ batitDied = false;
 batitFell = false;
 batitDelay = 0;
 
-// Dattack variable
+// Dattack variables
 finishDattack = false;
 initialDattackY = 0;
+
+// Uair variable
+finishUair = false;
