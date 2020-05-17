@@ -11,3 +11,8 @@ if(attack == AT_DSPECIAL && batitDelay > 0){
     if (free) attack = AT_DSPECIAL_2;
     else move_cooldown[AT_DSPECIAL] = 2;
 }
+
+// change to batitless uspecial
+if(attack == AT_USPECIAL && batitPlaced){
+    attack = AT_USPECIAL_2;
+}
