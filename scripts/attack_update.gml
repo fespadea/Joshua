@@ -2,25 +2,23 @@
 if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || attack == AT_USPECIAL){
     trigger_b_reverse();
 }
-
-if (attack == AT_NSPECIAL){
-    if (window == 3){
-        if (special_pressed){
-            window = 1;
-            window_timer = 0;
-        }
-    }
-}
-
-if (attack == AT_FSPECIAL){
-    if(state_timer == 1 && batitPlaced){
-        if(batitArticle.state == 0 && place_meeting(x, y, batitArticle)) batitArticle.state = 2;
-    }
-}
-
+// place batit
 if (attack == AT_DSPECIAL){
     if(window == 1 && window_timer == get_window_value(AT_DSPECIAL, 1, AG_WINDOW_LENGTH) && !batitPlaced)
         batitArticle = instance_create(x+12*spr_dir, y, "obj_article1");
+}
+
+// pick up batit
+if (attack == AT_FSPECIAL){
+    if(window == 2 && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH) && pickUpBatit){
+        batitArticle.state = 2;
+        pickUpBatit = false;
+        window = 4;
+        window_timer = 0;
+    } else if(window == 3 && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)) {
+        if(free) set_state(PS_IDLE_AIR);
+        else set_state(PS_IDLE);
+    }
 }
 
 // batit ftilt/fair/bair projectile

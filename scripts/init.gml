@@ -104,6 +104,7 @@ batitArticle = noone;
 batitDied = false;
 batitFell = false;
 batitDelay = 0;
+pickUpBatit = false;
 
 // Dattack variables
 finishDattack = false;

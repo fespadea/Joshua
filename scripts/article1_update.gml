@@ -25,6 +25,14 @@ if(state == 0){ //idle
         }
         if(explode) changeState(8);
         else if(hitByDTilt) changeState(3);
+    } else if (player_id.attack == AT_FSPECIAL){
+        with pHitBox {
+            if(player == other.player_id.player && attack == AT_FSPECIAL && hbox_num == 1) {
+                if (place_meeting(x, y, other)){
+                    player_id.pickUpBatit = true;
+                }
+            }
+        }
     }
 } else if(state == 1){ // ftilt/fair/bair attack
     checkForDamage()
