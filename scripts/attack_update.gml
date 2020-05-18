@@ -50,7 +50,7 @@ if (attack == AT_UTILT){
 // made Dattack work in 2 parts
 if(attack == AT_DATTACK){
     if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS) - 1){
-        if(finishDattack){
+        if(finishDattack && !was_parried){
             if(window_timer == 1) sound_play(asset_get("sfx_swipe_heavy1"));
             else if(window_timer > 4){
                 set_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS), AG_WINDOW_TYPE, 9);
@@ -61,7 +61,8 @@ if(attack == AT_DATTACK){
             }
         } else if (window_timer == get_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS) - 1, AG_WINDOW_LENGTH) - 1){
             spr_dir *= -1;
-            set_state(PS_IDLE);
+            if(!was_parried) set_state(PS_IDLE);
+            else set_state(PS_PRATLAND);
         }
     } else if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS)){
         if(y >= initialDattackY || !free){
