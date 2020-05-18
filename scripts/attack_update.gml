@@ -2,6 +2,7 @@
 if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || attack == AT_USPECIAL){
     trigger_b_reverse();
 }
+
 // place batit
 if (attack == AT_DSPECIAL){
     if(window == 1 && window_timer == get_window_value(AT_DSPECIAL, 1, AG_WINDOW_LENGTH) && !batitPlaced)
@@ -91,4 +92,12 @@ if(attack == AT_UAIR){
     if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
         if(!finishUair) window = 4;
     }
+}
+
+// FSPECIAL_2 stall in the air correctly
+if(attack == AT_FSPECIAL_2){
+    if(window < 3 && free){
+        if(window == 2 && window_timer == 1) vsp = -3;
+        air_accel = .1;
+    } else air_accel = tempAirAccel;
 }

@@ -112,3 +112,6 @@ initialDattackY = 0;
 
 // Uair variable
 finishUair = false;
+
+// Fspecial_2 variable
+tempAirAccel = air_accel;

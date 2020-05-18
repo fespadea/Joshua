@@ -16,3 +16,8 @@ if(attack == AT_DSPECIAL && batitDelay > 0){
 if(attack == AT_USPECIAL && batitPlaced){
     attack = AT_USPECIAL_2;
 }
+
+// change to batitfull uspecial (this is reversed because batitless was made first)
+if(attack == AT_FSPECIAL && !batitPlaced){
+    attack = AT_FSPECIAL_2;
+}
