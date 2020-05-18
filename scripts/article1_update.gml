@@ -18,9 +18,7 @@ if(state == 0){ //idle
                         other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
                         other.nudgeAngle = degtorad(get_hitbox_angle(id));
                     }
-
                 } 
-                
             }
         }
         if(explode) changeState(8);

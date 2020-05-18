@@ -12,6 +12,7 @@ if (attack == AT_DSPECIAL){
 // pick up batit
 if (attack == AT_FSPECIAL){
     if(window == 2 && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH) && pickUpBatit){
+        move_cooldown[AT_NSPECIAL] = 0;
         batitArticle.state = 2;
         pickUpBatit = false;
         window = 4;
@@ -41,19 +42,6 @@ if (attack == AT_UTILT){
             if(state == 0){
                 state = 7;
                 state_timer = 0;
-            }
-        }
-    }
-}
-
-// nspecial batit projectile
-if (attack == AT_NSPECIAL){
-    if(state_timer == 1 && batitPlaced){
-        with batitArticle{
-            if(state == 0){
-                state = 9;
-                state_timer = 0;
-                other.move_cooldown[AT_NSPECIAL] = 300;
             }
         }
     }
