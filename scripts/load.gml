@@ -43,7 +43,7 @@ sprite_change_offset("dair", 40, 74);
 sprite_change_offset("fstrong", 48, 96);
 sprite_change_offset("ustrong", 70, 96);
 sprite_change_offset("dstrong", 30, 86);
-sprite_change_offset("nspecial", 64, 94);
+sprite_change_offset("nspecial", 28, 70);
 sprite_change_offset("fspecial", 40, 70);
 sprite_change_offset("fspecial_2", 32, 72);
 sprite_change_offset("uspecial", 40, 98);
@@ -58,6 +58,7 @@ set_victory_theme(sound_get("notdotbatit"));
 
 //projectiles
 sprite_change_offset("dspecial_2_proj", 18, 25);
+sprite_change_offset("nspecial_proj", 51, 24);
 
 //batit
 sprite_change_offset("batit", 8, 48);
@@ -70,7 +71,7 @@ sprite_change_offset("batit_hurt", 22, 63);
 sprite_change_offset("batit_explode", 56, 88);
 sprite_change_offset("batit_nspecial", 62, 126);
 //batit projectiles
-sprite_change_offset("batit_proj", 32, 30);
+sprite_change_offset("batit_proj", 34, 15);
 sprite_change_offset("batit_utilt_proj", 31, 26);
 sprite_change_offset("batit_nspecial_proj", 34, 32);
 sprite_change_offset("batit_nspecial_particle_fx", 8, 8);

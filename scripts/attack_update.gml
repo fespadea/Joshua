@@ -85,7 +85,10 @@ if(attack == AT_UAIR){
 // FSPECIAL_2 stall in the air correctly
 if(attack == AT_FSPECIAL_2){
     if(window < 3 && free){
-        if(window == 2 && window_timer == 1) vsp = -3;
+        if(window == 2 && window_timer == 1){
+            vsp = -4;
+            hsp = 4*spr_dir;
+        }
         air_accel = .1;
     } else air_accel = tempAirAccel;
 }

@@ -49,7 +49,7 @@ if(state == 0){ //idle
         image_index = floor(state_timer/8) + 6;
     }
     if(state_timer == 16){
-        create_hitbox(AT_FTILT, 1, x+10*player_id.spr_dir*(player_id.attack == AT_BAIR ? -1 : 1), y-20);
+        create_hitbox(AT_FTILT, 1, x+10*player_id.spr_dir*(player_id.attack == AT_BAIR ? -1 : 1), y-25);
     } else if (state_timer == 32){
         changeState(0);
     }
