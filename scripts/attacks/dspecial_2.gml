@@ -5,16 +5,13 @@ set_attack_value(AT_DSPECIAL_2, AG_NUM_WINDOWS, 3);
 set_attack_value(AT_DSPECIAL_2, AG_HAS_LANDING_LAG, 4);
 set_attack_value(AT_DSPECIAL_2, AG_OFF_LEDGE, 1);
 
-set_window_value(AT_DSPECIAL_2, 1, AG_WINDOW_TYPE, 1);
 set_window_value(AT_DSPECIAL_2, 1, AG_WINDOW_LENGTH, 24);
 set_window_value(AT_DSPECIAL_2, 1, AG_WINDOW_ANIM_FRAMES, 4);
 
-set_window_value(AT_DSPECIAL_2, 2, AG_WINDOW_TYPE, 1);
 set_window_value(AT_DSPECIAL_2, 2, AG_WINDOW_LENGTH, 6);
 set_window_value(AT_DSPECIAL_2, 2, AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(AT_DSPECIAL_2, 2, AG_WINDOW_ANIM_FRAME_START, 4);
 
-set_window_value(AT_DSPECIAL_2, 3, AG_WINDOW_TYPE, 1);
 set_window_value(AT_DSPECIAL_2, 3, AG_WINDOW_LENGTH, 12);
 set_window_value(AT_DSPECIAL_2, 3, AG_WINDOW_ANIM_FRAMES, 2);
 set_window_value(AT_DSPECIAL_2, 3, AG_WINDOW_ANIM_FRAME_START, 5);
