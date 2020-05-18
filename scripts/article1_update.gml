@@ -1,7 +1,7 @@
 // batit update
 
 if(state == 0){ //idle
-    checkForDamage()
+    checkForDamage();
     if(state_timer == 1) sprite_index = sprite[0];
     image_index = floor(state_timer/8);
     if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2){
@@ -33,7 +33,7 @@ if(state == 0){ //idle
         }
     }
 } else if(state == 1){ // ftilt/fair/bair attack
-    checkForDamage()
+    checkForDamage();
     if(state_timer == 1){
         sprite_index = sprite[1];
         if(player_id.attack == AT_BAIR)
@@ -77,7 +77,7 @@ if(state == 0){ //idle
         changeState(0);
     }
 } else if(state == 4){ //spawn
-    checkForDamage()
+    checkForDamage();
     if(state_timer == 1) sprite_index = sprite[4];
     else if(state_timer == 38) changeState(0);
     else image_index = floor(state_timer/8);
@@ -96,8 +96,8 @@ if(state == 0){ //idle
     }
     checkForDamage();
     if(hsp == 0 && vsp == 0) changeState(0);
-} else if(state == 7){ // utilt attack
-    checkForDamage()
+} else if(state == 7){ // utilt/uair attack
+    checkForDamage();
     if(state_timer == 1){
         sprite_index = sprite[7];
     }
@@ -125,6 +125,7 @@ if(state == 0){ //idle
         despawn();
     }
 } else if(state == 9){ //nspecial attack
+    checkForDamage();
     image_index = floor(state_timer/6);
     if(state_timer == 1){
         sprite_index = sprite[9];

@@ -78,7 +78,14 @@ if(attack == AT_DSPECIAL_2 && !free){
 
 // made Uair work in 2 parts
 if(attack == AT_UAIR){
-    if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
+    if(state_timer == 1 && batitPlaced){
+        with batitArticle{
+            if(state == 0){
+                state = 7;
+                state_timer = 0;
+            }
+        }
+    } else if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
         if(!finishUair) window = 4;
     }
 }
