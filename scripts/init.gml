@@ -62,28 +62,28 @@ dodge_active_frames = 1;
 dodge_recovery_frames = 3;
 
 //tech animation frames
-tech_active_frames = 3;
+tech_active_frames = 8;
 tech_recovery_frames = 1;
 
 //tech roll animation frames
-techroll_startup_frames = 2
-techroll_active_frames = 2;
-techroll_recovery_frames = 2;
+techroll_startup_frames = 2;
+techroll_active_frames = 3;
+techroll_recovery_frames = 1;
 techroll_speed = 10;
 
 //airdodge animation frames
 air_dodge_startup_frames = 1;
-air_dodge_active_frames = 2;
-air_dodge_recovery_frames = 3;
+air_dodge_active_frames = 3;
+air_dodge_recovery_frames = 1;
 air_dodge_speed = 7.5;
 
 //roll animation frames
 roll_forward_startup_frames = 2;
 roll_forward_active_frames = 3;
-roll_forward_recovery_frames = 2;
+roll_forward_recovery_frames = 1;
 roll_back_startup_frames = 2;
 roll_back_active_frames = 3;
-roll_back_recovery_frames = 2;
+roll_back_recovery_frames = 1;
 roll_forward_max = 9; //roll speed
 roll_backward_max = 9;
 
