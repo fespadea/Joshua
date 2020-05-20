@@ -115,3 +115,6 @@ finishUair = false;
 
 // Fspecial_2 variable
 tempAirAccel = air_accel;
+
+//hud sprites
+batitIconSprite = sprite_get("batit_icon");
