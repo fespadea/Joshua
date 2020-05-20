@@ -27,6 +27,7 @@ set_hitbox_value(AT_FTILT, 1, HG_DAMAGE, 3);
 set_hitbox_value(AT_FTILT, 1, HG_ANGLE, 50);
 set_hitbox_value(AT_FTILT, 1, HG_BASE_KNOCKBACK, 2);
 set_hitbox_value(AT_FTILT, 1, HG_BASE_HITPAUSE, 2);
+set_hitbox_value(AT_FTILT, 1, HG_HITSTUN_MULTIPLIER, 4);
 set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_SPRITE, sprite_get("batit_proj"));
 set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_MASK, sprite_get("batit_proj"));
 set_hitbox_value(AT_FTILT, 1, HG_VISUAL_EFFECT, 17);

@@ -18,6 +18,8 @@ switch(state) {
                             other.hitByDTilt = true;
                             other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
                             other.nudgeAngle = degtorad(get_hitbox_angle(id));
+                            other.nudgeBaseKnockback = kb_value;
+                            other.nudgeKnockbackScaling = kb_scale;
                         }
                     } 
                 }
@@ -66,6 +68,10 @@ switch(state) {
             vsp = -nudgeDamage*sin(nudgeAngle);
             bumpBox = create_hitbox(AT_DTILT, 2, x, y-20);
             bumpBox.spr_dir = player_id.spr_dir;
+            bumpBox.damage = nudgeDamage;
+            bumpBox.kb_angle = radtodeg(nudgeAngle);
+            bumpBox.kb_value = nudgeBaseKnockback;
+            bumpBox.kb_scale = nudgeKnockbackScaling;
             sprite_index = sprite[3];
         } else if(hsp != 0){
             bumpBox.x = x;
