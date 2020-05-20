@@ -27,7 +27,7 @@ sprite_change_offset("parry", 30, 90);
 sprite_change_offset("roll_forward", 34, 66);
 sprite_change_offset("roll_backward", 32, 68);
 sprite_change_offset("airdodge", 40, 76);
-sprite_change_offset("waveland", 32, 62);
+sprite_change_offset("waveland", 32, 80);
 sprite_change_offset("tech", 30, 96);
 
 sprite_change_offset("jab", 18, 62);
@@ -50,7 +50,7 @@ sprite_change_offset("uspecial", 40, 98);
 sprite_change_offset("uspecial_2", 38, 102);
 sprite_change_offset("dspecial", 18, 64);
 sprite_change_offset("dspecial_2", 42, 84);
-sprite_change_offset("taunt", 32, 62);
+sprite_change_offset("taunt", 30, 94);
 
 sprite_change_offset("plat", 64, 94);
 
