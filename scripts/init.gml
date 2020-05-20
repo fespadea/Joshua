@@ -118,3 +118,5 @@ tempAirAccel = air_accel;
 
 //hud sprites
 batitIconSprite = sprite_get("batit_icon");
+batitBarSprite = sprite_get("Batit_hud_bar");
+batitHpSprite = sprite_get("batit_hud_hp");

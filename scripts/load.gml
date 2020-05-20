@@ -63,6 +63,8 @@ sprite_change_offset("nspecial_proj", 51, 24);
 //batit
 sprite_change_offset("batit", 8, 48);
 sprite_change_offset("batit_icon", 20, 26);
+sprite_change_offset("batit_hud_bar", 0, 0);
+sprite_change_offset("batit_hud_hp", 0, 0);
 sprite_change_offset("batit_intro", 12, 54);
 sprite_change_offset("batit_dead", 12, 54);
 sprite_change_offset("batit_ftilt", 62, 126);
