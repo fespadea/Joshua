@@ -175,7 +175,7 @@ if(free){
     else if(hsp < 0)
         hsp += min(player_id.ground_friction, -hsp);
 }
-if(y > BOTTOM_BLASTZONE_Y_POS){
+if(y > BOTTOM_BLASTZONE_Y_POS || y < TOP_BLASTZONE_Y_POS || x < LEFT_BLASTZONE_X_POS || x > RIGHT_BLASTZONE_X_POS){
     player_id.batitFell = true;
     despawn();
 }

@@ -29,7 +29,7 @@ set_window_value(AT_FAIR, 4, AG_WINDOW_ANIM_FRAME_START, 6);
 set_window_value(AT_FAIR, 5, AG_WINDOW_LENGTH, 8);
 set_window_value(AT_FAIR, 5, AG_WINDOW_ANIM_FRAMES, 2);
 set_window_value(AT_FAIR, 5, AG_WINDOW_ANIM_FRAME_START, 7);
-set_window_value(AT_FAIR, 5, AG_WINDOW_HAS_WHIFFLAG, 5);
+set_window_value(AT_FAIR, 5, AG_WINDOW_HAS_WHIFFLAG, 1);
 
 set_num_hitboxes(AT_FAIR, 2);
 

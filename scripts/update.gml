@@ -3,8 +3,6 @@
 // don't allow dspecial/fstrong if batit is placed
 if(batitPlaced){
     batitDelay = 2;
-    move_cooldown[AT_FSTRONG] = 2;
-    move_cooldown[AT_USTRONG] = 2;
 } else if(batitDied){
     batitDelay = 600;
     batitDied = false;
@@ -12,6 +10,11 @@ if(batitPlaced){
 } else if(batitFell){
     batitDelay = 300;
     batitFell = false;
+}
+if(batitDelay > 0){
+    move_cooldown[AT_FSTRONG] = 2;
+    move_cooldown[AT_USTRONG] = 2;
+    move_cooldown[AT_TAUNT] = 2;
 }
 batitDelay--;
 
