@@ -55,6 +55,8 @@ if (attack == AT_FSTRONG && batitDelay > 0){
         }
     }
     move_cooldown[AT_FSTRONG] = 2;
+    unturn = true;
+    batitArticle.strongDir = spr_dir;
 }
 
 // batit ustrong
@@ -76,4 +78,10 @@ if (attack == AT_USTRONG && batitDelay > 0){
         }
     }
     move_cooldown[AT_USTRONG] = 2;
+    unturn = true;
+    batitArticle.strongDir = spr_dir;
+}
+
+if(attack == AT_DSTRONG) {
+    prevSprDir = spr_dir;
 }

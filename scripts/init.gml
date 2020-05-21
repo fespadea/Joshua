@@ -116,6 +116,10 @@ finishUair = false;
 // Fspecial_2 variable
 tempAirAccel = air_accel;
 
+// variables to prevent turning around with batitless fstrong and ustrong
+prevSprDir = spr_dir;
+unturn = false;
+
 //hud sprites
 batitIconSprite = sprite_get("batit_icon");
 batitBarSprite = sprite_get("Batit_hud_bar");

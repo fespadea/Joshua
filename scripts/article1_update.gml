@@ -163,7 +163,7 @@ switch(state) {
             window1Length = 2;
             window2Length = 17;
             strongCharge = 0;
-            changeDir(player_id.spr_dir);
+            changeDir(strongDir);
         }
         if(window == 0){
             if(window_timer >= window0Length){
@@ -207,7 +207,7 @@ switch(state) {
             window1Length = 5;
             window2Length = 5;
             strongCharge = 0;
-            changeDir(player_id.spr_dir);
+            changeDir(strongDir);
         }
         if(window == 0){
             if(window_timer >= window0Length){

@@ -7,3 +7,7 @@ switch (state){
         }
         break;
 }
+if(unturn){
+    spr_dir = prevSprDir;
+    unturn = false;
+} else prevSprDir = spr_dir;
