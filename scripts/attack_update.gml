@@ -117,9 +117,10 @@ if(attack == AT_FSPECIAL_2){
 }
 
 // allow dstrong to be canceled if batit was kicked
-if((attack == AT_DSTRONG || attack == AT_DTILT) && batitPlaced && batitArticle.hitByDTilt){
+if((attack == AT_DSTRONG || attack == AT_DTILT) && batitPlaced && batitArticle.hitByDTilt && batitArticle.state_timer > 1){
     can_attack = true;
     can_strong = true;
+    can_ustrong = true;
     move_cooldown[AT_DTILT] = 2; //can't cancel into these moves
     move_cooldown[AT_DSTRONG] = 2;
     move_cooldown[AT_JAB] = 2;

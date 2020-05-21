@@ -83,6 +83,7 @@ switch(state) {
                 image_index  = 3;
         } else {
             bumpBox.length = 0;
+            bumpBox = noone;
             hitByDTilt = false;
             changeState(0);
         }
@@ -204,7 +205,7 @@ switch(state) {
             changeWindow(0);
             window0Length = 13;
             window1Length = 5;
-            window2Length = 4;
+            window2Length = 5;
             strongCharge = 0;
             changeDir(player_id.spr_dir);
         }
@@ -228,12 +229,14 @@ switch(state) {
                 image_index = floor(window_timer/(window0Length/3));
             }
         } else if (window == 1){
-            if(window_timer == 2) sound_play(asset_get("sfx_swipe_heavy2"));
-            if(window_timer == 3){
-                create_hitbox(AT_USTRONG, 2, x+1*spr_dir, y-37).damage *= 1 + strongCharge/120;
-            }
-            else if(window_timer == window1Length) changeWindow(2);
             image_index = floor(window_timer/(window1Length/2)) + 3;
+            if(window_timer == 2){
+                sound_play(asset_get("sfx_swipe_heavy2"));
+            } else if(window_timer == 3){
+                create_hitbox(AT_USTRONG, 2, x+1*spr_dir, y-37).damage *= 1 + strongCharge/120;
+            } else if(window_timer == window1Length){
+                changeWindow(2);
+            }
         } else {
             image_index = 5;
             if(window_timer == window2Length) changeState(0);

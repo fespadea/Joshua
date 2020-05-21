@@ -42,7 +42,10 @@ if (attack == AT_FSTRONG && batitDelay > 0){
         with batitArticle{
             switch(state){
                 case 3:
-                    bumpBox.length = 0;
+                    if(bumpBox != noone){
+                        bumpBox.length = 0;
+                        bumpBox = noone;
+                    }
                     hitByDTilt = false;
                 case 0:
                     state = 10;
@@ -60,7 +63,10 @@ if (attack == AT_USTRONG && batitDelay > 0){
         with batitArticle{
             switch(state){
                 case 3:
-                    bumpBox.length = 0;
+                    if(bumpBox != noone){
+                        bumpBox.length = 0;
+                        bumpBox = noone;
+                    }
                     hitByDTilt = false;
                 case 0:
                     state = 11;
