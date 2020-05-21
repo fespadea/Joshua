@@ -31,4 +31,6 @@ if(attack == AT_FTILT && hbox_num == 1){ //direction and stuff
     }
     //follower vfx
     leafFollowerVFX = hit_fx_create(sprite_get("batit_nspecial_particle_fx"), 15);
+} else if (attack == AT_FSTRONG && (hbox_num == 3 || hbox_num == 4)){
+    hbox_group = 2;
 }

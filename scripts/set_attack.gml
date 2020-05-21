@@ -38,6 +38,7 @@ if (attack == AT_NSPECIAL && batitDelay > 0 && move_cooldown[AT_NSPECIAL] < 1){
 // batit fstrong
 if (attack == AT_FSTRONG && batitDelay > 0){
     if(batitPlaced){
+        attack_end();
         with batitArticle{
             switch(state){
                 case 3:
@@ -51,4 +52,22 @@ if (attack == AT_FSTRONG && batitDelay > 0){
         }
     }
     move_cooldown[AT_FSTRONG] = 2;
+}
+
+// batit ustrong
+if (attack == AT_USTRONG && batitDelay > 0){
+    if(batitPlaced){
+        with batitArticle{
+            switch(state){
+                case 3:
+                    bumpBox.length = 0;
+                    hitByDTilt = false;
+                case 0:
+                    state = 11;
+                    state_timer = 0;
+                break;
+            }
+        }
+    }
+    move_cooldown[AT_USTRONG] = 2;
 }

@@ -43,4 +43,6 @@ if(attack == AT_FTILT && hbox_num == 1){
     } else if (hbox_num == 2){
         player_id.move_cooldown[AT_NSPECIAL] = 2;
     }
+} else if (attack == AT_FSTRONG && (hbox_num == 3 || hbox_num == 4)){
+    hbox_group = 2;
 }

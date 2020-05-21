@@ -114,6 +114,7 @@ switch(state) {
         checkForDamage();
         if(state_timer == 1){
             sprite_index = sprite[7];
+            changeDir(player_id.spr_dir);
         }
         if(state_timer < 16){
             image_index = floor(state_timer/8);
@@ -143,7 +144,7 @@ switch(state) {
     case 9: //nspecial attack
         checkForDamage();
         image_index = floor(state_timer/6);
-        if(state_timer == 1){
+        if(state_timer == 0){
             sprite_index = sprite[9];
         } else if(state_timer == 37 || state_timer == 49){
             create_hitbox(AT_NSPECIAL, 1, x+9*spr_dir, y-25);
@@ -158,8 +159,8 @@ switch(state) {
             sprite_index = sprite[10];
             changeWindow(0);
             window0Length = 15;
-            window1Length = 3;
-            window2Length = 18;
+            window1Length = 2;
+            window2Length = 17;
             strongCharge = 0;
             changeDir(player_id.spr_dir);
         }
@@ -177,18 +178,65 @@ switch(state) {
                 } else {
                     sprite_index = sprite[10];
                     image_index = 2;
+                    sound_play(asset_get("sfx_swipe_heavy1"));
                     changeWindow(1);
                 }
             } else {
                 image_index = floor(window_timer/(window0Length/3));
             }
         } else if (window == 1){
-            if(window_timer == 0) create_hitbox(AT_UTILT, 2, x, y-49);
-            else if(window_timer > window1Length) changeWindow(2);
+            if(window_timer == 1){
+                create_hitbox(AT_FSTRONG, 3, x+20*spr_dir, y-21).damage *= 1 + strongCharge/120;
+                create_hitbox(AT_FSTRONG, 4, x+55*spr_dir, y-20).damage *= 1 + strongCharge/120;
+            }
+            else if(window_timer == window1Length) changeWindow(2);
             image_index = 3;
         } else {
             image_index = 4;
-            if(window_timer > window2Length) changeState(0);
+            if(window_timer == window2Length) changeState(0);
+        } 
+        window_timer++;
+        break;
+    case 11: //ustrong
+        checkForDamage();
+        if(state_timer == 0){
+            sprite_index = sprite[11];
+            changeWindow(0);
+            window0Length = 13;
+            window1Length = 5;
+            window2Length = 4;
+            strongCharge = 0;
+            changeDir(player_id.spr_dir);
+        }
+        if(window == 0){
+            if(window_timer >= window0Length){
+                if(window_timer % 10 == 0){
+                    sprite_index = sprite[11];
+                    image_index = 2;
+                } else if(window_timer % 10 == 5){
+                    sprite_index = ustrongChargeSprite;
+                    image_index = 0;
+                }
+                if((player_id.strong_down || player_id.right_strong_down || player_id.left_strong_down || player_id.down_strong_down || player_id.up_strong_down) && strongCharge < 61){
+                    strongCharge++;
+                } else {
+                    sprite_index = sprite[11];
+                    image_index = 2;
+                    changeWindow(1);
+                }
+            } else {
+                image_index = floor(window_timer/(window0Length/3));
+            }
+        } else if (window == 1){
+            if(window_timer == 2) sound_play(asset_get("sfx_swipe_heavy2"));
+            if(window_timer == 3){
+                create_hitbox(AT_USTRONG, 2, x+1*spr_dir, y-37).damage *= 1 + strongCharge/120;
+            }
+            else if(window_timer == window1Length) changeWindow(2);
+            image_index = floor(window_timer/(window1Length/2)) + 3;
+        } else {
+            image_index = 5;
+            if(window_timer == window2Length) changeState(0);
         } 
         window_timer++;
         break;

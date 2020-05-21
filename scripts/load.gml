@@ -75,6 +75,8 @@ sprite_change_offset("batit_explode", 56, 88);
 sprite_change_offset("batit_nspecial", 62, 126);
 sprite_change_offset("batit_fstrong", 30, 60);
 sprite_change_offset("batit_fstrong_charge", 30, 60);
+sprite_change_offset("batit_ustrong", 20, 96);
+sprite_change_offset("batit_ustrong_charge", 20, 96);
 //batit projectiles
 sprite_change_offset("batit_proj", 34, 15);
 sprite_change_offset("batit_utilt_proj", 31, 26);
