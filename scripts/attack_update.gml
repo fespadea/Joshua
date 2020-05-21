@@ -27,9 +27,14 @@ if (attack == AT_FSPECIAL){
 if (attack == AT_FTILT || attack == AT_FAIR || attack == AT_BAIR){
     if(state_timer == 1 && batitPlaced){
         with batitArticle{
-            if(state == 0){
-                state = 1;
-                state_timer = 0;
+            switch(state){
+                case 3:
+                    bumpBox.length = 0;
+                    hitByDTilt = false;
+                case 0:
+                    state = 1;
+                    state_timer = 0;
+                break;
             }
         }
     }
@@ -39,9 +44,14 @@ if (attack == AT_FTILT || attack == AT_FAIR || attack == AT_BAIR){
 if (attack == AT_UTILT){
     if(state_timer == 1 && batitPlaced){
         with batitArticle{
-            if(state == 0){
-                state = 7;
-                state_timer = 0;
+            switch(state){
+                case 3:
+                    bumpBox.length = 0;
+                    hitByDTilt = false;
+                case 0:
+                    state = 7;
+                    state_timer = 0;
+                break;
             }
         }
     }
@@ -65,6 +75,10 @@ if(attack == AT_DATTACK){
             else set_state(PS_PRATLAND);
         }
     } else if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS)){
+        if(state_timer > dashAttackLength){
+            can_jump = true;
+            can_wall_jump = true;
+        }
         if(y >= initialDattackY || !free){
             set_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS), AG_WINDOW_TYPE, 0);
         }
@@ -100,4 +114,13 @@ if(attack == AT_FSPECIAL_2){
         }
         air_accel = .1;
     } else air_accel = tempAirAccel;
+}
+
+// allow dstrong to be canceled if batit was kicked
+if((attack == AT_DSTRONG || attack == AT_DTILT) && batitPlaced && batitArticle.hitByDTilt){
+    can_attack = true;
+    can_strong = true;
+    move_cooldown[AT_DTILT] = 2; //can't cancel into these moves
+    move_cooldown[AT_DSTRONG] = 2;
+    move_cooldown[AT_JAB] = 2;
 }

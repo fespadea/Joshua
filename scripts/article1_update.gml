@@ -47,10 +47,10 @@ switch(state) {
         }
         if(state_timer < 16){
             image_index = floor(state_timer/8);
-        } else if (state_timer < 18){
+        } else if (state_timer < 19){
             image_index = 2;
         } else {
-            image_index = floor(state_timer/8) + 6;
+            image_index = floor((state_timer-19)/8) + 3;
         }
         if(state_timer == 16){
             create_hitbox(AT_FTILT, 1, x+10*player_id.spr_dir*(player_id.attack == AT_BAIR ? -1 : 1), y-25);
@@ -117,10 +117,10 @@ switch(state) {
         }
         if(state_timer < 16){
             image_index = floor(state_timer/8);
-        } else if (state_timer < 18){
+        } else if (state_timer < 19){
             image_index = 2;
         } else {
-            image_index = floor(state_timer/8) + 6;
+            image_index = floor((state_timer - 19)/8) + 3;
         }
         if(state_timer == 16){
             create_hitbox(AT_UTILT, 2, x, y-49);
@@ -151,6 +151,46 @@ switch(state) {
         } else if(image_index > 10){
             changeState(0);
         }
+        break;
+    case 10: //fstrong
+        checkForDamage();
+        if(state_timer == 0){
+            sprite_index = sprite[10];
+            changeWindow(0);
+            window0Length = 15;
+            window1Length = 3;
+            window2Length = 18;
+            strongCharge = 0;
+            changeDir(player_id.spr_dir);
+        }
+        if(window == 0){
+            if(window_timer >= window0Length){
+                if(window_timer % 10 == 0){
+                    sprite_index = sprite[10];
+                    image_index = 2;
+                } else if(window_timer % 10 == 5){
+                    sprite_index = fstrongChargeSprite;
+                    image_index = 0;
+                }
+                if((player_id.strong_down || player_id.right_strong_down || player_id.left_strong_down || player_id.down_strong_down || player_id.up_strong_down) && strongCharge < 61){
+                    strongCharge++;
+                } else {
+                    sprite_index = sprite[10];
+                    image_index = 2;
+                    changeWindow(1);
+                }
+            } else {
+                image_index = floor(window_timer/(window0Length/3));
+            }
+        } else if (window == 1){
+            if(window_timer == 0) create_hitbox(AT_UTILT, 2, x, y-49);
+            else if(window_timer > window1Length) changeWindow(2);
+            image_index = 3;
+        } else {
+            image_index = 4;
+            if(window_timer > window2Length) changeState(0);
+        } 
+        window_timer++;
         break;
 }
 
@@ -183,6 +223,10 @@ if(y > BOTTOM_BLASTZONE_Y_POS || y < TOP_BLASTZONE_Y_POS || x < LEFT_BLASTZONE_X
 #define changeState(newState)
 state = newState;
 state_timer = 0;
+
+#define changeWindow(newWindow)
+window = newWindow;
+window_timer = 0;
 
 #define despawn()
 player_id.batitPlaced = false;

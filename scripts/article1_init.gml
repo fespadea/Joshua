@@ -27,11 +27,21 @@ knockBackAngle = 0;
 knockBackPower = 0;
 explode = 0;
 
+//strong variables
+window = 0;
+window_timer = 0;
+window0Length = 0;
+window1Length = 0;
+window2Length = 0;
+strongCharge = 0;
+fstrongChargeSprite = sprite_get("batit_fstrong_charge");
+
 BOTTOM_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) + get_stage_data(SD_BOTTOM_BLASTZONE);
 TOP_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) - get_stage_data(SD_TOP_BLASTZONE);
 LEFT_BLASTZONE_X_POS = get_stage_data(SD_X_POS) - get_stage_data(SD_SIDE_BLASTZONE);
 RIGHT_BLASTZONE_X_POS = get_stage_data(SD_WIDTH) + get_stage_data(SD_X_POS) + get_stage_data(SD_SIDE_BLASTZONE);
 
+sprite[10] = sprite_get("batit_fstrong");
 sprite[9] = sprite_get("batit_nspecial");
 sprite[8] = sprite_get("batit_explode");
 sprite[7] = sprite_get("batit_utilt");

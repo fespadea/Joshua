@@ -34,3 +34,21 @@ if (attack == AT_NSPECIAL && batitDelay > 0 && move_cooldown[AT_NSPECIAL] < 1){
         }
     } else move_cooldown[AT_NSPECIAL] = 2;
 }
+
+// batit fstrong
+if (attack == AT_FSTRONG && batitDelay > 0){
+    if(batitPlaced){
+        with batitArticle{
+            switch(state){
+                case 3:
+                    bumpBox.length = 0;
+                    hitByDTilt = false;
+                case 0:
+                    state = 10;
+                    state_timer = 0;
+                break;
+            }
+        }
+    }
+    move_cooldown[AT_FSTRONG] = 2;
+}

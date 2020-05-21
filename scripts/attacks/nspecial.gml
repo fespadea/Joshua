@@ -49,7 +49,7 @@ set_hitbox_value(AT_NSPECIAL, 2, HG_BASE_KNOCKBACK, 2);
 set_hitbox_value(AT_NSPECIAL, 2, HG_KNOCKBACK_SCALING, .3);
 set_hitbox_value(AT_NSPECIAL, 2, HG_BASE_HITPAUSE, 2);
 set_hitbox_value(AT_NSPECIAL, 2, HG_HITPAUSE_SCALING, .2);
-set_hitbox_value(AT_NSPECIAL, 2, HG_HITSTUN_MULTIPLIER, 4);
+set_hitbox_value(AT_NSPECIAL, 2, HG_HITSTUN_MULTIPLIER, 2);
 set_hitbox_value(AT_NSPECIAL, 2, HG_VISUAL_EFFECT, 17);
 set_hitbox_value(AT_NSPECIAL, 2, HG_HIT_SFX, asset_get("sfx_leafy_hit2"));
 set_hitbox_value(AT_NSPECIAL, 2, HG_PROJECTILE_SPRITE, sprite_get("nspecial_proj"));

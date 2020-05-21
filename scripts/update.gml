@@ -12,7 +12,6 @@ if(batitPlaced){
     batitFell = false;
 }
 if(batitDelay > 0){
-    move_cooldown[AT_FSTRONG] = 2;
     move_cooldown[AT_USTRONG] = 2;
     move_cooldown[AT_TAUNT] = 2;
 }

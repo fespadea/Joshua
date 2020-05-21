@@ -30,6 +30,13 @@ set_window_value(AT_DATTACK, 4, AG_WINDOW_ANIM_FRAME_START, 7);
 set_window_value(AT_DATTACK, 4, AG_WINDOW_HSPEED, 7);
 set_window_value(AT_DATTACK, 4, AG_WINDOW_HSPEED_TYPE, 1);
 
+// this variable holds the length of dash attack with no looping of the last window, this is for efficiency
+dashAttackLength = 0;
+var i = 1;
+for(i = 1; i <= get_attack_value(AT_DATTACK, AG_NUM_WINDOWS); i++){
+    dashAttackLength += get_window_value(AT_DATTACK, i, AG_WINDOW_LENGTH);
+}
+
 set_num_hitboxes(AT_DATTACK, 4);
 
 set_hitbox_value(AT_DATTACK, 1, HG_HITBOX_TYPE, 1);
