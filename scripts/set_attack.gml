@@ -9,7 +9,10 @@ if(attack == AT_UAIR) finishUair = false;
 // change to batitless dspecial
 if(attack == AT_DSPECIAL && batitDelay > 0){
     if (free) attack = AT_DSPECIAL_AIR;
-    else attack = AT_DSPECIAL_2;
+    else{
+        attack = AT_DSPECIAL_2;
+        set_hitbox_value(AT_DSPECIAL_2, 1, HG_DAMAGE, 9);
+    }
 }
 
 // change to batitless uspecial

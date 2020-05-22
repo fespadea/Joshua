@@ -17,7 +17,11 @@ switch(state) {
                         if(place_meeting(x, y, other)){
                             other.hitByDTilt = true;
                             other.nudgeAttack = attack;
-                            other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
+                            if(attack == AT_DSTRONG){
+                                other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
+                            } else {
+                                other.nudgeDamage = damage;
+                            }
                             other.nudgeAngle = degtorad(get_hitbox_angle(id));
                             other.nudgeBaseKnockback = kb_value;
                             other.nudgeKnockbackScaling = kb_scale;
@@ -68,6 +72,9 @@ switch(state) {
             if(nudgeAttack == AT_DTILT){
                 hsp = 1.5*nudgeDamage*cos(nudgeAngle);
                 vsp = -2.5*nudgeDamage*sin(nudgeAngle);
+            } else if(nudgeAttack == AT_DSPECIAL_2){
+                hsp = 0;
+                vsp = -1.5*nudgeDamage;
             } else{
                 hsp = nudgeDamage*cos(nudgeAngle);
                 vsp = -nudgeDamage*sin(nudgeAngle);
@@ -79,7 +86,7 @@ switch(state) {
             bumpBox.kb_value = nudgeBaseKnockback;
             bumpBox.kb_scale = nudgeKnockbackScaling;
             sprite_index = sprite[3];
-        } else if(hsp != 0){
+        } else if(hsp != 0 || free){
             bumpBox.x = x;
             bumpBox.y = y + bumpBox.y_pos;
             bumpBox.length += 1;
