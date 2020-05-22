@@ -15,6 +15,7 @@ ignores_walls = false;
 
 player_id.batitPlaced = true;
 hitByDTilt = false;
+nudgeAttack = -1;
 nudgeDamage = 0;
 nudgeAngle = 0;
 nudgeBaseKnockback = 0;

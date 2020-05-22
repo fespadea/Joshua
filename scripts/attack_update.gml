@@ -85,10 +85,10 @@ if(attack == AT_DATTACK){
     }
 }
 
-// change AT_DSPECIAL_2 to land when landing
-if(attack == AT_DSPECIAL_2){
+// change AT_DSPECIAL_AIR to land when landing
+if(attack == AT_DSPECIAL_AIR){
     if(!free) set_state(PS_LAND);
-    move_cooldown[AT_DSPECIAL_2] = 30;
+    move_cooldown[AT_DSPECIAL_AIR] = 30;
 }
 
 // made Uair work in 2 parts

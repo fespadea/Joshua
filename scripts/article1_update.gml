@@ -5,17 +5,18 @@ switch(state) {
         checkForDamage();
         if(state_timer == 1) sprite_index = sprite[0];
         image_index = floor(state_timer/8);
-        if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2){
+        if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2 || player_id.attack == AT_DSPECIAL_AIR){
             with pHitBox {
                 if(player == other.player_id.player) {
-                    if (attack == AT_DSPECIAL_2 && hbox_num == 1){
+                    if (attack == AT_DSPECIAL_AIR && hbox_num == 1){
                         if(!destroyed && place_meeting(x, y, other)){
                             other.explode = sound_effect;
                             length = hitbox_timer + 1;
                         }
-                    } else if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG){
+                    } else if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG || attack == AT_DSPECIAL_2){
                         if(place_meeting(x, y, other)){
                             other.hitByDTilt = true;
+                            other.nudgeAttack = attack;
                             other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
                             other.nudgeAngle = degtorad(get_hitbox_angle(id));
                             other.nudgeBaseKnockback = kb_value;
@@ -63,9 +64,14 @@ switch(state) {
         break;
     case 3: // dtilt/dstrong nudge
         if(state_timer == 1){
-            changeDir(player_id.spr_dir)
-            hsp = nudgeDamage*cos(nudgeAngle);
-            vsp = -nudgeDamage*sin(nudgeAngle);
+            changeDir(player_id.spr_dir);
+            if(nudgeAttack == AT_DTILT){
+                hsp = 1.5*nudgeDamage*cos(nudgeAngle);
+                vsp = -2.5*nudgeDamage*sin(nudgeAngle);
+            } else{
+                hsp = nudgeDamage*cos(nudgeAngle);
+                vsp = -nudgeDamage*sin(nudgeAngle);
+            }
             bumpBox = create_hitbox(AT_DTILT, 2, x, y-20);
             bumpBox.spr_dir = player_id.spr_dir;
             bumpBox.damage = nudgeDamage;
@@ -136,7 +142,7 @@ switch(state) {
             sprite_index = sprite[8];
         } else if(state_timer == 25){
             sound_play(explode);
-            create_hitbox(AT_DSPECIAL_2, 2, x+2*spr_dir, y-25);
+            create_hitbox(AT_DSPECIAL_AIR, 2, x+2*spr_dir, y-25);
         } else if(image_index > 9){
             player_id.batitDied = true;
             despawn();

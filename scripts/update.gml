@@ -13,6 +13,41 @@ if(batitPlaced){
 }
 if(batitDelay > 0){
     move_cooldown[AT_TAUNT] = 2;
+    if(batitStats){
+        walk_speed += .25;
+        walk_accel += .05;
+        initial_dash_speed += .5;
+        dash_speed += .5;
+        jump_speed += .5;
+        short_hop_speed += .5;
+        djump_speed += .5;
+        leave_ground_max += .5;
+        max_jump_hsp += .5;
+        air_max_speed += .5;
+        jump_change += .5;
+        air_accel += .05;
+        walljump_hsp += .5;
+        walljump_vsp += .5;
+        batitStats = false;
+    }
+} else {
+    if(!batitStats){
+        walk_speed -= .25;
+        walk_accel -= .05;
+        initial_dash_speed -= .5;
+        dash_speed -= .5;
+        jump_speed -= .5;
+        short_hop_speed -= .5;
+        djump_speed -= .5;
+        leave_ground_max -= .5;
+        max_jump_hsp -= .5;
+        air_max_speed -= .5;
+        jump_change -= .5;
+        air_accel -= .05;
+        walljump_hsp -= .5;
+        walljump_vsp -= .5;
+        batitStats = true;
+    }
 }
 batitDelay--;
 

@@ -8,8 +8,8 @@ if(attack == AT_UAIR) finishUair = false;
 
 // change to batitless dspecial
 if(attack == AT_DSPECIAL && batitDelay > 0){
-    if (free) attack = AT_DSPECIAL_2;
-    else move_cooldown[AT_DSPECIAL] = 2;
+    if (free) attack = AT_DSPECIAL_AIR;
+    else attack = AT_DSPECIAL_2;
 }
 
 // change to batitless uspecial
