@@ -131,3 +131,9 @@ batitStats = false;
 //dspecial_2 sprites
 dspecial2Sprite = sprite_get("dspecial_2");
 dspecial2ChargeSprite = sprite_get("dspecial_2_charge");
+
+//tco support
+tcoart = sprite_get("tcoart_joshuake");
+
+//feri support
+feri_costume = sprite_get("feri_costume_joshua_and_batit");

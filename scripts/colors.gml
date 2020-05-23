@@ -156,15 +156,15 @@ set_color_profile_slot( 12, 5, 167, 161, 173 ); //Shoe/Shirt Dark
 set_color_profile_slot( 12, 6, 49, 49, 49 ); //Stem
 set_color_profile_slot( 12, 7, 52, 96, 36 ); //Leaves
 
-// Obama
-set_color_profile_slot( 13, 0, 76, 76, 76 ); //Jacket
-set_color_profile_slot( 13, 1, 178, 114, 45 ); //Skin/Pot
-set_color_profile_slot( 13, 2, 76, 76, 76 ); //Pants
-set_color_profile_slot( 13, 3, 67, 51, 31 ); //Hair
-set_color_profile_slot( 13, 4, 76, 76, 76 ); //Shoe/Shirt Light
-set_color_profile_slot( 13, 5, 43, 43, 43 ); //Shoe/Shirt Dark
-set_color_profile_slot( 13, 6, 224, 224, 224 ); //Stem
-set_color_profile_slot( 13, 7, 255, 57, 57 ); //Leaves
+// Classic
+set_color_profile_slot( 13, 0, 34, 52, 94 ); //Jacket
+set_color_profile_slot( 13, 1, 202, 113, 113 ); //Skin/Pot
+set_color_profile_slot( 13, 2, 67, 66, 116 ); //Pants
+set_color_profile_slot( 13, 3, 43, 42, 42 ); //Hair
+set_color_profile_slot( 13, 4, 202, 227, 225 ); //Shoe/Shirt Light
+set_color_profile_slot( 13, 5, 174, 195, 199 ); //Shoe/Shirt Dark
+set_color_profile_slot( 13, 6, 69, 24, 40 ); //Stem
+set_color_profile_slot( 13, 7, 65, 125, 146 ); //Leaves
 
 // KrisPlant
 set_color_profile_slot( 14, 0, 255, 119, 205 ); //Jacket
@@ -187,7 +187,7 @@ set_color_profile_slot( 15, 6, 254, 254, 254 ); //Stem
 set_color_profile_slot( 15, 7, 253, 220, 153 ); //Leaves
 
 
-/* This is used by that one RoA colors.gml generator tool to store palette data
+/* This is a comment used by that one RoA colors.gml generator tool to store palette data. You can safely keep it in your colors.gml if you plan to re-use the tool later, or safely remove it if you don't.
 === BEGIN JSON PALETTE ===
 {"formatversion":1,"data":[{"name":"Jacket","colors":[{"r":57,"g":92,"b":104,"main":true},{"r":26,"g":57,"b":79},{"r":13,"g":28,"b":54}]},{"name":"Skin/Pot","colors":[{"r":244,"g":200,"b":170},{"r":216,"g":155,"b":141,"main":true},{"r":167,"g":93,"b":103}]},{"name":"Pants","colors":[{"r":111,"g":170,"b":193,"main":true},{"r":73,"g":117,"b":152},{"r":54,"g":85,"b":127}]},{"name":"Hair","colors":[{"r":51,"g":44,"b":41,"main":true},{"r":26,"g":23,"b":23}]},{"name":"Shoe/Shirt Light","colors":[{"r":224,"g":222,"b":220,"main":true}]},{"name":"Shoe/Shirt Dark","colors":[{"r":191,"g":178,"b":181,"main":true}]},{"name":"Stem","colors":[{"r":149,"g":67,"b":94,"main":true},{"r":104,"g":49,"b":77}]},{"name":"Leaves","colors":[{"r":117,"g":218,"b":120},{"r":82,"g":180,"b":127,"main":true},{"r":49,"g":112,"b":95}]}]}
 === END JSON PALETTE ===

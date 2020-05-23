@@ -84,3 +84,6 @@ sprite_change_offset("batit_proj", 34, 15);
 sprite_change_offset("batit_utilt_proj", 31, 26);
 sprite_change_offset("batit_nspecial_proj", 34, 32);
 sprite_change_offset("batit_nspecial_particle_fx", 8, 8);
+
+//feri support
+sprite_change_offset("feri_costume_joshua_and_batit", 84, 114);

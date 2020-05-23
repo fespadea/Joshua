@@ -253,7 +253,7 @@ switch(state) {
         } else {
             image_index = 5;
             if(window_timer == window2Length) changeState(0);
-        } 
+        }
         window_timer++;
         break;
 }

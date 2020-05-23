@@ -1,7 +1,7 @@
 var temp_x = x + 8;
 var temp_y = y + 9;
 
-patch_ver = "1.11";
+patch_ver = "2.0";
 patch_day = "22";
 patch_month = "MAY";
 
@@ -25,7 +25,7 @@ alt_name[9]  = "Sans";
 alt_name[10]  = "Contest";
 alt_name[11]  = "Contest";
 alt_name[12]  = "Voidfox";
-alt_name[13]  = "Obama";
+alt_name[13]  = "Classic";
 alt_name[14]  = "Kris";
 alt_name[15]  = "Mollo";
 
