@@ -128,4 +128,13 @@ switch(attack){
             move_cooldown[AT_JAB] = 2;
         }
         break;
+    case AT_EXTRA_1:
+        if (compatibleUrl == 1932454633){ //this stuff is for the reverse TCO support, mostly copied over
+            if(window_timer == 1 && window == 4){
+                sound_stop(sound_get("pencilTCO"));
+            } else if (window_timer == 18 && window == 7){
+                drawingTimer = 179;
+                move_cooldown[AT_EXTRA_1] = 179;
+            }
+        }
 }

@@ -140,3 +140,11 @@ feri_costume = sprite_get("feri_costume_joshua_and_batit");
 
 //reverse support
 compatibleUrl = 0;
+
+//tco reverse support
+drawingTimer = 0;
+artPaper = sprite_get("taunt_tco_paper");
+artTCO = sprite_get("taunt_tco_art");
+
+// Hikaru Support
+Hikaru_Title = "Symbiotic";

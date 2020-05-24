@@ -54,6 +54,8 @@ sprite_change_offset("dspecial_2", 26, 74);
 sprite_change_offset("dspecial_2_charge", 26, 74);
 sprite_change_offset("taunt", 30, 94);
 sprite_change_offset("taunt_feri", 40, 84);
+sprite_change_offset("taunt_tco", 28, 80);
+sprite_change_offset("taunt_tco_paper", 2, 267);
 
 sprite_change_offset("plat", 64, 94);
 
@@ -88,3 +90,6 @@ sprite_change_offset("batit_nspecial_particle_fx", 8, 8);
 
 //feri support
 sprite_change_offset("feri_costume_joshua_and_batit", 84, 114);
+
+//kirby support
+sprite_change_offset("kirby_nspecial_joshua", 54, 98);
