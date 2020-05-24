@@ -132,6 +132,13 @@ batitStats = false;
 dspecial2Sprite = sprite_get("dspecial_2");
 dspecial2ChargeSprite = sprite_get("dspecial_2_charge");
 
+//hfx
+leafBreakHfx = hit_fx_create(sprite_get("batit_leaf_break"), 25);
+leafHitHfx = hit_fx_create(sprite_get("batit_leaf_hfx"), 25);
+strongHitHfx = hit_fx_create(sprite_get("batit_strong_hfx"), 30);
+set_hit_particle_sprite(1, PART_MAY_LEAF);
+set_hit_particle_sprite(2, PART_SYL_FLOWER);
+
 //tco support
 tcoart = sprite_get("tcoart_joshuake");
 
@@ -148,3 +155,11 @@ artTCO = sprite_get("taunt_tco_art");
 
 // Hikaru Support
 Hikaru_Title = "Symbiotic";
+
+// kirby support
+kirbyability = 16;
+swallowed = 0;
+
+//otto support
+otto_bobblehead_sprite = sprite_get("otto_head");
+otto_bobblehead_body_sprite = sprite_get("otto_body");

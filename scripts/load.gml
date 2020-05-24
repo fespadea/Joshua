@@ -87,9 +87,14 @@ sprite_change_offset("batit_proj", 34, 15);
 sprite_change_offset("batit_utilt_proj", 31, 26);
 sprite_change_offset("batit_nspecial_proj", 34, 32);
 sprite_change_offset("batit_nspecial_particle_fx", 8, 8);
+//hfx
+sprite_change_offset("batit_leaf_break", 32, 32);
+sprite_change_offset("batit_leaf_hfx", 32, 32);
+sprite_change_offset("batit_strong_hfx", 32, 32);
 
 //feri support
 sprite_change_offset("feri_costume_joshua_and_batit", 84, 114);
 
 //kirby support
 sprite_change_offset("kirby_nspecial_joshua", 54, 98);
+sprite_change_offset("kirby_nspecial_icon", 8, 10);
