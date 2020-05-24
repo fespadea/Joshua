@@ -58,7 +58,7 @@ switch(state) {
             image_index = floor((state_timer-19)/8) + 3;
         }
         if(state_timer == 16){
-            create_hitbox(AT_FTILT, 1, x+10*player_id.spr_dir*(player_id.attack == AT_BAIR ? -1 : 1), y-25);
+            create_hitbox(AT_FTILT, 1, x+10*player_id.spr_dir*(player_id.attack == AT_BAIR ? -1 : 1), y-25).fx_particles = 1;
         } else if (state_timer == 32){
             changeState(0);
         }
@@ -138,7 +138,7 @@ switch(state) {
             image_index = floor((state_timer - 19)/8) + 3;
         }
         if(state_timer == 16){
-            create_hitbox(AT_UTILT, 2, x, y-49);
+            create_hitbox(AT_UTILT, 2, x, y-49).fx_particles = 1;
         } else if (state_timer == 32){
             changeState(0);
         }
@@ -161,7 +161,7 @@ switch(state) {
         if(state_timer == 0){
             sprite_index = sprite[9];
         } else if(state_timer == 37 || state_timer == 49){
-            create_hitbox(AT_NSPECIAL, 1, x+9*spr_dir, y-25);
+            create_hitbox(AT_NSPECIAL, 1, x+9*spr_dir, y-25).fx_particles = 1;
             sound_play(asset_get("sfx_rag_plant_shoot"));
         } else if(image_index > 10){
             changeState(0);
@@ -200,8 +200,12 @@ switch(state) {
             }
         } else if (window == 1){
             if(window_timer == 1){
-                create_hitbox(AT_FSTRONG, 3, x+20*spr_dir, y-21).damage *= 1 + strongCharge/120;
-                create_hitbox(AT_FSTRONG, 4, x+55*spr_dir, y-20).damage *= 1 + strongCharge/120;
+                var mehBox = create_hitbox(AT_FSTRONG, 3, x+20*spr_dir, y-21);
+                mehBox.damage *= 1 + strongCharge/120;
+                mehBox.fx_particles = 2;
+                var sweetBox = create_hitbox(AT_FSTRONG, 4, x+55*spr_dir, y-20);
+                sweetBox.damage *= 1 + strongCharge/120;
+                sweetBox.fx_particles = 1;
             }
             else if(window_timer == window1Length) changeWindow(2);
             image_index = 3;
@@ -246,7 +250,9 @@ switch(state) {
             if(window_timer == 2){
                 sound_play(asset_get("sfx_swipe_heavy2"));
             } else if(window_timer == 3){
-                create_hitbox(AT_USTRONG, 2, x+1*spr_dir, y-37).damage *= 1 + strongCharge/120;
+                var attackBox = create_hitbox(AT_USTRONG, 2, x+1*spr_dir, y-37);
+                attackBox.damage *= 1 + strongCharge/120;
+                attackBox.fx_particles = 2;
             } else if(window_timer == window1Length){
                 changeWindow(2);
             }

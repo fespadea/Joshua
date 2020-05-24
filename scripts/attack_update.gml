@@ -137,4 +137,5 @@ switch(attack){
                 move_cooldown[AT_EXTRA_1] = 179;
             }
         }
+        break;
 }

@@ -40,6 +40,7 @@ set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_MASK, sprite_get("dspecial_ai
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_VSPEED, 10);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_GRAVITY, .2);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_ANIM_SPEED, .2);
+set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_DESTROY_EFFECT, 143);
 
 set_hitbox_value(AT_DSPECIAL_AIR, 2, HG_HITBOX_TYPE, 2);
 set_hitbox_value(AT_DSPECIAL_AIR, 2, HG_LIFETIME, 24);

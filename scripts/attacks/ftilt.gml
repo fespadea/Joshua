@@ -31,10 +31,12 @@ set_hitbox_value(AT_FTILT, 1, HG_BASE_HITPAUSE, 2);
 set_hitbox_value(AT_FTILT, 1, HG_HITSTUN_MULTIPLIER, 3);
 set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_SPRITE, sprite_get("batit_proj"));
 set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_MASK, sprite_get("batit_proj"));
-set_hitbox_value(AT_FTILT, 1, HG_VISUAL_EFFECT, 17);
+set_hitbox_value(AT_FTILT, 1, HG_VISUAL_EFFECT, leafHitHfx);
+set_hitbox_value(AT_FTILT, 1, HG_HIT_PARTICLE_NUM, 1);
 set_hitbox_value(AT_FTILT, 1, HG_HIT_SFX, asset_get("sfx_leafy_hit2"));
 set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_ANIM_SPEED, .2);
 set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_HSPEED, 5);
+set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_DESTROY_EFFECT, leafBreakHfx);
 
 set_hitbox_value(AT_FTILT, 2, HG_HITBOX_TYPE, 1);
 set_hitbox_value(AT_FTILT, 2, HG_WINDOW, 2);
