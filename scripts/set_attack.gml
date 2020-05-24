@@ -88,3 +88,10 @@ if (attack == AT_USTRONG && batitDelay > 0){
 if(attack == AT_DSTRONG) {
     prevSprDir = spr_dir;
 }
+
+//reverse compatibility taunts
+if(attack == AT_TAUNT){
+    if(compatibleUrl && down_down){
+        attack = AT_EXTRA_1;
+    }
+}

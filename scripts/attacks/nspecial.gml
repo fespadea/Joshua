@@ -1,7 +1,6 @@
 set_attack_value(AT_NSPECIAL, AG_CATEGORY, 2);
 set_attack_value(AT_NSPECIAL, AG_SPRITE, sprite_get("nspecial"));
 set_attack_value(AT_NSPECIAL, AG_NUM_WINDOWS, 5);
-set_attack_value(AT_NSPECIAL, AG_HAS_LANDING_LAG, 4);
 set_attack_value(AT_NSPECIAL, AG_OFF_LEDGE, 1);
 set_attack_value(AT_NSPECIAL, AG_AIR_SPRITE, sprite_get("nspecial"));
 set_attack_value(AT_NSPECIAL, AG_HURTBOX_SPRITE, sprite_get("nspecial_hurt"));

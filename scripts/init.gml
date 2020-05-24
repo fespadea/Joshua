@@ -137,3 +137,6 @@ tcoart = sprite_get("tcoart_joshuake");
 
 //feri support
 feri_costume = sprite_get("feri_costume_joshua_and_batit");
+
+//reverse support
+compatibleUrl = 0;

@@ -53,6 +53,7 @@ sprite_change_offset("dspecial_air", 42, 84);
 sprite_change_offset("dspecial_2", 26, 74);
 sprite_change_offset("dspecial_2_charge", 26, 74);
 sprite_change_offset("taunt", 30, 94);
+sprite_change_offset("taunt_feri", 40, 84);
 
 sprite_change_offset("plat", 64, 94);
 
