@@ -2,31 +2,12 @@
 
 switch(state) {
     case 0: //idle
+        checkForNudge();
         checkForDamage();
         checkForBomb();
         if(state_timer == 1) sprite_index = sprite[0];
         image_index = floor(state_timer/8);
-        if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2){
-            with pHitBox {
-                if(player == other.player_id.player) {
-                    if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG || attack == AT_DSPECIAL_2){
-                        if(place_meeting(x, y, other)){
-                            other.hitByDTilt = true;
-                            other.nudgeAttack = attack;
-                            if(attack == AT_DSTRONG){
-                                other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
-                            } else {
-                                other.nudgeDamage = damage;
-                            }
-                            other.nudgeAngle = degtorad(get_hitbox_angle(id));
-                            other.nudgeBaseKnockback = kb_value;
-                            other.nudgeKnockbackScaling = kb_scale;
-                        }
-                    } 
-                }
-            }
-            if(hitByDTilt) changeState(3);
-        } else if (player_id.attack == AT_FSPECIAL){
+        if (player_id.attack == AT_FSPECIAL){
             with pHitBox {
                 if(player == other.player_id.player && attack == AT_FSPECIAL && hbox_num == 1) {
                     if (place_meeting(x, y, other)){
@@ -37,6 +18,7 @@ switch(state) {
         }
         break;
     case 1: // ftilt/fair/bair attack
+        checkForNudge();
         checkForDamage();
         checkForBomb();
         if(state_timer == 1){
@@ -62,41 +44,51 @@ switch(state) {
     case 2: //despawn
         despawn();
         break;
-    case 3: // dtilt/dstrong nudge
+    case 3: // nudge
+        checkForNudge();
         checkForBomb();
         if(state_timer == 1){
             changeDir(player_id.spr_dir);
-            if(nudgeAttack == AT_DTILT){
-                hsp = 1.5*nudgeDamage*cos(nudgeAngle);
-                vsp = -2.5*nudgeDamage*sin(nudgeAngle);
-            } else if(nudgeAttack == AT_DSPECIAL_2){
-                hsp = 0;
-                vsp = -1.5*nudgeDamage;
-            } else{
-                hsp = nudgeDamage*cos(nudgeAngle);
-                vsp = -nudgeDamage*sin(nudgeAngle);
-            }
             bumpBox = create_hitbox(AT_DTILT, 2, x, y-20);
             bumpBox.spr_dir = player_id.spr_dir;
             bumpBox.damage = nudgeDamage;
             bumpBox.kb_angle = radtodeg(nudgeAngle);
             bumpBox.kb_value = nudgeBaseKnockback;
             bumpBox.kb_scale = nudgeKnockbackScaling;
-            sprite_index = sprite[3];
-        } else if(hsp != 0 || free){
+            nudgeBounced = false;
+        } else if(hsp != 0 || free || nudgePrevVsp != 0){
             bumpBox.x = x + hsp;
             bumpBox.y = y + bumpBox.y_pos + vsp;
             bumpBox.length += 1;
-            if(free)
-                image_index = floor(state_timer/3) % 3;
-            else
-                image_index  = 3;
         } else {
             bumpBox.length = 0;
             bumpBox = noone;
-            hitByDTilt = false;
             changeState(0);
         }
+        if(free){
+            if(abs(hsp) < .3){
+                if(vsp < 0 && !nudgeBounced){
+                    sprite_index = nudgeUpSprite;
+                    image_index = floor(state_timer/3) % 3;
+                } else {
+                    sprite_index = nudgeUpFallSprite;
+                    image_index  = 0;
+                }
+            } else {
+                sprite_index = sprite[3];
+                if(free){
+                    image_index = floor(state_timer/3) % 3;
+                } else{
+                    image_index  = 3;
+                }
+            }
+        } else {
+            if(nudgePrevVsp > 3){
+                vsp = -nudgePrevVsp/3;
+                nudgeBounced = true;
+            }
+        }
+        nudgePrevVsp = vsp;
         break;
     case 4: //spawn
         checkForDamage();
@@ -110,6 +102,7 @@ switch(state) {
         if(state_timer > 70) changeState(2);
         break;
     case 6: //knockback
+        checkForNudge();
         if(state_timer == 1){
             sprite_index = sprite[6];
             image_index = 0;
@@ -123,6 +116,7 @@ switch(state) {
         if(hsp == 0 && vsp == 0) changeState(0);
         break;
     case 7: // utilt/uair attack
+        checkForNudge();
         checkForDamage();
         checkForBomb();
         if(state_timer == 1){
@@ -157,6 +151,7 @@ switch(state) {
         }
         break;
     case 9: //nspecial attack
+        checkForNudge();
         checkForDamage();
         checkForBomb();
         image_index = floor(state_timer/6);
@@ -170,6 +165,7 @@ switch(state) {
         }
         break;
     case 10: //fstrong
+        checkForNudge();
         checkForDamage();
         checkForBomb();
         if(state_timer == 0){
@@ -222,6 +218,7 @@ switch(state) {
         window_timer++;
         break;
     case 11: //ustrong
+        checkForNudge();
         checkForDamage();
         checkForBomb();
         if(state_timer == 0){
@@ -279,8 +276,9 @@ article_timer++;
 state_timer++;
 depth = player_id.depth - 1;
 can_be_grounded = true;
+ignores_walls = false;
 if(free){
-    if(state != 6) vsp += player_id.hitstun_grav;
+    if(state == 6) vsp += player_id.hitstun_grav;
     else vsp += player_id.gravity_speed;
     if(vsp > 0)
         vsp -= min(player_id.air_friction, vsp);
@@ -365,12 +363,15 @@ with pHitBox {
 if(explode) changeState(8);
 
 #define checkForNudge()
-if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2){
+if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2 || player_id.attack == AT_NAIR || player_id.attack == AT_DAIR){
     with pHitBox {
-        if(player == other.player_id.player) {
-            if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG || attack == AT_DSPECIAL_2){
+        if(player == other.player_id.player && id != other.nudgeHitboxID) {
+            if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG || attack == AT_DSPECIAL_2 || attack == AT_NAIR || attack == AT_DAIR){
                 if(place_meeting(x, y, other)){
+                    other.nudgeHitboxID = id;
                     other.hitByDTilt = true;
+                    sound_play(sound_effect);
+                    spawn_hit_fx(other.x, other.y-20, hit_effect);
                     other.nudgeAttack = attack;
                     if(attack == AT_DSTRONG){
                         other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
@@ -381,8 +382,37 @@ if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.a
                     other.nudgeBaseKnockback = kb_value;
                     other.nudgeKnockbackScaling = kb_scale;
                 }
-            } 
+            }
         }
     }
-    if(hitByDTilt) changeState(3);
+    if(hitByDTilt){
+        switch(nudgeAttack){
+            case AT_DTILT:
+                hsp = 1.5*nudgeDamage*cos(nudgeAngle);
+                vsp = -2.5*nudgeDamage*sin(nudgeAngle);
+                break;
+            case AT_DSPECIAL_2:
+                vsp = -1.5*nudgeDamage;
+                break;
+            case AT_DAIR:
+                if(!free){
+                    vsp = 2*nudgeDamage*sin(nudgeAngle);
+                } else {
+                    vsp = -2*nudgeDamage*sin(nudgeAngle);
+                }
+                break;
+            case AT_NAIR:
+                hsp = 2*nudgeDamage*cos(nudgeAngle);
+                vsp = -2*nudgeDamage*sin(nudgeAngle);
+                break;
+            default:
+                hsp = nudgeDamage*cos(nudgeAngle);
+                vsp = -nudgeDamage*sin(nudgeAngle);
+                break;
+        }
+        hitByDTilt = false;
+        if(state == 0 || state == 3){
+            changeState(3);
+        }
+    }
 }

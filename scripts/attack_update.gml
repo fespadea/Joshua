@@ -27,8 +27,10 @@ switch(attack){
             with batitArticle{
                 switch(state){
                     case 3:
-                        bumpBox.length = 0;
-                        hitByDTilt = false;
+                        if(bumpBox != noone){
+                            bumpBox.length = 0;
+                            bumpBox = noone;
+                        }
                     case 0:
                         state = 1;
                         state_timer = 0;
@@ -37,13 +39,15 @@ switch(attack){
             }
         }
         break;
-    case AT_UTILT: // utilt batit projectile
+    case AT_UTILT: // utilt/uair batit projectile
         if(state_timer == 1 && batitPlaced){
             with batitArticle{
                 switch(state){
                     case 3:
-                        bumpBox.length = 0;
-                        hitByDTilt = false;
+                        if(bumpBox != noone){
+                            bumpBox.length = 0;
+                            bumpBox = noone;
+                        }
                     case 0:
                         state = 7;
                         state_timer = 0;
@@ -87,9 +91,16 @@ switch(attack){
     case AT_UAIR: // made Uair work in 2 parts
         if(state_timer == 1 && batitPlaced){
             with batitArticle{
-                if(state == 0){
-                    state = 7;
-                    state_timer = 0;
+                switch(state){
+                    case 3:
+                        if(bumpBox != noone){
+                            bumpBox.length = 0;
+                            bumpBox = noone;
+                        }
+                    case 0:
+                        state = 7;
+                        state_timer = 0;
+                    break;
                 }
             }
         } else if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
@@ -119,13 +130,17 @@ switch(attack){
         }
     case AT_DSTRONG:
     case AT_DTILT: // allow dstrong/dtilt/dspecial_2 to be canceled if batit was kicked
-        if(batitPlaced && batitArticle.hitByDTilt && batitArticle.state_timer > 1){
+        if(batitPlaced && batitArticle.state == 3 && batitArticle.state_timer > 1){
             can_attack = true;
             can_strong = true;
             can_ustrong = true;
             move_cooldown[AT_DTILT] = 2; //can't cancel into these moves
             move_cooldown[AT_DSTRONG] = 2;
             move_cooldown[AT_JAB] = 2;
+            clear_button_buffer(PC_SPECIAL_PRESSED);
+            if(joy_pad_idle && is_special_pressed(DIR_NONE)){
+                set_attack(AT_NSPECIAL);
+            }
         }
         break;
     case AT_EXTRA_1:

@@ -32,11 +32,20 @@ if(attack == AT_FSPECIAL && batitDelay < 1){
 if (attack == AT_NSPECIAL && batitDelay > 0 && move_cooldown[AT_NSPECIAL] < 1){
     if(batitPlaced){
         with batitArticle{
-            if(state == 0){
-                state = 9;
-                state_timer = 0;
-                other.move_cooldown[AT_NSPECIAL] = 300;
-            } else other.move_cooldown[AT_NSPECIAL] = 2;
+            switch(state){
+                case 3:
+                    if(bumpBox != noone){
+                        bumpBox.length = 0;
+                        bumpBox = noone;
+                    }
+                case 0:
+                    state = 9;
+                    state_timer = 0;
+                    other.move_cooldown[AT_NSPECIAL] = 300;
+                    break;
+                default:
+                    other.move_cooldown[AT_NSPECIAL] = 2;
+            }
         }
     } else move_cooldown[AT_NSPECIAL] = 2;
 }
@@ -52,7 +61,6 @@ if (attack == AT_FSTRONG && batitDelay > 0){
                         bumpBox.length = 0;
                         bumpBox = noone;
                     }
-                    hitByDTilt = false;
                 case 0:
                     state = 10;
                     state_timer = 0;
@@ -75,7 +83,6 @@ if (attack == AT_USTRONG && batitDelay > 0){
                         bumpBox.length = 0;
                         bumpBox = noone;
                     }
-                    hitByDTilt = false;
                 case 0:
                     state = 11;
                     state_timer = 0;

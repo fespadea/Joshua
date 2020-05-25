@@ -75,6 +75,8 @@ sprite_change_offset("batit_dead", 12, 54);
 sprite_change_offset("batit_ftilt", 62, 126);
 sprite_change_offset("batit_utilt", 28, 66);
 sprite_change_offset("batit_kicked", 22, 63);
+sprite_change_offset("batit_kicked_up", 18, 60);
+sprite_change_offset("batit_kicked_up_fall", 18, 60);
 sprite_change_offset("batit_hurt", 22, 63);
 sprite_change_offset("batit_explode", 56, 88);
 sprite_change_offset("batit_nspecial", 62, 126);

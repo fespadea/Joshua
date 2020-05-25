@@ -14,19 +14,28 @@ can_be_grounded = true;
 ignores_walls = false;
 
 player_id.batitPlaced = true;
+explode = 0;
+
+//health/damage variables
+batitHealth = 50;
+numDamages = 0;
+attacksFaced[0] = noone;
+knockBackAngle = 0;
+knockBackPower = 0;
+
+//nudge variables
 hitByDTilt = false;
 nudgeAttack = -1;
 nudgeDamage = 0;
 nudgeAngle = 0;
 nudgeBaseKnockback = 0;
 nudgeKnockbackScaling = 0;
+nudgeUpSprite = sprite_get("batit_kicked_up");
+nudgeUpFallSprite = sprite_get("batit_kicked_up_fall");
+nudgePrevVsp = 0;
+nudgeBounced = false;
+nudgeHitboxID = noone;
 bumpBox = noone;
-batitHealth = 50;
-numDamages = 0;
-attacksFaced[0] = noone;
-knockBackAngle = 0;
-knockBackPower = 0;
-explode = 0;
 
 //strong variables
 window = 0;
