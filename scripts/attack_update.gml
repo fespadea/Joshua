@@ -138,4 +138,8 @@ switch(attack){
             }
         }
         break;
+    case AT_USPECIAL:
+    case AT_USPECIAL_2:
+        can_wall_jump = true;
+        break;
 }

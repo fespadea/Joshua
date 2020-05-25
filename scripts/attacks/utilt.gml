@@ -37,7 +37,7 @@ set_hitbox_value(AT_UTILT, 1, HG_HITPAUSE_SCALING, .35);
 set_hitbox_value(AT_UTILT, 1, HG_HIT_SFX, asset_get("sfx_blow_weak2"));
 
 set_hitbox_value(AT_UTILT, 2, HG_HITBOX_TYPE, 2);
-set_hitbox_value(AT_UTILT, 2, HG_LIFETIME, 60);
+set_hitbox_value(AT_UTILT, 2, HG_LIFETIME, 70);
 set_hitbox_value(AT_UTILT, 2, HG_PRIORITY, 3);
 set_hitbox_value(AT_UTILT, 2, HG_DAMAGE, 5);
 set_hitbox_value(AT_UTILT, 2, HG_ANGLE, 90);
@@ -50,6 +50,6 @@ set_hitbox_value(AT_UTILT, 2, HG_VISUAL_EFFECT, leafHitHfx);
 set_hitbox_value(AT_UTILT, 2, HG_HIT_PARTICLE_NUM, 1);
 set_hitbox_value(AT_UTILT, 2, HG_HIT_SFX, asset_get("sfx_leafy_hit2"));
 set_hitbox_value(AT_UTILT, 2, HG_PROJECTILE_ANIM_SPEED, .2);
-set_hitbox_value(AT_UTILT, 2, HG_PROJECTILE_VSPEED, -10);
+set_hitbox_value(AT_UTILT, 2, HG_PROJECTILE_VSPEED, -12);
 set_hitbox_value(AT_UTILT, 2, HG_PROJECTILE_GRAVITY, 0.225);
 set_hitbox_value(AT_UTILT, 2, HG_PROJECTILE_DESTROY_EFFECT, leafBreakHfx);

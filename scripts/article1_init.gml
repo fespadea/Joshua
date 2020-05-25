@@ -38,6 +38,11 @@ strongCharge = 0;
 fstrongChargeSprite = sprite_get("batit_fstrong_charge");
 ustrongChargeSprite = sprite_get("batit_ustrong_charge");
 strongDir = 1;
+//fstrong hitboxes
+mehBox = noone;
+sweetBox = noone;
+//ustrong hitbox
+attackBox = noone;
 
 BOTTOM_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) + get_stage_data(SD_BOTTOM_BLASTZONE);
 TOP_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) - get_stage_data(SD_TOP_BLASTZONE);

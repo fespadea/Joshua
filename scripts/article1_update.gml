@@ -3,17 +3,13 @@
 switch(state) {
     case 0: //idle
         checkForDamage();
+        checkForBomb();
         if(state_timer == 1) sprite_index = sprite[0];
         image_index = floor(state_timer/8);
-        if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2 || player_id.attack == AT_DSPECIAL_AIR){
+        if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2){
             with pHitBox {
                 if(player == other.player_id.player) {
-                    if (attack == AT_DSPECIAL_AIR && hbox_num == 1){
-                        if(!destroyed && place_meeting(x, y, other)){
-                            other.explode = sound_effect;
-                            length = hitbox_timer + 1;
-                        }
-                    } else if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG || attack == AT_DSPECIAL_2){
+                    if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG || attack == AT_DSPECIAL_2){
                         if(place_meeting(x, y, other)){
                             other.hitByDTilt = true;
                             other.nudgeAttack = attack;
@@ -29,8 +25,7 @@ switch(state) {
                     } 
                 }
             }
-            if(explode) changeState(8);
-            else if(hitByDTilt) changeState(3);
+            if(hitByDTilt) changeState(3);
         } else if (player_id.attack == AT_FSPECIAL){
             with pHitBox {
                 if(player == other.player_id.player && attack == AT_FSPECIAL && hbox_num == 1) {
@@ -43,6 +38,7 @@ switch(state) {
         break;
     case 1: // ftilt/fair/bair attack
         checkForDamage();
+        checkForBomb();
         if(state_timer == 1){
             sprite_index = sprite[1];
             if(player_id.attack == AT_BAIR)
@@ -67,6 +63,7 @@ switch(state) {
         despawn();
         break;
     case 3: // dtilt/dstrong nudge
+        checkForBomb();
         if(state_timer == 1){
             changeDir(player_id.spr_dir);
             if(nudgeAttack == AT_DTILT){
@@ -87,8 +84,8 @@ switch(state) {
             bumpBox.kb_scale = nudgeKnockbackScaling;
             sprite_index = sprite[3];
         } else if(hsp != 0 || free){
-            bumpBox.x = x;
-            bumpBox.y = y + bumpBox.y_pos;
+            bumpBox.x = x + hsp;
+            bumpBox.y = y + bumpBox.y_pos + vsp;
             bumpBox.length += 1;
             if(free)
                 image_index = floor(state_timer/3) % 3;
@@ -122,10 +119,12 @@ switch(state) {
             else if(hsp > 0) spr_dir = 1;
         }
         checkForDamage();
+        checkForBomb();
         if(hsp == 0 && vsp == 0) changeState(0);
         break;
     case 7: // utilt/uair attack
         checkForDamage();
+        checkForBomb();
         if(state_timer == 1){
             sprite_index = sprite[7];
             changeDir(player_id.spr_dir);
@@ -147,9 +146,11 @@ switch(state) {
         image_index = floor(state_timer/6);
         if(state_timer == 1){
             sprite_index = sprite[8];
-        } else if(state_timer == 25){
+        } else if(state_timer == 30){
             sound_play(explode);
-            create_hitbox(AT_DSPECIAL_AIR, 2, x+2*spr_dir, y-25);
+            create_hitbox(AT_DSPECIAL_AIR, 2, x+2*spr_dir, y-36);
+        } else if(state_timer == 42){
+            create_hitbox(AT_DSPECIAL_AIR, 3, x+2*spr_dir, y-24);
         } else if(image_index > 9){
             player_id.batitDied = true;
             despawn();
@@ -157,6 +158,7 @@ switch(state) {
         break;
     case 9: //nspecial attack
         checkForDamage();
+        checkForBomb();
         image_index = floor(state_timer/6);
         if(state_timer == 0){
             sprite_index = sprite[9];
@@ -169,6 +171,7 @@ switch(state) {
         break;
     case 10: //fstrong
         checkForDamage();
+        checkForBomb();
         if(state_timer == 0){
             sprite_index = sprite[10];
             changeWindow(0);
@@ -200,14 +203,17 @@ switch(state) {
             }
         } else if (window == 1){
             if(window_timer == 1){
-                var mehBox = create_hitbox(AT_FSTRONG, 3, x+20*spr_dir, y-21);
+                mehBox = create_hitbox(AT_FSTRONG, 3, x+20*spr_dir, y-21);
                 mehBox.damage *= 1 + strongCharge/120;
                 mehBox.fx_particles = 2;
-                var sweetBox = create_hitbox(AT_FSTRONG, 4, x+55*spr_dir, y-20);
+                sweetBox = create_hitbox(AT_FSTRONG, 4, x+55*spr_dir, y-20);
                 sweetBox.damage *= 1 + strongCharge/120;
                 sweetBox.fx_particles = 1;
-            }
-            else if(window_timer == window1Length) changeWindow(2);
+            } else if(window_timer == window1Length) changeWindow(2);
+            mehBox.x = x+20*spr_dir + hsp;
+            mehBox.y = y-21 + vsp;
+            sweetBox.x = x+55*spr_dir + hsp;
+            sweetBox.y = y-20 + vsp;
             image_index = 3;
         } else {
             image_index = 4;
@@ -217,6 +223,7 @@ switch(state) {
         break;
     case 11: //ustrong
         checkForDamage();
+        checkForBomb();
         if(state_timer == 0){
             sprite_index = sprite[11];
             changeWindow(0);
@@ -250,11 +257,15 @@ switch(state) {
             if(window_timer == 2){
                 sound_play(asset_get("sfx_swipe_heavy2"));
             } else if(window_timer == 3){
-                var attackBox = create_hitbox(AT_USTRONG, 2, x+1*spr_dir, y-37);
+                attackBox = create_hitbox(AT_USTRONG, 2, x+1*spr_dir, y-37);
                 attackBox.damage *= 1 + strongCharge/120;
                 attackBox.fx_particles = 2;
             } else if(window_timer == window1Length){
                 changeWindow(2);
+            }
+            if(window_timer >= 3){
+                attackBox.x = x+1*spr_dir + hsp;
+                attackBox.y = y-37 + vsp;
             }
         } else {
             image_index = 5;
@@ -338,4 +349,40 @@ if(batitHealth < 1){
         knockBackPower = attacksFaced[numDamages-1].kb_value + attacksFaced[numDamages-1].kb_scale*(50-batitHealth)/5;
         changeState(6);
     }
+}
+
+#define checkForBomb()
+with pHitBox {
+    if(player == other.player_id.player) {
+        if (attack == AT_DSPECIAL_AIR && hbox_num == 1){
+            if(!destroyed && place_meeting(x, y, other)){
+                other.explode = sound_effect;
+                length = hitbox_timer + 2;
+            }
+        }
+    }
+}
+if(explode) changeState(8);
+
+#define checkForNudge()
+if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2){
+    with pHitBox {
+        if(player == other.player_id.player) {
+            if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG || attack == AT_DSPECIAL_2){
+                if(place_meeting(x, y, other)){
+                    other.hitByDTilt = true;
+                    other.nudgeAttack = attack;
+                    if(attack == AT_DSTRONG){
+                        other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
+                    } else {
+                        other.nudgeDamage = damage;
+                    }
+                    other.nudgeAngle = degtorad(get_hitbox_angle(id));
+                    other.nudgeBaseKnockback = kb_value;
+                    other.nudgeKnockbackScaling = kb_scale;
+                }
+            } 
+        }
+    }
+    if(hitByDTilt) changeState(3);
 }

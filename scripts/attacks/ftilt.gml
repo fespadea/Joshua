@@ -20,7 +20,7 @@ set_window_value(AT_FTILT, 3, AG_WINDOW_HAS_WHIFFLAG, 1);
 set_num_hitboxes(AT_FTILT, 3);
 
 set_hitbox_value(AT_FTILT, 1, HG_HITBOX_TYPE, 2);
-set_hitbox_value(AT_FTILT, 1, HG_LIFETIME, 60);
+set_hitbox_value(AT_FTILT, 1, HG_LIFETIME, 100);
 set_hitbox_value(AT_FTILT, 1, HG_WIDTH, 90);
 set_hitbox_value(AT_FTILT, 1, HG_HEIGHT, 60);
 set_hitbox_value(AT_FTILT, 1, HG_PRIORITY, 3);
@@ -35,7 +35,7 @@ set_hitbox_value(AT_FTILT, 1, HG_VISUAL_EFFECT, leafHitHfx);
 set_hitbox_value(AT_FTILT, 1, HG_HIT_PARTICLE_NUM, 1);
 set_hitbox_value(AT_FTILT, 1, HG_HIT_SFX, asset_get("sfx_leafy_hit2"));
 set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_ANIM_SPEED, .2);
-set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_HSPEED, 5);
+set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_HSPEED, 8);
 set_hitbox_value(AT_FTILT, 1, HG_PROJECTILE_DESTROY_EFFECT, leafBreakHfx);
 
 set_hitbox_value(AT_FTILT, 2, HG_HITBOX_TYPE, 1);

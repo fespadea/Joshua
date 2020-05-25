@@ -1,3 +1,5 @@
+//ai init
+
 far_down_attacks[0] = AT_DAIR;
 
 far_side_attacks[0] = AT_NSPECIAL;
