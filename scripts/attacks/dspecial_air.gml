@@ -17,7 +17,7 @@ set_window_value(AT_DSPECIAL_AIR, 3, AG_WINDOW_LENGTH, 6);
 set_window_value(AT_DSPECIAL_AIR, 3, AG_WINDOW_ANIM_FRAMES, 2);
 set_window_value(AT_DSPECIAL_AIR, 3, AG_WINDOW_ANIM_FRAME_START, 5);
 
-set_num_hitboxes(AT_DSPECIAL_AIR, 3);
+set_num_hitboxes(AT_DSPECIAL_AIR, 4);
 
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_HITBOX_TYPE, 2);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_LIFETIME, 60);
@@ -40,7 +40,7 @@ set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_MASK, sprite_get("dspecial_ai
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_VSPEED, 10);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_GRAVITY, .2);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_ANIM_SPEED, .2);
-set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_DESTROY_EFFECT, 143);
+set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_DESTROY_EFFECT, 139);
 
 set_hitbox_value(AT_DSPECIAL_AIR, 2, HG_HITBOX_TYPE, 2);
 set_hitbox_value(AT_DSPECIAL_AIR, 2, HG_LIFETIME, 12);
@@ -86,3 +86,23 @@ set_hitbox_value(AT_DSPECIAL_AIR, 3, HG_PROJECTILE_ENEMY_BEHAVIOR, 1);
 set_hitbox_value(AT_DSPECIAL_AIR, 3, HG_PROJECTILE_UNBASHABLE, 1);
 set_hitbox_value(AT_DSPECIAL_AIR, 3, HG_PROJECTILE_IS_TRANSCENDENT, 1);
 set_hitbox_value(AT_DSPECIAL_AIR, 3, HG_PROJECTILE_DOES_NOT_REFLECT, 1);
+
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_HITBOX_TYPE, 2);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_LIFETIME, 18);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_WIDTH, 150);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_HEIGHT, 150);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PRIORITY, 1);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_DAMAGE, 4);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_ANGLE, 90);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_BASE_KNOCKBACK, 7);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_KNOCKBACK_SCALING, .2);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_BASE_HITPAUSE, 6);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_HITPAUSE_SCALING, .4);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PROJECTILE_SPRITE, sprite_get("empty"));
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PROJECTILE_MASK, -1);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PROJECTILE_GROUND_BEHAVIOR, 1);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PROJECTILE_WALL_BEHAVIOR, 1);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PROJECTILE_ENEMY_BEHAVIOR, 1);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PROJECTILE_UNBASHABLE, 1);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PROJECTILE_IS_TRANSCENDENT, 1);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PROJECTILE_DOES_NOT_REFLECT, 1);

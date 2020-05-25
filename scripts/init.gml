@@ -139,6 +139,23 @@ strongHitHfx = hit_fx_create(sprite_get("batit_strong_hfx"), 30);
 set_hit_particle_sprite(1, PART_MAY_LEAF);
 set_hit_particle_sprite(2, PART_SYL_FLOWER);
 
+//intro
+introTimer = -4;
+introTimer2 = 0;
+switch(get_player_color(player)){
+    case 6:
+        introSprite = sprite_get("intro_abyss");
+        numIntroFrames = 20;
+        break;
+    case 7:
+        introSprite = sprite_get("intro_ea");
+        numIntroFrames = 11;
+        break;
+    default:
+        introSprite = sprite_get("intro");
+        numIntroFrames = 7;
+}
+
 //tco support
 tcoart = sprite_get("tcoart_joshuake");
 

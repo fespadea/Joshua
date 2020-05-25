@@ -48,7 +48,10 @@ switch(state) {
         checkForNudge();
         checkForBomb();
         if(state_timer == 1){
-            changeDir(player_id.spr_dir);
+            if(hsp < 0)
+                changeDir(-1);
+            else if (hsp > 0)
+                changeDir(1);
             bumpBox = create_hitbox(AT_DTILT, 2, x, y-20);
             bumpBox.spr_dir = player_id.spr_dir;
             bumpBox.damage = nudgeDamage;
@@ -66,7 +69,7 @@ switch(state) {
             changeState(0);
         }
         if(free){
-            if(abs(hsp) < .3){
+            if(abs(hsp) < 2){
                 if(vsp < 0 && !nudgeBounced){
                     sprite_index = nudgeUpSprite;
                     image_index = floor(state_timer/3) % 3;
@@ -279,7 +282,7 @@ can_be_grounded = true;
 ignores_walls = false;
 if(free){
     if(state == 6) vsp += player_id.hitstun_grav;
-    else vsp += player_id.gravity_speed;
+    else vsp += player_id.gravity_speed-.01;
     if(vsp > 0)
         vsp -= min(player_id.air_friction, vsp);
     else if(vsp < 0)
@@ -388,7 +391,7 @@ if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.a
     if(hitByDTilt){
         switch(nudgeAttack){
             case AT_DTILT:
-                hsp = 1.5*nudgeDamage*cos(nudgeAngle);
+                hsp = nudgeDamage*cos(nudgeAngle);
                 vsp = -2.5*nudgeDamage*sin(nudgeAngle);
                 break;
             case AT_DSPECIAL_2:

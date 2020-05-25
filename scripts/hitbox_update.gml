@@ -6,18 +6,29 @@ if (attack == AT_UTILT && hbox_num == 2){
     } else {
         image_index = hitbox_timer/8 % 2 + 4;
     }
-} else if (attack == AT_DSPECIAL_AIR && hbox_num == 1){
-    if(!free){
-        sound_play(sound_effect);
-        spawn_hit_fx(x, y, hit_effect);
-        length = 0;
+} else if (attack == AT_DSPECIAL_AIR){
+    switch(hbox_num){
+        case 2:
+        case 3:
+            hbox_group = 3;
+            break;
+        case 1:
+            if(!free){
+                sound_play(sound_effect);
+                spawn_hit_fx(x, y, hit_effect);
+                create_hitbox(AT_DSPECIAL_AIR, 4, x, y);
+                length = 0;
+            }
+        case 4:
+            hbox_group = 4;
+            break;
     }
 } else if (attack == AT_NSPECIAL){
     if(hbox_num == 1){
         if(!free || was_parried) destroyed = true;
         if(hitbox_timer < length - 30)
             maxSpeed = ease_quadIn(5, 20, hitbox_timer, length - 30);
-        if(targetPlayer != noone){
+        if(targetPlayer != noone && instance_exists(targetPlayer)){
             angleToTarget = point_direction(x, y, targetPlayer.x, targetPlayer.y - targetPlayer.char_height/2);
             if(hitbox_timer < length - 30){
                 if(hitbox_timer < (length-30)/2) percentAngle = ease_circIn(0, 1, hitbox_timer, (length - 30)/2);

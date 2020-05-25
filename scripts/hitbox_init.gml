@@ -33,6 +33,10 @@ if(attack == AT_FTILT && hbox_num == 1){ //direction and stuff
     leafFollowerVFX = hit_fx_create(sprite_get("batit_nspecial_particle_fx"), 15);
 } else if (attack == AT_FSTRONG && (hbox_num == 3 || hbox_num == 4)){
     hbox_group = 2;
-} else if (attack == AT_DSPECIAL_AIR && (hbox_num == 2 || hbox_num == 3)){
-    hbox_group = 3;
+} else if (attack == AT_DSPECIAL_AIR){
+    if((hbox_num == 2 || hbox_num == 3)){
+        hbox_group = 3;
+    } else if((hbox_num == 1 || hbox_num == 4)){
+        hbox_group = 4;
+    }
 }

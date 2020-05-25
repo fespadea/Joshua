@@ -57,6 +57,10 @@ sprite_change_offset("taunt_feri", 40, 84);
 sprite_change_offset("taunt_tco", 28, 80);
 sprite_change_offset("taunt_tco_paper", 2, 267);
 
+sprite_change_offset("intro", 56, 96);
+sprite_change_offset("intro_ea", 30, 96);
+sprite_change_offset("intro_abyss", 56, 96);
+
 sprite_change_offset("plat", 64, 94);
 
 set_victory_theme(sound_get("notdotbatit"));
@@ -92,7 +96,7 @@ sprite_change_offset("batit_nspecial_particle_fx", 8, 8);
 //hfx
 sprite_change_offset("batit_leaf_break", 32, 32);
 sprite_change_offset("batit_leaf_hfx", 32, 32);
-sprite_change_offset("batit_strong_hfx", 32, 32);
+sprite_change_offset("batit_strong_hfx", 40, 40);
 
 //feri support
 sprite_change_offset("feri_costume_joshua_and_batit", 84, 114);

@@ -62,6 +62,19 @@ if(air_accel != tempAirAccel && !(state == PS_ATTACK_AIR && attack == AT_FSPECIA
     air_accel = tempAirAccel;
 }
 
+// intro (template)
+if (introTimer2 < 4) {
+    introTimer2++;
+} else {
+    introTimer2 = 0;
+    introTimer++;
+}
+if (introTimer < numIntroFrames) {
+    draw_indicator = false;
+} else {
+    draw_indicator = true;
+}
+
 //kirby support
 if swallowed {
     swallowed = 0

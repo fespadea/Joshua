@@ -14,6 +14,18 @@ switch (state){
                 sprite_index = dspecial2Sprite;
             }
         }
+        break;
+    case PS_SPAWN:
+        if (introTimer < numIntroFrames && introTimer >= 0) {
+            sprite_index = introSprite;
+            image_index = introTimer;
+        } else if (introTimer < 0) {
+            sprite_index = introSprite;
+            image_index = 0;
+        } else {
+            sprite_index = sprite_get("idle");
+        }
+        break;
 }
 if(unturn){
     spr_dir = prevSprDir;
