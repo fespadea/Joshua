@@ -11,6 +11,7 @@ if(batitPlaced){
     batitDelay = 300;
     batitFell = false;
 }
+// stat switching
 if(batitDelay > 0){
     move_cooldown[AT_TAUNT] = 2;
     if(batitStats){

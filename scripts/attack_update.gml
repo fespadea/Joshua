@@ -154,7 +154,7 @@ switch(attack){
         }
         break;
     case AT_USPECIAL_2:
-        if(batitPlaced && place_meeting(x, y, batitArticle) && ((special_pressed && up_down) || is_special_pressed(3))){
+        if(batitPlaced && place_meeting(x, y, batitArticle) && (special_pressed || is_special_pressed(3))){
             attack_end();
             set_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING, .5);
             set_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING, .4);
