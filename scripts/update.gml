@@ -48,6 +48,11 @@ if(batitDelay > 0){
         walljump_vsp -= .5;
         batitStats = true;
     }
+    //reset uspecial values
+    set_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING, .7);
+    set_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING, .1);
+    set_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE, 7);
+    set_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED, -7);
 }
 batitDelay--;
 

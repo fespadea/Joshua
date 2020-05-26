@@ -2,6 +2,7 @@
 
 switch(state) {
     case 0: //idle
+        checkForTaunt();
         checkForNudge();
         checkForDamage();
         checkForBomb();
@@ -18,6 +19,7 @@ switch(state) {
         }
         break;
     case 1: // ftilt/fair/bair attack
+        checkForTaunt();
         checkForNudge();
         checkForDamage();
         checkForBomb();
@@ -45,6 +47,7 @@ switch(state) {
         despawn();
         break;
     case 3: // nudge
+        checkForTaunt();
         checkForNudge();
         checkForBomb();
         if(state_timer == 1){
@@ -105,6 +108,7 @@ switch(state) {
         if(state_timer > 70) changeState(2);
         break;
     case 6: //knockback
+        checkForTaunt();
         checkForNudge();
         if(state_timer == 1){
             sprite_index = sprite[6];
@@ -119,6 +123,7 @@ switch(state) {
         if(hsp == 0 && vsp == 0) changeState(0);
         break;
     case 7: // utilt/uair attack
+        checkForTaunt();
         checkForNudge();
         checkForDamage();
         checkForBomb();
@@ -154,6 +159,7 @@ switch(state) {
         }
         break;
     case 9: //nspecial attack
+        checkForTaunt();
         checkForNudge();
         checkForDamage();
         checkForBomb();
@@ -168,6 +174,7 @@ switch(state) {
         }
         break;
     case 10: //fstrong
+        checkForTaunt();
         checkForNudge();
         checkForDamage();
         checkForBomb();
@@ -221,6 +228,7 @@ switch(state) {
         window_timer++;
         break;
     case 11: //ustrong
+        checkForTaunt();
         checkForNudge();
         checkForDamage();
         checkForBomb();
@@ -272,6 +280,18 @@ switch(state) {
             if(window_timer == window2Length) changeState(0);
         }
         window_timer++;
+        break;
+    case 12: // taunt
+        checkForNudge();
+        checkForDamage();
+        checkForBomb();
+        if(state_timer == 1){
+            sprite_index = sprite[12];
+        }
+        image_index = floor(state_timer/6);
+        if(!(player_id.state == PS_ATTACK_GROUND && player_id.attack == AT_TAUNT_2)){
+            changeState(0);
+        }
         break;
 }
 
@@ -346,8 +366,17 @@ if(batitHealth < 1){
         }
     }
     if(previousNumDamages < numDamages){
-        knockBackAngle = get_hitbox_angle(attacksFaced[numDamages-1]);
-        knockBackPower = attacksFaced[numDamages-1].kb_value + attacksFaced[numDamages-1].kb_scale*(50-batitHealth)/5;
+        var highestPriority = -11;
+        var attackFacing = noone;
+        for(var i = previousNumDamages; i < numDamages; i++){
+            if(attacksFaced[i].hit_priority > highestPriority){
+                attackFacing = attacksFaced[i];
+            } else if (!(attackFacing.player == attacksFaced[i].player && attackFacing.attack == attacksFaced[i].attack && attackFacing.hbox_group == attacksFaced[i].hbox_group)){
+                attacksFaced[i] = noone;
+            }
+        }
+        knockBackAngle = get_hitbox_angle(attackFacing);
+        knockBackPower = attackFacing.kb_value + attackFacing.kb_scale*(50-batitHealth)*.12;
         changeState(6);
     }
 }
@@ -398,11 +427,7 @@ if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.a
                 vsp = -1.5*nudgeDamage;
                 break;
             case AT_DAIR:
-                if(!free){
-                    vsp = 2*nudgeDamage*sin(nudgeAngle);
-                } else {
-                    vsp = -2*nudgeDamage*sin(nudgeAngle);
-                }
+                vsp = -2*nudgeDamage*sin(nudgeAngle);
                 break;
             case AT_NAIR:
                 hsp = 2*nudgeDamage*cos(nudgeAngle);
@@ -413,9 +438,32 @@ if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.a
                 vsp = -nudgeDamage*sin(nudgeAngle);
                 break;
         }
+        if(!free && vsp > 0){
+            vsp *= -1;
+        }
         hitByDTilt = false;
         if(state == 0 || state == 3){
             changeState(3);
         }
+    }
+}
+
+#define checkForTaunt()
+if(player_id.attack == AT_TAUNT_2 && player_id.state == PS_ATTACK_GROUND){
+    with pHitBox {
+        if(player == other.player_id.player) {
+            if(attack == AT_TAUNT_2){
+                if(place_meeting(x, y, other)){
+                    other.tauntTime = true;
+                }
+            }
+        }
+    }
+    if(tauntTime){
+        if(state == 0){
+            changeState(12);
+        }
+        batitHealth = 50;
+        tauntTime = false;
     }
 }

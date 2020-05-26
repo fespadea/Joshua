@@ -53,6 +53,7 @@ sprite_change_offset("dspecial_air", 42, 84);
 sprite_change_offset("dspecial_2", 26, 74);
 sprite_change_offset("dspecial_2_charge", 26, 74);
 sprite_change_offset("taunt", 30, 94);
+sprite_change_offset("taunt_batitless", 36, 82);
 sprite_change_offset("taunt_feri", 40, 84);
 sprite_change_offset("taunt_tco", 28, 80);
 sprite_change_offset("taunt_tco_paper", 2, 267);
@@ -88,6 +89,7 @@ sprite_change_offset("batit_fstrong", 30, 60);
 sprite_change_offset("batit_fstrong_charge", 30, 60);
 sprite_change_offset("batit_ustrong", 20, 96);
 sprite_change_offset("batit_ustrong_charge", 20, 96);
+sprite_change_offset("batit_taunt", 26, 60);
 //batit projectiles
 sprite_change_offset("batit_proj", 34, 15);
 sprite_change_offset("batit_utilt_proj", 31, 26);

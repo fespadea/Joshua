@@ -153,8 +153,20 @@ switch(attack){
             }
         }
         break;
-    case AT_USPECIAL:
     case AT_USPECIAL_2:
+        if(batitPlaced && place_meeting(x, y, batitArticle) && ((special_pressed && up_down) || is_special_pressed(3))){
+            attack_end();
+            set_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING, .5);
+            set_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING, .4);
+            set_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE, 0);
+            set_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED, -10);
+            dontSwitchToUspecial = true;
+            can_special = true;
+            clear_button_buffer(PC_SPECIAL_PRESSED);
+            special_pressed = true;
+            up_down = true;
+        }
+    case AT_USPECIAL:
         can_wall_jump = true;
         break;
 }

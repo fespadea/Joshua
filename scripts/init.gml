@@ -116,6 +116,12 @@ finishUair = false;
 // Fspecial_2 variable
 tempAirAccel = air_accel;
 
+// Uspecial_2 variable
+dontSwitchToUspecial = false;
+currentUspecialSprite = -1;
+currentUspecialImageIndex = -1;
+currentUspecialHurtSprite = -1;
+
 // variables to prevent turning around with batitless fstrong and ustrong
 prevSprDir = spr_dir;
 unturn = false;
