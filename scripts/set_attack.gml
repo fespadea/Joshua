@@ -39,6 +39,7 @@ switch(attack){
     case AT_FSPECIAL: // change to batitfull fspecial (this is reversed because batitless was made first)
         if(batitDelay < 1){
             attack = AT_FSPECIAL_2;
+            whipHitPlayer = false;
         }
         break;
     case AT_NSPECIAL: // nspecial batit projectile

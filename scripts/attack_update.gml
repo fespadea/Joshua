@@ -16,7 +16,8 @@ switch(attack){
             window = 4;
             window_timer = 0;
         } else if(window == 3 && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)) {
-            if(free) set_state(PS_IDLE_AIR);
+            if(was_parried) set_state(PS_PRATLAND);
+            else if(free) set_state(PS_IDLE_AIR);
             else set_state(PS_IDLE);
         }
         break;
@@ -114,15 +115,20 @@ switch(attack){
             if(!finishUair) window = 4;
         }
         break;
-    case AT_FSPECIAL_2: // FSPECIAL_2 stall in the air correctly
-        if(window < 3 && free){
-            if(window == 2 && window_timer == 1){
-                vsp = -4;
-                hsp = 4*spr_dir;
-            }
-            air_accel = .1;
-        } else {
-            air_accel = tempAirAccel;
+    case AT_FSPECIAL_2: // pulls in on hit
+        if(window == 2 && whipHitPlayer && !was_parried){
+            window = 4;
+            window_timer = 0;
+            can_jump = true;
+            can_attack = true;
+            can_wall_jump = true;
+            can_strong  = true;
+            can_ustrong = true;
+            can_shield = true;
+        } else if(window == 3 && window_timer == get_window_value(AT_FSPECIAL_2, window, AG_WINDOW_LENGTH)){
+            if(was_parried) set_state(PS_PRATLAND);
+            else if(free) set_state(PS_IDLE_AIR);
+            else set_state(PS_IDLE);
         }
         break;
     case AT_DSPECIAL_2: // artificial attack charging (followed by the same code for AT_DSTRONG and AT_DTILT)

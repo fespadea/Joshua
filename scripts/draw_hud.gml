@@ -1,4 +1,4 @@
-//draw hud
+// draw hud
 
 if(batitPlaced){
     draw_sprite(batitBarSprite, 0, temp_x+30, temp_y-10);
@@ -17,7 +17,7 @@ if(batitDelay < 0){
 }
 shader_end();
 
-//tco reverse support, mostly copied
+// tco reverse support, mostly copied
 if(drawingTimer){
     if(drawingTimer == 1 || drawingTimer == 179){
         draw_sprite_ext(artPaper, 4, temp_x + 126, temp_y - 81.2, 1, 1, 0, -1, 0.2);

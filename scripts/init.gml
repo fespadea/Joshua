@@ -114,7 +114,7 @@ initialDattackY = 0;
 finishUair = false;
 
 // Fspecial_2 variable
-tempAirAccel = air_accel;
+whipHitPlayer = false;
 
 // Uspecial_2 variable
 dontSwitchToUspecial = false;
