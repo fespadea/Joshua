@@ -142,6 +142,7 @@ unturn = false;
 batitIconSprite = sprite_get("batit_icon");
 batitBarSprite = sprite_get("Batit_hud_bar");
 batitHpSprite = sprite_get("batit_hud_hp");
+toggleIconSprite = sprite_get("toggle_icon");
 
 //variable to keep track of current Joshua stats
 batitStats = false;
