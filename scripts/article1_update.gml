@@ -25,10 +25,7 @@ switch(state) {
         checkForBomb();
         if(state_timer == 1){
             sprite_index = sprite[1];
-            if(player_id.attack == AT_BAIR)
-                changeDir(player_id.spr_dir);
-            else
-                changeDir(-player_id.spr_dir);
+            changeDir(-attackDir);
         }
         if(state_timer < 16){
             image_index = floor(state_timer/8);
@@ -38,7 +35,7 @@ switch(state) {
             image_index = floor((state_timer-19)/8) + 3;
         }
         if(state_timer == 16){
-            create_hitbox(AT_FTILT, 1, x+10*player_id.spr_dir*(player_id.attack == AT_BAIR ? -1 : 1), y-25).fx_particles = 1;
+            create_hitbox(AT_FTILT, 1, x+10*attackDir, y-25).fx_particles = 1;
         } else if (state_timer == 32){
             changeState(0);
         }
@@ -129,7 +126,6 @@ switch(state) {
         checkForBomb();
         if(state_timer == 1){
             sprite_index = sprite[7];
-            changeDir(player_id.spr_dir);
         }
         if(state_timer < 16){
             image_index = floor(state_timer/8);
@@ -185,7 +181,7 @@ switch(state) {
             window1Length = 2;
             window2Length = 17;
             strongCharge = 0;
-            changeDir(strongDir);
+            changeDir(attackDir);
         }
         if(window == 0){
             if(window_timer >= window0Length){
@@ -239,7 +235,6 @@ switch(state) {
             window1Length = 5;
             window2Length = 5;
             strongCharge = 0;
-            changeDir(strongDir);
         }
         if(window == 0){
             if(window_timer >= window0Length){

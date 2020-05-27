@@ -14,6 +14,7 @@ can_be_grounded = true;
 ignores_walls = false;
 
 player_id.batitPlaced = true;
+attackDir = 1;
 
 //taunt variable
 tauntTime = false;
@@ -51,7 +52,6 @@ window2Length = 0;
 strongCharge = 0;
 fstrongChargeSprite = sprite_get("batit_fstrong_charge");
 ustrongChargeSprite = sprite_get("batit_ustrong_charge");
-strongDir = 1;
 //fstrong hitboxes
 mehBox = noone;
 sweetBox = noone;

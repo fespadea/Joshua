@@ -6,14 +6,19 @@ switch(attack){
         break;
     case AT_UAIR: // set up Uair variable
         finishUair = false;
+    case AT_BAIR:
+    case AT_FAIR:
+        doStrong = true;
+    case AT_UTILT:
+    case AT_FTILT:
+        doAttack = true;
         break;
     case AT_DSPECIAL: // change to batitless dspecial
         if(batitDelay > 0){
             if (free){
                 attack = AT_DSPECIAL_AIR;
                 attack_end();
-            }
-            else{
+            } else{
                 attack = AT_DSPECIAL_2;
                 set_hitbox_value(AT_DSPECIAL_2, 1, HG_DAMAGE, 9);
             }
@@ -78,7 +83,7 @@ switch(attack){
             }
             move_cooldown[AT_FSTRONG] = 2;
             unturn = true;
-            batitArticle.strongDir = spr_dir;
+            batitArticle.attackDir = spr_dir;
         }
         break;
     case AT_USTRONG: // batit ustrong
@@ -100,7 +105,7 @@ switch(attack){
             }
             move_cooldown[AT_USTRONG] = 2;
             unturn = true;
-            batitArticle.strongDir = spr_dir;
+            batitArticle.attackDir = spr_dir;
         }
         break;
     case AT_DSTRONG:

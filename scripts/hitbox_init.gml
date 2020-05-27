@@ -1,12 +1,8 @@
 //hitbox init
 
 if(attack == AT_FTILT && hbox_num == 1){ //direction and stuff
-    if(player_id.attack == AT_BAIR){
-        spr_dir = -player_id.spr_dir;
-        hsp = -hsp;
-    }else{
-        spr_dir = player_id.spr_dir;
-    }
+    spr_dir = player_id.batitArticle.attackDir;
+    hsp *= player_id.batitArticle.attackDir*player_id.spr_dir;
 } else if (attack == AT_NSPECIAL && hbox_num == 1){ //targetting leaves
     targetPlayer = noone;
     with oPlayer{

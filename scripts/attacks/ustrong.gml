@@ -58,7 +58,7 @@ set_hitbox_value(AT_USTRONG, 2, HG_HITPAUSE_SCALING, .3);
 set_hitbox_value(AT_USTRONG, 2, HG_VISUAL_EFFECT, strongHitHfx);
 set_hitbox_value(AT_USTRONG, 2, HG_HIT_PARTICLE_NUM, 2);
 set_hitbox_value(AT_USTRONG, 2, HG_HIT_SFX, asset_get("sfx_may_whip1"));
-set_hitbox_value(AT_USTRONG, 2, HG_PROJECTILE_SPRITE, sprite_get("empty"));
+set_hitbox_value(AT_USTRONG, 2, HG_PROJECTILE_SPRITE, asset_get("empty_sprite"));
 set_hitbox_value(AT_USTRONG, 2, HG_PROJECTILE_MASK, -1);
 set_hitbox_value(AT_USTRONG, 2, HG_PROJECTILE_GROUND_BEHAVIOR, 1);
 set_hitbox_value(AT_USTRONG, 2, HG_PROJECTILE_WALL_BEHAVIOR, 1);

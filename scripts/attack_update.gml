@@ -20,40 +20,50 @@ switch(attack){
             else set_state(PS_IDLE);
         }
         break;
-    case AT_FTILT:
-    case AT_FAIR:
-    case AT_BAIR: // batit ftilt/fair/bair projectile
-        if(state_timer == 1 && batitPlaced){
-            with batitArticle{
-                switch(state){
-                    case 3:
-                        if(bumpBox != noone){
-                            bumpBox.length = 0;
-                            bumpBox = noone;
-                        }
-                    case 0:
-                        state = 1;
-                        state_timer = 0;
-                    break;
-                }
+    case AT_FTILT: // batit ftilt projectile
+        if(state_timer <= 6 && batitPlaced){
+            if(!attack_down && ((!right_stick_down && spr_dir == 1) || (!left_stick_down && spr_dir == -1))){
+                doAttack = false;
             }
+            if((state_timer == 6 || projectilesMandatory) && doAttack)
+                batitAttack(1, spr_dir);
+        }
+        break;
+    case AT_FAIR: // batit fair projectile
+        if(state_timer <= 6 && batitPlaced){
+            if(!strong_down && ((!right_strong_down && spr_dir == 1) || (!left_strong_down && spr_dir == -1))){
+                doStrong = false;
+            }
+            if(!attack_down && ((!right_stick_down && spr_dir == 1) || (!left_stick_down && spr_dir == -1))){
+                doAttack = false;
+            }
+            if((state_timer == 6 || strongsMandatory) && doStrong)
+                batitAttack(10, spr_dir);
+            else if((state_timer == 6 || projectilesMandatory) && doAttack && ((!right_strong_down && spr_dir == 1) || (!left_strong_down && spr_dir == -1)))
+                batitAttack(1, spr_dir);
+        }
+        break;
+    case AT_BAIR: // batit bair projectile
+        if(state_timer <= 6 && batitPlaced){
+            if(!strong_down && ((!right_strong_down && spr_dir == -1) || (!left_strong_down && spr_dir == 1))){
+                doStrong = false;
+            }
+            if(!attack_down && ((!right_stick_down && spr_dir == -1) || (!left_stick_down && spr_dir == 1))){
+                doAttack = false;
+            }
+            if((state_timer == 6 || strongsMandatory) && doStrong)
+                batitAttack(10, -spr_dir);
+            else if((state_timer == 6 || projectilesMandatory) && doAttack && ((!right_strong_down && spr_dir == -1) || (!left_strong_down && spr_dir == 1)))
+                batitAttack(1, -spr_dir);
         }
         break;
     case AT_UTILT: // utilt/uair batit projectile
-        if(state_timer == 1 && batitPlaced){
-            with batitArticle{
-                switch(state){
-                    case 3:
-                        if(bumpBox != noone){
-                            bumpBox.length = 0;
-                            bumpBox = noone;
-                        }
-                    case 0:
-                        state = 7;
-                        state_timer = 0;
-                    break;
-                }
+        if(state_timer <= 6 && batitPlaced){
+            if(!attack_down && !up_stick_down){
+                doAttack = false;
             }
+            else if((state_timer == 6 || projectilesMandatory) && doAttack)
+                batitAttack(7, 1); // direction doesn't matter here
         }
         break;
     case AT_DATTACK: // made Dattack work in 2 parts
@@ -89,20 +99,17 @@ switch(attack){
         move_cooldown[AT_DSPECIAL_AIR] = 30;
         break;
     case AT_UAIR: // made Uair work in 2 parts
-        if(state_timer == 1 && batitPlaced){
-            with batitArticle{
-                switch(state){
-                    case 3:
-                        if(bumpBox != noone){
-                            bumpBox.length = 0;
-                            bumpBox = noone;
-                        }
-                    case 0:
-                        state = 7;
-                        state_timer = 0;
-                    break;
-                }
+        if(state_timer <= 6 && batitPlaced){
+            if(!strong_down && !up_strong_down){
+                doStrong = false;
             }
+            if(!attack_down && !up_stick_down){
+                doAttack = false;
+            }
+            if((state_timer == 6 || strongsMandatory) && doStrong)
+                batitAttack(11, 1); // direction doesn't matter here
+            else if((state_timer == 6 || projectilesMandatory) && doAttack && !up_strong_down)
+                batitAttack(7, 1); // direction doesn't matter here
         } else if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
             if(!finishUair) window = 4;
         }
@@ -128,21 +135,6 @@ switch(attack){
             }
             strong_charge++;
         }
-    case AT_DSTRONG:
-    case AT_DTILT: // allow dstrong/dtilt/dspecial_2 to be canceled if batit was kicked
-        if(batitPlaced && batitArticle.state == 3 && batitArticle.state_timer > 1){
-            can_attack = true;
-            can_strong = true;
-            can_ustrong = true;
-            move_cooldown[AT_DTILT] = 2; //can't cancel into these moves
-            move_cooldown[AT_DSTRONG] = 2;
-            move_cooldown[AT_JAB] = 2;
-            clear_button_buffer(PC_SPECIAL_PRESSED);
-            if(joy_pad_idle && is_special_pressed(DIR_NONE)){
-                set_attack(AT_NSPECIAL);
-            }
-        }
-        break;
     case AT_EXTRA_1:
         if (compatibleUrl == 1932454633){ //this stuff is for the reverse TCO support, mostly copied over
             if(window_timer == 1 && window == 4){
@@ -169,4 +161,20 @@ switch(attack){
     case AT_USPECIAL:
         can_wall_jump = true;
         break;
+}
+
+#define batitAttack(newState, newDir)
+with batitArticle {
+    switch(state){
+        case 3:
+            if(bumpBox != noone){
+                bumpBox.length = 0;
+                bumpBox = noone;
+            }
+        case 0:
+            attackDir = newDir;
+            state = newState;
+            state_timer = 0;
+        break;
+    }
 }

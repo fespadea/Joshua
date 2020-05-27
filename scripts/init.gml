@@ -122,6 +122,13 @@ currentUspecialSprite = -1;
 currentUspecialImageIndex = -1;
 currentUspecialHurtSprite = -1;
 
+// batit aerial attack variables
+doStrong = true;
+projectilesMandatory = false;
+canSwitchedProjectiles = true;
+strongsMandatory = false;
+canSwitchedStrongs = true;
+
 // variables to prevent turning around with batitless fstrong and ustrong
 prevSprDir = spr_dir;
 unturn = false;

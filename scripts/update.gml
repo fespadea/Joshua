@@ -3,6 +3,81 @@
 // don't allow dspecial/fstrong if batit is placed
 if(batitPlaced){
     batitDelay = 2;
+    // Batit move detection
+    switch(state_cat){
+        case SC_HITSTUN:
+        case SC_AIR_COMMITTED:
+        case SC_GROUND_COMMITTED:
+            switch(state){
+                case PS_WALL_JUMP:
+                case PS_RESPAWN:
+                case PS_WALK_TURN:
+                case PS_DASH_START:
+                case PS_DASH:
+                case PS_DASH_TURN:
+                case PS_DASH_STOP:
+                    break;
+                default:
+                    if(state_timer == 0){
+                        clear_button_buffer(PC_ATTACK_PRESSED);
+                        clear_button_buffer(PC_LEFT_STICK_PRESSED);
+                        clear_button_buffer(PC_RIGHT_STICK_PRESSED);
+                        clear_button_buffer(PC_UP_STICK_PRESSED);
+                        clear_button_buffer(PC_DOWN_STICK_PRESSED);
+                        clear_button_buffer(PC_STRONG_PRESSED);
+                        clear_button_buffer(PC_LEFT_STRONG_PRESSED);
+                        clear_button_buffer(PC_RIGHT_STRONG_PRESSED);
+                        clear_button_buffer(PC_UP_STRONG_PRESSED);
+                        clear_button_buffer(PC_DOWN_STRONG_PRESSED);
+                        clear_button_buffer(PC_SHIELD_PRESSED);
+                        clear_button_buffer(PC_SPECIAL_PRESSED);
+                    }
+                    if(batitArticle.state == 0 || batitArticle.state == 3){
+                        if(up_strong_pressed){
+                            var tempAttack = attack;
+                            attack = AT_USTRONG
+                            attack_end();
+                            attack = tempAttack;
+                            batitAttack(11, 1); // the direction doesn't matter here
+                        } else if(right_strong_pressed){
+                            var tempAttack = attack;
+                            attack = AT_USTRONG
+                            attack_end();
+                            attack = tempAttack;
+                            batitAttack(10, 1);
+                        } else if(left_strong_pressed){
+                            var tempAttack = attack;
+                            attack = AT_USTRONG
+                            attack_end();
+                            attack = tempAttack;
+                            batitAttack(10, -1);
+                        } else if((attack_pressed && right_down) || right_stick_pressed){
+                            batitAttack(1, 1);
+                        } else if((attack_pressed && left_down) || left_stick_pressed){
+                            batitAttack(1, -1);
+                        } else if((attack_pressed && up_down) || up_stick_pressed){
+                            batitAttack(7, 1); // the direction doesn't matter here
+                        } else if(special_pressed || is_special_pressed(DIR_ANY)){
+                            if (move_cooldown[AT_NSPECIAL] < 1){
+                                with batitArticle{
+                                    switch(state){
+                                        case 3:
+                                            if(bumpBox != noone){
+                                                bumpBox.length = 0;
+                                                bumpBox = noone;
+                                            }
+                                        case 0:
+                                            state = 9;
+                                            state_timer = 0;
+                                            other.move_cooldown[AT_NSPECIAL] = 300;
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+    }
 } else if(batitDied){
     batitDelay = 600;
     batitDied = false;
@@ -50,12 +125,30 @@ if(batitDelay > 0){
         batitStats = true;
     }
     //reset uspecial values
-    set_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING, .7);
-    set_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING, .1);
-    set_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE, 7);
-    set_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED, -7);
+    reset_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING);
+    reset_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING);
+    reset_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE);
+    reset_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED);
 }
 batitDelay--;
+
+//toggle optional system to avoid triggering Batit with tilts and strongs
+if(attack_down && taunt_down){
+    if(canSwitchedProjectiles){
+        projectilesMandatory = !projectilesMandatory;
+        canSwitchedProjectiles = false;
+    }
+} else {
+    canSwitchedProjectiles = true;
+}
+if(strong_down && taunt_down){
+    if(canSwitchedStrongs){
+        strongsMandatory = !strongsMandatory;
+        canSwitchedStrongs = false;
+    }
+} else {
+    canSwitchedStrongs = true;
+}
 
 //new parry sound
 if(state == PS_PARRY){
@@ -154,5 +247,21 @@ if swallowed {
         set_hitbox_value(AT_EXTRA_3, 2, HG_HITBOX_GROUP, 1);
 
         newicon = ability_icon;
+    }
+}
+
+#define batitAttack(newState, newDir)
+with batitArticle {
+    switch(state){
+        case 3:
+            if(bumpBox != noone){
+                bumpBox.length = 0;
+                bumpBox = noone;
+            }
+        case 0:
+            attackDir = newDir;
+            state = newState;
+            state_timer = 0;
+        break;
     }
 }

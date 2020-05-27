@@ -54,7 +54,7 @@ set_hitbox_value(AT_DTILT, 2, HG_HITPAUSE_SCALING, .8);
 set_hitbox_value(AT_DTILT, 2, HG_VISUAL_EFFECT_X_OFFSET, 30);
 set_hitbox_value(AT_DTILT, 2, HG_VISUAL_EFFECT_Y_OFFSET, 10);
 set_hitbox_value(AT_DTILT, 2, HG_HIT_SFX, asset_get("sfx_blow_medium2"));
-set_hitbox_value(AT_DTILT, 2, HG_PROJECTILE_SPRITE, sprite_get("empty"));
+set_hitbox_value(AT_DTILT, 2, HG_PROJECTILE_SPRITE, asset_get("empty_sprite"));
 set_hitbox_value(AT_DTILT, 2, HG_PROJECTILE_MASK, -1);
 set_hitbox_value(AT_DTILT, 2, HG_PROJECTILE_GROUND_BEHAVIOR, 1);
 set_hitbox_value(AT_DTILT, 2, HG_PROJECTILE_WALL_BEHAVIOR, 1);
