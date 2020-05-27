@@ -147,6 +147,9 @@ toggleIconSprite = sprite_get("toggle_icon");
 //variable to keep track of current Joshua stats
 batitStats = false;
 
+//command grab variable (template)
+grabbedid = noone;
+
 //dspecial_2 sprites
 dspecial2Sprite = sprite_get("dspecial_2");
 dspecial2ChargeSprite = sprite_get("dspecial_2_charge");

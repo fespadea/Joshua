@@ -27,7 +27,6 @@ switch(attack){
     case AT_USPECIAL: // change to batitless uspecial
         if(batitDelay > 0){
             if(dontSwitchToUspecial){
-                clear_button_buffer(PC_SPECIAL_PRESSED);
                 dontSwitchToUspecial = false;
                 window = 3;
             } else {

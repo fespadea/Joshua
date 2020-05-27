@@ -15,10 +15,28 @@ switch(attack){
             pickUpBatit = false;
             window = 4;
             window_timer = 0;
-        } else if(window == 3 && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)) {
+        } else if((window == 3 || window == 4) && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)) {
             if(was_parried) set_state(PS_PRATLAND);
             else if(free) set_state(PS_IDLE_AIR);
             else set_state(PS_IDLE);
+        } else if (window == 5){
+            pickUpBatit = false;
+            grabbedid.x = x + 45*spr_dir + hsp;
+            grabbedid.y = y + vsp;
+            grabbedid.spr_dir = -spr_dir;
+            grabbedid.wrap_time = 6000;
+            grabbedid.state = PS_WRAPPED;
+            grabbedid.ungrab++;
+            if(special_pressed || grabbedid.ungrab == 60 || (grabbedid.ungrab == 30 && free)){
+                grabbedid.state = PS_TUMBLE;
+                grabbedid = noone;
+                window = 6;
+                window_timer = 0;
+                hsp = -5*spr_dir;
+                if(free){
+                    vsp = -1;
+                }
+            }
         }
         break;
     case AT_FTILT: // batit ftilt projectile
@@ -159,10 +177,7 @@ switch(attack){
             set_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE, 0);
             set_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED, -10);
             dontSwitchToUspecial = true;
-            can_special = true;
-            clear_button_buffer(PC_SPECIAL_PRESSED);
-            special_pressed = true;
-            up_down = true;
+            set_attack(AT_USPECIAL)
         }
     case AT_USPECIAL:
         can_wall_jump = true;

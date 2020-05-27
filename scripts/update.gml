@@ -34,20 +34,16 @@ if(batitPlaced){
                     }
                     if(batitArticle.state == 0 || batitArticle.state == 3){
                         if(up_strong_pressed){
-                            var tempAttack = attack;
-                            attack = AT_USTRONG
-                            attack_end();
-                            attack = tempAttack;
                             batitAttack(11, 1); // the direction doesn't matter here
                         } else if(right_strong_pressed){
                             var tempAttack = attack;
-                            attack = AT_USTRONG
+                            attack = AT_FSTRONG
                             attack_end();
                             attack = tempAttack;
                             batitAttack(10, 1);
                         } else if(left_strong_pressed){
                             var tempAttack = attack;
-                            attack = AT_USTRONG
+                            attack = AT_FSTRONG;
                             attack_end();
                             attack = tempAttack;
                             batitAttack(10, -1);
@@ -165,9 +161,14 @@ if(state == PS_PARRY){
     if(state_timer == 1) sound_play(sound_get("JoshuaParryUse"));
 }
 
-// reset air_accel
-if(air_accel != tempAirAccel && !(state == PS_ATTACK_AIR && attack == AT_FSPECIAL_2)){
-    air_accel = tempAirAccel;
+// command grab (template)
+if(grabbedid != noone && !((state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR) && attack == AT_FSPECIAL)){
+	grabbedid.ungrab++;
+	if(grabbedid.ungrab == 2){
+		grabbedid.state = PS_TUMBLE;
+		grabbedid.ungrab = 0;
+		grabbedid = noone;
+	}
 }
 
 // intro (template)
