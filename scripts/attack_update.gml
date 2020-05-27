@@ -177,7 +177,7 @@ switch(attack){
             set_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE, 0);
             set_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED, -10);
             dontSwitchToUspecial = true;
-            set_attack(AT_USPECIAL)
+            set_attack(AT_USPECIAL);
         }
     case AT_USPECIAL:
         can_wall_jump = true;
