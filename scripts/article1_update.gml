@@ -59,7 +59,7 @@ switch(state) {
             bumpBox.kb_value = nudgeBaseKnockback;
             bumpBox.kb_scale = nudgeKnockbackScaling;
             nudgeBounced = false;
-        } else if(hsp != 0 || free || nudgePrevVsp != 0){
+        } else if((hsp != 0 || free || nudgePrevVsp != 0) && instance_exists(bumpBox)){
             bumpBox.x = x + hsp;
             bumpBox.y = y + bumpBox.y_pos + vsp;
             bumpBox.length += 1;
@@ -390,11 +390,11 @@ with pHitBox {
 if(explode) changeState(8);
 
 #define checkForNudge()
-if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.attack == AT_DSPECIAL_2 || player_id.attack == AT_NAIR || player_id.attack == AT_DAIR){
+if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
     with pHitBox {
-        if(player == other.player_id.player && id != other.nudgeHitboxID) {
-            if((attack == AT_DTILT && hbox_num == 1) || attack == AT_DSTRONG || attack == AT_DSPECIAL_2 || attack == AT_NAIR || attack == AT_DAIR){
-                if(place_meeting(x, y, other)){
+        if(player_id == other.player_id && id != other.nudgeHitboxID) {
+            if(attack != AT_TAUNT_2 && type != 2 && attack != AT_FSPECIAL && attack != AT_USPECIAL && attack != AT_USPECIAL_2){
+                if((!instance_exists(other.nudgeHitboxID) || (other.nudgeHitboxID.hit_priority < hit_priority && other.hitByDTilt)) && place_meeting(x, y, other)){
                     other.nudgeHitboxID = id;
                     other.hitByDTilt = true;
                     sound_play(sound_effect);
@@ -428,9 +428,21 @@ if(player_id.attack == AT_DTILT || player_id.attack == AT_DSTRONG || player_id.a
                 hsp = 2*nudgeDamage*cos(nudgeAngle);
                 vsp = -2*nudgeDamage*sin(nudgeAngle);
                 break;
-            default:
+            case AT_DSTRONG:
                 hsp = nudgeDamage*cos(nudgeAngle);
                 vsp = -nudgeDamage*sin(nudgeAngle);
+                break;
+            case AT_UAIR:
+                hsp = 1.6*nudgeBaseKnockback*cos(nudgeAngle);
+                vsp = -1.6*nudgeBaseKnockback*sin(nudgeAngle);
+                break;
+            case AT_UTILT:
+                hsp = 2.5*nudgeDamage*cos(nudgeAngle);
+                vsp = -2.5*nudgeDamage*sin(nudgeAngle);
+                break;
+            default:
+                hsp = max((1+nudgeKnockbackScaling)*nudgeBaseKnockback*cos(nudgeAngle), (1+nudgeKnockbackScaling)*nudgeDamage*cos(nudgeAngle));
+                vsp = max(-(1+nudgeKnockbackScaling)*nudgeBaseKnockback*sin(nudgeAngle), -(1+nudgeKnockbackScaling)*nudgeDamage*sin(nudgeAngle));
                 break;
         }
         if(!free && vsp > 0){

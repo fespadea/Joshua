@@ -134,20 +134,29 @@ batitDelay--;
 
 //toggle optional system to avoid triggering Batit with tilts and strongs
 if(attack_down && taunt_down){
-    if(canSwitchedProjectiles){
+    if(canSwitchProjectiles){
         projectilesMandatory = !projectilesMandatory;
-        canSwitchedProjectiles = false;
+        canSwitchProjectiles = false;
     }
 } else {
-    canSwitchedProjectiles = true;
+    canSwitchProjectiles = true;
 }
 if(strong_down && taunt_down){
-    if(canSwitchedStrongs){
+    if(canSwitchStrongs){
         strongsMandatory = !strongsMandatory;
-        canSwitchedStrongs = false;
+        canSwitchStrongs = false;
     }
 } else {
-    canSwitchedStrongs = true;
+    canSwitchStrongs = true;
+}
+// toggle auto nudge
+if(shield_down && taunt_down){
+    if(canSwitchNudge){
+        autoNudge = !autoNudge;
+        canSwitchNudge = false;
+    }
+} else {
+    canSwitchNudge = true;
 }
 
 //new parry sound

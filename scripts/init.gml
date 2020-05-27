@@ -124,10 +124,15 @@ currentUspecialHurtSprite = -1;
 
 // batit aerial attack variables
 doStrong = true;
+doAttack = true;
 projectilesMandatory = false;
-canSwitchedProjectiles = true;
+canSwitchProjectiles = true;
 strongsMandatory = false;
-canSwitchedStrongs = true;
+canSwitchStrongs = true;
+
+// Nudge variables
+autoNudge = false;
+canSwitchNudge = true;
 
 // variables to prevent turning around with batitless fstrong and ustrong
 prevSprDir = spr_dir;
