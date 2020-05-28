@@ -393,7 +393,7 @@ if(explode) changeState(8);
 if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
     with pHitBox {
         if(player_id == other.player_id && id != other.nudgeHitboxID) {
-            if(attack != AT_TAUNT_2 && type != 2 && attack != AT_FSPECIAL && attack != AT_USPECIAL && attack != AT_USPECIAL_2){
+            if(attack != AT_TAUNT_2 && type != 2 && attack != AT_FSPECIAL){
                 if((!instance_exists(other.nudgeHitboxID) || (other.nudgeHitboxID.hit_priority < hit_priority && other.hitByDTilt)) && place_meeting(x, y, other)){
                     other.nudgeHitboxID = id;
                     other.hitByDTilt = true;
