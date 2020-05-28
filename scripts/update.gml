@@ -65,7 +65,7 @@ if(batitPlaced){
                                         case 0:
                                             state = 9;
                                             state_timer = 0;
-                                            other.move_cooldown[AT_NSPECIAL] = 300;
+                                            other.move_cooldown[AT_NSPECIAL] = 180;
                                             break;
                                     }
                                 }
@@ -162,8 +162,13 @@ if(pickUpBatit && !((state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND) && att
 
 //new parry sound
 if(state == PS_PARRY){
-    sound_stop(asset_get("sfx_parry_use"));
-    if(state_timer == 1) sound_play(sound_get("JoshuaParryUse"));
+    sound_stop(oldParrySound);
+    if(!playedParrySound){
+        sound_play(newParrySound);
+        playedParrySound = true;
+    }
+} else{
+    playedParrySound = false;
 }
 
 // command grab (template)

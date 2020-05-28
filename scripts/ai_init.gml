@@ -34,3 +34,6 @@ RIGHT_BLASTZONE_X_POS = get_stage_data(SD_WIDTH) + get_stage_data(SD_X_POS) + ge
 // recovery variable
 sacrificeBatit = false;
 boostOffBatit = false;
+
+// Batit attack delay
+batitAttackDelay = 0;

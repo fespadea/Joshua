@@ -141,6 +141,11 @@ canSwitchNudge = true;
 prevSprDir = spr_dir;
 unturn = false;
 
+// parry sfx variables
+playedParrySound = false;
+newParrySound = sound_get("JoshuaParryUse");
+oldParrySound = asset_get("sfx_parry_use");
+
 //hud sprites
 batitIconSprite = sprite_get("batit_icon");
 batitBarSprite = sprite_get("Batit_hud_bar");

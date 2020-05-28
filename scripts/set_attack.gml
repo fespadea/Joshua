@@ -54,7 +54,7 @@ switch(attack){
                         case 0:
                             state = 9;
                             state_timer = 0;
-                            other.move_cooldown[AT_NSPECIAL] = 300;
+                            other.move_cooldown[AT_NSPECIAL] = 180;
                             break;
                         default:
                             other.move_cooldown[AT_NSPECIAL] = 2;

@@ -32,11 +32,11 @@ switch(state) {
         } else if (state_timer < 19){
             image_index = 2;
         } else {
-            image_index = floor((state_timer-19)/8) + 3;
+            image_index = floor((state_timer-19)/20) + 3;
         }
         if(state_timer == 16){
             create_hitbox(AT_FTILT, 1, x+10*attackDir, y-25).fx_particles = 1;
-        } else if (state_timer == 32){
+        } else if (state_timer == 59){
             changeState(0);
         }
         break;
@@ -134,11 +134,11 @@ switch(state) {
         } else if (state_timer < 19){
             image_index = 2;
         } else {
-            image_index = floor((state_timer - 19)/8) + 3;
+            image_index = floor((state_timer - 19)/20) + 3;
         }
         if(state_timer == 16){
             create_hitbox(AT_UTILT, 2, x, y-49).fx_particles = 1;
-        } else if (state_timer == 32){
+        } else if (state_timer == 59){
             changeState(0);
         }
         break;
