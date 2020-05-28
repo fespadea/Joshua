@@ -24,3 +24,13 @@ close_side_attacks[1] = AT_FTILT;
 
 neutral_attacks[0] = AT_JAB;
 neutral_attacks[1] = AT_NAIR;
+
+// blastzone variables for the ai
+BOTTOM_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) + get_stage_data(SD_BOTTOM_BLASTZONE);
+TOP_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) - get_stage_data(SD_TOP_BLASTZONE);
+LEFT_BLASTZONE_X_POS = get_stage_data(SD_X_POS) - get_stage_data(SD_SIDE_BLASTZONE);
+RIGHT_BLASTZONE_X_POS = get_stage_data(SD_WIDTH) + get_stage_data(SD_X_POS) + get_stage_data(SD_SIDE_BLASTZONE);
+
+// recovery variable
+sacrificeBatit = false;
+boostOffBatit = false;
