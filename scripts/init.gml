@@ -87,6 +87,9 @@ roll_back_recovery_frames = 1;
 roll_forward_max = 10; //roll speed
 roll_backward_max = 10;
 
+//frames to play before leaving the wall
+wall_frames = 2;
+
 land_sound = asset_get("sfx_land_med");
 landing_lag_sound = asset_get("sfx_land");
 waveland_sound = asset_get("sfx_waveland_zet");

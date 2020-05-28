@@ -1,11 +1,4 @@
 switch (state){
-    case PS_WALL_JUMP:
-        if(state_timer < 6){
-            image_index = state_timer/3;
-        } else {
-            image_index = (state_timer-6)/13+2;
-        }
-        break;
     case PS_ATTACK_GROUND:
         if(attack == AT_DSPECIAL_2 && window == 1){
             if (strong_charge % 10 >= 5){
