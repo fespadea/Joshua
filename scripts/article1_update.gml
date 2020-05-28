@@ -343,7 +343,7 @@ if(batitHealth < 1){
 } else {
     var previousNumDamages = numDamages;
     with pHitBox{
-        if(other.player_id != player_id){
+        if(other.player_id.player != player_id.player){
             var repeatHitbox = false;
             for(var i = 0; i < other.numDamages; i++){
                 if(other.attacksFaced[i] == id){
