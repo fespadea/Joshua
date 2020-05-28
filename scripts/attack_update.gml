@@ -20,7 +20,6 @@ switch(attack){
             else if(free) set_state(PS_IDLE_AIR);
             else set_state(PS_IDLE);
         } else if (window == 5){
-            pickUpBatit = false;
             grabbedid.x = x + 45*spr_dir + hsp;
             grabbedid.y = y + vsp;
             grabbedid.spr_dir = -spr_dir;

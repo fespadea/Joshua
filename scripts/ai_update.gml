@@ -22,5 +22,14 @@ if(ai_recovering){
 }
 
 if(get_training_cpu_action() == CPU_FIGHT){
-    
+    if(batitDelay < 1 && !free && !batitPlaced && get_player_damage(player) < 80){ // place Batit because this seems like a reasonable time to do it
+        special_pressed = true;
+        down_down = true;
+    } else if(batitPlaced && batitArticle.state == 0 && batitArticle.batitHealth < 40/9*temp_level && place_meeting(x, y, batitArticle)){ // decides if the cpu will replenish Batit quickly if nearby when their health is low enough (higher level means they'll do this sooner)
+        special_pressed = true;
+        if(batitArticle.x > x)
+            right_down = true;
+        else
+            left_down = true;
+    }
 }

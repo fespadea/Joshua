@@ -41,7 +41,9 @@ switch(state) {
         }
         break;
     case 2: //despawn
-        despawn();
+        player_id.batitPlaced = false;
+        instance_destroy();
+        exit;
         break;
     case 3: // nudge
         checkForTaunt();
@@ -151,7 +153,7 @@ switch(state) {
             create_hitbox(AT_DSPECIAL_AIR, 3, x+2*spr_dir, y-24);
         } else if(image_index > 9){
             player_id.batitDied = true;
-            despawn();
+            changeState(2);
         }
         break;
     case 9: //nspecial attack
@@ -314,7 +316,7 @@ if(free){
 }
 if(y > BOTTOM_BLASTZONE_Y_POS || y < TOP_BLASTZONE_Y_POS || x < LEFT_BLASTZONE_X_POS || x > RIGHT_BLASTZONE_X_POS){
     player_id.batitFell = true;
-    despawn();
+    changeState(2);
 }
 
 #define changeState(newState)
@@ -324,11 +326,6 @@ state_timer = 0;
 #define changeWindow(newWindow)
 window = newWindow;
 window_timer = 0;
-
-#define despawn()
-player_id.batitPlaced = false;
-instance_destroy();
-exit;
 
 #define changeDir(newDir)
 if(newDir != spr_dir){

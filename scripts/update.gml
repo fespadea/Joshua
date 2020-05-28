@@ -155,6 +155,11 @@ if(shield_down && taunt_down){
     canSwitchNudge = true;
 }
 
+//reset pickup batit variable
+if(pickUpBatit && !((state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND) && attack == AT_FSPECIAL)){
+    pickUpBatit = false;
+}
+
 //new parry sound
 if(state == PS_PARRY){
     sound_stop(asset_get("sfx_parry_use"));
