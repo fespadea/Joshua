@@ -199,6 +199,7 @@ compatibleUrl = 0;
 drawingTimer = 0;
 artPaper = sprite_get("taunt_tco_paper");
 artTCO = sprite_get("taunt_tco_art");
+pencilDrawSound = sound_get("pencilTCO");
 
 // Hikaru Support
 Hikaru_Title = "Symbiotic";
@@ -214,3 +215,134 @@ otto_bobblehead_body_sprite = sprite_get("otto_body");
 //trummel and alto support
 trummelcodecneeded = false;
 trummelcodec_id = noone;
+
+//trummel and alto reverse support
+//sprites
+spr_textbox = sprite_get("textbox");
+joshuaCodecSprites[3] = sprite_get("batit_codec");
+joshuaCodecSprites[2] = sprite_get("joshua_codec");
+joshuaCodecSprites[1] = sprite_get("trummelsprite");
+joshuaCodecSprites[0] = sprite_get("altosprite");
+//sounds
+textBoxAppearSound = sound_get("textappearTAA");
+textBoxPageSound = sound_get("textpageTAA");
+textBoxLeaveSound = sound_get("textleaveTAA");
+//variables
+codecOut = false;
+startCodec = false;
+endCodec = false;
+codecTimer = 0;
+currentPage = 0;
+lastPage = 10;
+//reverse codec
+var page = 0;
+
+//Page 0
+joshuaCodecSpeaker[page] = 0;
+joshuaCodecExpression[page] = 1;
+
+joshuaCodecLine[page,1] = "...";
+joshuaCodecLine[page,2] = "";
+joshuaCodecLine[page,3] = "";
+joshuaCodecLine[page,4] = "";
+page++; 
+
+//Page 1
+joshuaCodecSpeaker[page] = 0;
+joshuaCodecExpression[page] = 5;
+
+joshuaCodecLine[page,1] = "WAIT WHAT!?";
+joshuaCodecLine[page,2] = "";
+joshuaCodecLine[page,3] = "";
+joshuaCodecLine[page,4] = "";
+page++; 
+
+//Page 2
+joshuaCodecSpeaker[page] = 0;
+joshuaCodecExpression[page] = 2;
+
+joshuaCodecLine[page,1] = "Trummel, did you press";
+joshuaCodecLine[page,2] = "down + taunt?";
+joshuaCodecLine[page,3] = "";
+joshuaCodecLine[page,4] = "";
+page++; 
+
+//Page 3
+joshuaCodecSpeaker[page] = 1;
+joshuaCodecExpression[page] = 0;
+
+joshuaCodecLine[page,1] = "no";
+joshuaCodecLine[page,2] = "";
+joshuaCodecLine[page,3] = "";
+joshuaCodecLine[page,4] = "";
+page++; 
+
+//Page 4
+joshuaCodecSpeaker[page] = 2;
+joshuaCodecExpression[page] = 0;
+
+joshuaCodecLine[page,1] = "Ummm... we did.";
+joshuaCodecLine[page,2] = "";
+joshuaCodecLine[page,3] = "";
+joshuaCodecLine[page,4] = "";
+page++; 
+
+//Page 5
+joshuaCodecSpeaker[page] = 0;
+joshuaCodecExpression[page] = 4;
+
+joshuaCodecLine[page,1] = "Dude you can't just steal";
+joshuaCodecLine[page,2] = "a person's thing to make";
+joshuaCodecLine[page,3] = "you cool.";
+joshuaCodecLine[page,4] = "";
+page++; 
+
+//Page 6
+joshuaCodecSpeaker[page] = 2;
+joshuaCodecExpression[page] = 0;
+
+joshuaCodecLine[page,1] = "Don't get mad. I even";
+joshuaCodecLine[page,2] = "have some reverse";
+joshuaCodecLine[page,3] = "compatibility with other";
+joshuaCodecLine[page,4] = "characters too.";
+page++; 
+
+//Page 7
+joshuaCodecSpeaker[page] = 3;
+joshuaCodecExpression[page] = 0;
+
+joshuaCodecLine[page,1] = "deal with it. sometimes";
+joshuaCodecLine[page,2] = "there are people that";
+joshuaCodecLine[page,3] = "copy you because you";
+joshuaCodecLine[page,4] = "are awesome.";
+page++; 
+
+//Page 8
+joshuaCodecSpeaker[page] = 3;
+joshuaCodecExpression[page] = 0;
+
+joshuaCodecLine[page,1] = "you cant do any thing";
+joshuaCodecLine[page,2] = "about it though, unless";
+joshuaCodecLine[page,3] = "you are nintendo.";
+joshuaCodecLine[page,4] = "";
+page++; 
+
+//Page 9
+joshuaCodecSpeaker[page] = 0;
+joshuaCodecExpression[page] = 4;
+
+joshuaCodecLine[page,1] = "Fine, but you can't just";
+joshuaCodecLine[page,2] = "copy our code like that.";
+joshuaCodecLine[page,3] = "";
+joshuaCodecLine[page,4] = "";
+page++; 
+
+//Page 10
+joshuaCodecSpeaker[page] = 1;
+joshuaCodecExpression[page] = 0;
+
+joshuaCodecLine[page,1] = "salt is real";
+joshuaCodecLine[page,2] = "";
+joshuaCodecLine[page,3] = "";
+joshuaCodecLine[page,4] = "";
+page++;

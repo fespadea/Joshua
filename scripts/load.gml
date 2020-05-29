@@ -58,6 +58,8 @@ sprite_change_offset("taunt_batitless", 56, 96);
 sprite_change_offset("taunt_feri", 40, 84);
 sprite_change_offset("taunt_tco", 28, 80);
 sprite_change_offset("taunt_tco_paper", 2, 267);
+sprite_change_offset("taunt_trum_alto", 34, 72);
+sprite_change_offset("textbox", 148, 100);
 
 sprite_change_offset("intro", 56, 96);
 sprite_change_offset("intro_ea", 30, 96);

@@ -161,10 +161,34 @@ switch(attack){
     case AT_EXTRA_1:
         if (compatibleUrl == 1932454633){ //this stuff is for the reverse TCO support, mostly copied over
             if(window_timer == 1 && window == 4){
-                sound_stop(sound_get("pencilTCO"));
+                sound_stop(pencilDrawSound);
             } else if (window_timer == 18 && window == 7){
                 drawingTimer = 179;
                 move_cooldown[AT_EXTRA_1] = 179;
+            }
+        } else if(compatibleUrl == 1933111975){ //this stuff is for the reverse Trummel and Alto support
+            if(!codecOut || endCodec){
+                if(state_timer == 1){
+                    sound_play(textBoxAppearSound);
+                    codecOut = true;
+                    startCodec = true;
+                    endCodec = false;
+                    codecTimer = 0;
+                    currentPage = 0;
+                }
+            } else if(currentPage < lastPage){
+                if(state_timer == 1){
+                    sound_play(textBoxPageSound);
+                    codecTimer = 0;
+                    currentPage++;
+                    startCodec = false;
+                }
+            } else {
+                if(state_timer == 1){
+                    sound_play(textBoxLeaveSound);
+                    endCodec = true;
+                    codecTimer = 0;
+                }
             }
         }
         break;

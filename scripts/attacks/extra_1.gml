@@ -2,7 +2,7 @@ var compatiblePlayer = 5;
 
 with oPlayer {
     if(player != other.player && player < compatiblePlayer){
-        if(url == 2006712792 || url == 1932454633) { // Feri and TCO respectively
+        if(url == 2006712792 || url == 1932454633 || url == 1933111975) { // Feri, TCO, and T&A respectively
             compatiblePlayer = player;
             other.compatibleUrl = url;
         }
@@ -133,4 +133,17 @@ if(compatibleUrl == 2006712792){ //Feri taunt (big copy and paste from Feri)
     set_hitbox_value(AT_EXTRA_1, 1, HG_PROJECTILE_IS_TRANSCENDENT, 1);
     set_hitbox_value(AT_EXTRA_1, 1, HG_PROJECTILE_DOES_NOT_REFLECT, 1);
     set_hitbox_value(AT_EXTRA_1, 1, HG_PROJECTILE_DESTROY_EFFECT, 15);
+} else if(compatibleUrl = 1933111975){
+    set_attack_value(AT_EXTRA_1, AG_SPRITE, sprite_get("taunt_trum_alto"));
+    set_attack_value(AT_EXTRA_1, AG_NUM_WINDOWS, 2);
+    set_attack_value(AT_EXTRA_1, AG_OFF_LEDGE, 1);
+    set_attack_value(AT_EXTRA_1, AG_HURTBOX_SPRITE, sprite_get("taunt_trum_alto_hurt"));
+
+    set_window_value(AT_EXTRA_1, 1, AG_WINDOW_ANIM_FRAME_START, 0);
+    set_window_value(AT_EXTRA_1, 1, AG_WINDOW_ANIM_FRAMES, 3);
+    set_window_value(AT_EXTRA_1, 1, AG_WINDOW_LENGTH, 15);
+
+    set_window_value(AT_EXTRA_1, 2, AG_WINDOW_ANIM_FRAME_START, 3);
+    set_window_value(AT_EXTRA_1, 2, AG_WINDOW_ANIM_FRAMES, 1);
+    set_window_value(AT_EXTRA_1, 2, AG_WINDOW_LENGTH, 10);
 }
