@@ -80,10 +80,10 @@ switch(attack){
                         break;
                     }
                 }
+                batitArticle.attackDir = spr_dir;
             }
             move_cooldown[AT_FSTRONG] = 2;
             unturn = true;
-            batitArticle.attackDir = spr_dir;
         }
         break;
     case AT_USTRONG: // batit ustrong
@@ -102,10 +102,10 @@ switch(attack){
                         break;
                     }
                 }
+                batitArticle.attackDir = spr_dir;
             }
             move_cooldown[AT_USTRONG] = 2;
             unturn = true;
-            batitArticle.attackDir = spr_dir;
         }
         break;
     case AT_DSTRONG:

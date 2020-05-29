@@ -210,3 +210,7 @@ swallowed = 0;
 //otto support
 otto_bobblehead_sprite = sprite_get("otto_head");
 otto_bobblehead_body_sprite = sprite_get("otto_body");
+
+//trummel and alto support
+trummelcodecneeded = false;
+trummelcodec_id = noone;

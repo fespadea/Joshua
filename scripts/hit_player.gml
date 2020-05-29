@@ -16,9 +16,15 @@ if (my_hitboxID.attack == AT_FSPECIAL){
     grabbedid.ungrab = 0;
     window = 5;
     window_timer = 0;
+    my_hitboxID.length = 0;
+    clear_button_buffer(PC_SHIELD_PRESSED);
 } else if(hit_player_obj == grabbedid){
     grabbedid.state = PS_TUMBLE;
     grabbedid = noone;
     window = 6;
     window_timer = 0;
+    hsp = -5*spr_dir;
+    if(free){
+        vsp = -1;
+    }
 }

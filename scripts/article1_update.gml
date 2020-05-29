@@ -40,11 +40,6 @@ switch(state) {
             changeState(0);
         }
         break;
-    case 2: //despawn
-        player_id.batitPlaced = false;
-        instance_destroy();
-        exit;
-        break;
     case 3: // nudge
         checkForTaunt();
         checkForNudge();
@@ -88,9 +83,11 @@ switch(state) {
                 }
             }
         } else {
-            if(nudgePrevVsp > 3){
+            if(nudgePrevVsp > 6){
                 vsp = -nudgePrevVsp/3;
                 nudgeBounced = true;
+            } else if (nudgePrevVsp < 0){
+                vsp = nudgePrevVsp+player_id.gravity_speed + min(player_id.air_friction, -vsp);
             }
         }
         nudgePrevVsp = vsp;
@@ -297,9 +294,20 @@ state_timer++;
 depth = player_id.depth - 1;
 can_be_grounded = true;
 ignores_walls = false;
+if (free && vsp > 0){ // this code is to prevent Batit from falling through platforms
+    var platformCollidedWith = collision_rectangle(x-4+hsp,y-1+vsp,x+5+hsp,y+1+vsp,asset_get("par_jumpthrough"),false, true);
+    var currentPlatformCollededWith = collision_rectangle(x-4,y-1,x+5,y+1,asset_get("par_jumpthrough"),false, true);
+    if(platformCollidedWith != noone && platformCollidedWith != currentPlatformCollededWith){
+        free = false;
+        vsp = 0;
+        while(!place_meeting(x, y+1, platformCollidedWith)){
+            y++;
+        }
+    }
+}
 if(free){
     if(state == 6) vsp += player_id.hitstun_grav;
-    else vsp += player_id.gravity_speed-.01;
+    else vsp += player_id.gravity_speed;
     if(vsp > 0)
         vsp -= min(player_id.air_friction, vsp);
     else if(vsp < 0)
@@ -317,6 +325,12 @@ if(free){
 if(y > BOTTOM_BLASTZONE_Y_POS || y < TOP_BLASTZONE_Y_POS || x < LEFT_BLASTZONE_X_POS || x > RIGHT_BLASTZONE_X_POS){
     player_id.batitFell = true;
     changeState(2);
+}
+
+if(state == 2){ //despawn
+    player_id.batitPlaced = false;
+    instance_destroy();
+    exit;
 }
 
 #define changeState(newState)
@@ -389,7 +403,7 @@ if(explode) changeState(8);
 #define checkForNudge()
 if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
     with pHitBox {
-        if(player_id == other.player_id && id != other.nudgeHitboxID) {
+        if(player == other.player_id.player && id != other.nudgeHitboxID) {
             if(attack != AT_TAUNT_2 && type != 2 && attack != AT_FSPECIAL){
                 if((!instance_exists(other.nudgeHitboxID) || (other.nudgeHitboxID.hit_priority < hit_priority && other.hitByDTilt)) && place_meeting(x, y, other)){
                     other.nudgeHitboxID = id;

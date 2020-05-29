@@ -270,6 +270,175 @@ if swallowed {
     }
 }
 
+// trummel and alto support
+if trummelcodecneeded{
+    trummelcodec = 17;
+    trummelcodecmax = 15;
+    trummelcodecsprite1 = sprite_get("joshua_codec");
+    trummelcodecsprite2 = sprite_get("batit_codec");
+    var page = 0;
+
+    //Page 0
+    trummelcodecspeaker[page] = 1;
+    trummelcodecexpression[page] = 1;
+
+    trummelcodecline[page,1] = "Hey Trummel look,";
+    trummelcodecline[page,2] = "another duo we got here.";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 1
+    trummelcodecspeaker[page] = 2;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "prepare for trouble";
+    trummelcodecline[page,2] = "";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 2
+    trummelcodecspeaker[page] = 1;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "Haven't seen this guy";
+    trummelcodecline[page,2] = "before, lemme check out";
+    trummelcodecline[page,3] = "my Steam.";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 3
+    trummelcodecspeaker[page] = 1;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "...";
+    trummelcodecline[page,2] = "";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 4
+    trummelcodecspeaker[page] = 1;
+    trummelcodecexpression[page] = 2;
+
+    trummelcodecline[page,1] = "Why do we have 2";
+    trummelcodecline[page,2] = "Joshuas?";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 5
+    trummelcodecspeaker[page] = 3;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "First one is Rayman";
+    trummelcodecline[page,2] = "handed me, very little";
+    trummelcodecline[page,3] = "inclusion of Batit at all.";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 6
+    trummelcodecspeaker[page] = 3;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "The high quality one is";
+    trummelcodecline[page,2] = "me.";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 7
+    trummelcodecspeaker[page] = 1;
+    trummelcodecexpression[page] = 2;
+
+    trummelcodecline[page,1] = "Neat! So Batit is your";
+    trummelcodecline[page,2] = "down special?";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 8
+    trummelcodecspeaker[page] = 3;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "Yes";
+    trummelcodecline[page,2] = "";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 9
+    trummelcodecspeaker[page] = 1;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "Apparently when he does";
+    trummelcodecline[page,2] = "not have Batit, he can't";
+    trummelcodecline[page,3] = "use some of his moves,";
+    trummelcodecline[page,4] = "mainly his strongs.";
+    page++; 
+
+    //Page 10
+    trummelcodecspeaker[page] = 1;
+    trummelcodecexpression[page] = 3;
+
+    trummelcodecline[page,1] = "We should kick that plant";
+    trummelcodecline[page,2] = "offstage Trum.";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 11
+    trummelcodecspeaker[page] = 4;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "plants have feelings too.";
+    trummelcodecline[page,2] = "";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 12
+    trummelcodecspeaker[page] = 1;
+    trummelcodecexpression[page] = 5;
+
+    trummelcodecline[page,1] = "Wait, wait wait wait...";
+    trummelcodecline[page,2] = "you can talk?";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 13
+    trummelcodecspeaker[page] = 4;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "rivals dont make sense";
+    trummelcodecline[page,2] = "dummy.";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 14
+    trummelcodecspeaker[page] = 1;
+    trummelcodecexpression[page] = 4;
+
+    trummelcodecline[page,1] = "I'm no dummy.";
+    trummelcodecline[page,2] = "";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+
+    //Page 15
+    trummelcodecspeaker[page] = 2;
+    trummelcodecexpression[page] = 0;
+
+    trummelcodecline[page,1] = "you are dumi";
+    trummelcodecline[page,2] = "";
+    trummelcodecline[page,3] = "";
+    trummelcodecline[page,4] = "";
+    page++; 
+}
+
 #define batitAttack(newState, newDir)
 with batitArticle {
     switch(state){

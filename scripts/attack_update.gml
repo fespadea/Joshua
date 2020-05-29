@@ -26,7 +26,7 @@ switch(attack){
             grabbedid.wrap_time = 6000;
             grabbedid.state = PS_WRAPPED;
             grabbedid.ungrab++;
-            if(special_pressed || grabbedid.ungrab == 60 || (grabbedid.ungrab == 30 && free)){
+            if(shield_pressed || grabbedid.ungrab == 60 || (grabbedid.ungrab == 30 && free)){
                 grabbedid.state = PS_TUMBLE;
                 grabbedid = noone;
                 window = 6;
@@ -95,7 +95,7 @@ switch(attack){
                     initialDattackY = y;
                     vsp = -6;
                 }
-            } else if (window_timer == get_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS) - 1, AG_WINDOW_LENGTH) - 1){
+            } else if (window_timer == get_window_value(AT_DATTACK, window, AG_WINDOW_LENGTH)){
                 spr_dir *= -1;
                 if(!was_parried) set_state(PS_IDLE);
                 else set_state(PS_PRATLAND);

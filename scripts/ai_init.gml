@@ -37,3 +37,7 @@ boostOffBatit = false;
 
 // Batit attack delay
 batitAttackDelay = 0;
+
+// bypass attack blocks
+allowFspecial = false;
+allowDspecial = false;
