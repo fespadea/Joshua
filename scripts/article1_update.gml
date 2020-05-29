@@ -366,6 +366,7 @@ if(batitHealth < 1){
                 other.numDamages++;
                 other.hitstop += hitpause + extra_hitpause;
                 other.batitHealth -= min(damage, other.batitHealth);
+                player_id.has_hit = true;
                 sound_play(sound_effect);
                 spawn_hit_fx( other.x, other.y-20, hit_effect);
             }
