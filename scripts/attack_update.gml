@@ -16,9 +16,17 @@ switch(attack){
             window = 4;
             window_timer = 0;
         } else if((window == 3 || window == 4) && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)) {
-            if(was_parried) set_state(PS_PRATLAND);
-            else if(free) set_state(PS_IDLE_AIR);
-            else set_state(PS_IDLE);
+            if(free){
+                if(was_parried)
+                    set_state(PS_PRATFALL);
+                else
+                    set_state(PS_IDLE_AIR);
+            } else{
+                if(was_parried)
+                    set_state(PS_PRATLAND);
+                else
+                    set_state(PS_IDLE);
+            }
         } else if (window == 5){
             grabbedid.x = x + 45*spr_dir + hsp;
             grabbedid.y = y + vsp;
@@ -143,9 +151,17 @@ switch(attack){
             can_ustrong = true;
             can_shield = true;
         } else if(window == 3 && window_timer == get_window_value(AT_FSPECIAL_2, window, AG_WINDOW_LENGTH)){
-            if(was_parried) set_state(PS_PRATLAND);
-            else if(free) set_state(PS_IDLE_AIR);
-            else set_state(PS_IDLE);
+            if(free){
+                if(was_parried)
+                    set_state(PS_PRATFALL);
+                else
+                    set_state(PS_IDLE_AIR);
+            } else{
+                if(was_parried)
+                    set_state(PS_PRATLAND);
+                else
+                    set_state(PS_IDLE);
+            }
         }
         break;
     case AT_DSPECIAL_2: // artificial attack charging (followed by the same code for AT_DSTRONG and AT_DTILT)
