@@ -221,6 +221,31 @@ switch(attack){
     case AT_USPECIAL:
         can_wall_jump = true;
         break;
+    case AT_TAUNT_2:
+    case AT_TAUNT:
+        if(practiceMode){
+            if(state_timer == 1){
+                if(currentTutorialPage){
+                    if(right_down){
+                        currentTutorialPage += 10;
+                        if(currentTutorialPage > totalTutorialPages){
+                            currentTutorialPage = totalTutorialPages
+                        }
+                    } else if(left_down){
+                        currentTutorialPage--;
+                    } else if(currentTutorialPage == totalTutorialPages){
+                        currentTutorialPage = 0;
+                    } else {
+                        currentTutorialPage++;
+                    }
+                } else {
+                    currentTutorialPage++;
+                }
+                clear_button_buffer(PC_TAUNT_PRESSED);
+            }
+            iasa_script();
+        }
+        break;
 }
 
 #define batitAttack(newState, newDir)

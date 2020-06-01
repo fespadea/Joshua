@@ -117,5 +117,9 @@ switch(attack){
         } else if(batitDelay > 0){
             attack = AT_TAUNT_2;
         }
+        if(practiceMode){
+            sound_stop(sound_get("tauntMono"));
+            sound_stop(asset_get("sfx_orca_shake_water"));
+        }
         break;
 }

@@ -10,10 +10,10 @@ with oPlayer {
 }
 
 if(compatibleUrl == 2006712792){ //Feri taunt (big copy and paste from Feri)
-    set_attack_value(AT_EXTRA_1, AG_SPRITE, sprite_get("taunt_tco"));
+    set_attack_value(AT_EXTRA_1, AG_SPRITE, sprite_get("taunt_feri"));
     set_attack_value(AT_EXTRA_1, AG_NUM_WINDOWS, 7);
     set_attack_value(AT_EXTRA_1, AG_OFF_LEDGE, 1);
-    set_attack_value(AT_EXTRA_1, AG_HURTBOX_SPRITE, sprite_get("taunt_tco_hurt"));
+    set_attack_value(AT_EXTRA_1, AG_HURTBOX_SPRITE, sprite_get("taunt_feri_hurt"));
 
     set_window_value(AT_EXTRA_1, 1, AG_WINDOW_ANIM_FRAME_START, 0);
     set_window_value(AT_EXTRA_1, 1, AG_WINDOW_ANIM_FRAMES, 3);
