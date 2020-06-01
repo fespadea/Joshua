@@ -193,7 +193,7 @@ currentTutorialPage = 0;
 var pageNum = 0;
 tutorialPages[pageNum] = "Taunt for tutorial.";
 pageNum++;
-tutorialPages[pageNum] = "In practice mode only, taunt can be cancelled for the sake of this tutorial. You can go back a page with left+taunt and right a page with right+taunt.";
+tutorialPages[pageNum] = "In practice mode only, taunt can be cancelled for the sake of this tutorial. You can go back a page with left+taunt and right 10 pages with right+taunt.";
 pageNum++;
 tutorialPages[pageNum] = "Joshua's main gimmick is his plant Batit which can be placed with dspecial.";
 pageNum++;
@@ -237,7 +237,7 @@ tutorialPages[pageNum] = "If you have Batit with you, you can also drop him mida
 pageNum++;
 tutorialPages[pageNum] = "The last move is aerial dspecial. Joshua can throw a bomb into Batit for a very good kill move, but be careful as this kills Batit.";
 pageNum++;
-tutorialPages[pageNum] = "Batit can also be healed with Taunt.";
+tutorialPages[pageNum] = "Also, Batit can be healed with Taunt.";
 pageNum++;
 tutorialPages[pageNum] = "Finally, I want to go over nudging. If Joshua holds shield during any of his attacks (excluding aerial dspecial and fspecial for obvious reasons), Batit will get hit.";
 pageNum++;
