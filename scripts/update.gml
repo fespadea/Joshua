@@ -162,13 +162,9 @@ if(pickUpBatit && !((state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND) && att
 
 //new parry sound
 if(state == PS_PARRY){
-    sound_stop(oldParrySound);
-    if(!playedParrySound){
+    if(state_timer == 1){
         sound_play(newParrySound);
-        playedParrySound = true;
     }
-} else{
-    playedParrySound = false;
 }
 
 // command grab (template)
