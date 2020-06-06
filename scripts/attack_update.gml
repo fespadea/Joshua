@@ -137,7 +137,10 @@ switch(attack){
             else if((state_timer == 6 || projectilesMandatory) && doAttack && !up_strong_down)
                 batitAttack(7, 1); // direction doesn't matter here
         } else if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
-            if(!finishUair) window = 4;
+            if(!finishUair){
+                window = get_attack_value(AT_UAIR, AG_NUM_WINDOWS);
+                window_timer = 0;
+            }
         }
         break;
     case AT_FSPECIAL_2: // pulls in on hit
