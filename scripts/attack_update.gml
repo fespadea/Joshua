@@ -28,15 +28,24 @@ switch(attack){
                     set_state(PS_IDLE);
             }
         } else if (window == 5){
-            grabbedid.x = x + 45*spr_dir + hsp;
-            grabbedid.y = y + vsp;
-            grabbedid.spr_dir = -spr_dir;
-            grabbedid.wrap_time = 6000;
-            grabbedid.state = PS_WRAPPED;
-            grabbedid.ungrab++;
-            if(shield_pressed || grabbedid.ungrab == 60 || (grabbedid.ungrab == 30 && free)){
-                grabbedid.state = PS_TUMBLE;
-                grabbedid = noone;
+            if(instance_exists(grabbedid)){
+                    grabbedid.x = x + 45*spr_dir + hsp;
+                    grabbedid.y = y + vsp;
+                    grabbedid.spr_dir = -spr_dir;
+                    grabbedid.wrap_time = 6000;
+                    grabbedid.state = PS_WRAPPED;
+                    grabbedid.ungrab++;
+                if(shield_pressed || grabbedid.ungrab == 60 || (grabbedid.ungrab == 30 && free)){
+                    grabbedid.state = PS_TUMBLE;
+                    grabbedid = noone;
+                    window = 6;
+                    window_timer = 0;
+                    hsp = -5*spr_dir;
+                    if(free){
+                        vsp = -1;
+                    }
+                }
+            } else {
                 window = 6;
                 window_timer = 0;
                 hsp = -5*spr_dir;

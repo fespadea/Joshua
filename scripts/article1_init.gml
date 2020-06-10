@@ -58,11 +58,6 @@ sweetBox = noone;
 //ustrong hitbox
 attackBox = noone;
 
-BOTTOM_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) + get_stage_data(SD_BOTTOM_BLASTZONE);
-TOP_BLASTZONE_Y_POS = get_stage_data(SD_Y_POS) - get_stage_data(SD_TOP_BLASTZONE);
-LEFT_BLASTZONE_X_POS = get_stage_data(SD_X_POS) - get_stage_data(SD_SIDE_BLASTZONE);
-RIGHT_BLASTZONE_X_POS = get_stage_data(SD_WIDTH) + get_stage_data(SD_X_POS) + get_stage_data(SD_SIDE_BLASTZONE);
-
 sprite[12] = sprite_get("batit_taunt");
 sprite[11] = sprite_get("batit_ustrong");
 sprite[10] = sprite_get("batit_fstrong");

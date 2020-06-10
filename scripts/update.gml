@@ -169,12 +169,16 @@ if(state == PS_PARRY){
 
 // command grab (template)
 if(grabbedid != noone && !((state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR) && attack == AT_FSPECIAL)){
-	grabbedid.ungrab++;
-	if(grabbedid.ungrab == 2){
-		grabbedid.state = PS_TUMBLE;
-		grabbedid.ungrab = 0;
-		grabbedid = noone;
-	}
+    if(instance_exists(grabbedid)){
+        grabbedid.ungrab++;
+        if(grabbedid.ungrab == 2){
+            grabbedid.state = PS_TUMBLE;
+            grabbedid.ungrab = 0;
+            grabbedid = noone;
+        }
+    } else {
+        grabbedid = noone;
+    }
 }
 
 // intro (template)
