@@ -15,12 +15,14 @@ switch(attack){
         break;
     case AT_DSPECIAL: // change to batitless dspecial
         if(batitDelay > 0){
+            attack = AT_DSPECIAL_AIR;
+            attack_end();
+            noMoreBombs = true;
             if (free){
-                attack = AT_DSPECIAL_AIR;
-                attack_end();
+                reset_hitbox_value(AT_DSPECIAL_AIR, 4, HG_ANGLE_FLIPPER);
             } else{
-                attack = AT_DSPECIAL_2;
-                set_hitbox_value(AT_DSPECIAL_2, 1, HG_DAMAGE, 9);
+                set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_ANGLE_FLIPPER, 8);
+                vsp = -short_hop_speed;
             }
         }
         break;
@@ -65,47 +67,14 @@ switch(attack){
         break;
     case AT_FSTRONG: // batit fstrong
         if (batitDelay > 0){
-            if(batitPlaced){
-                attack_end();
-                with batitArticle{
-                    switch(state){
-                        case 3:
-                            if(bumpBox != noone){
-                                bumpBox.length = 0;
-                                bumpBox = noone;
-                            }
-                        case 0:
-                            state = 10;
-                            state_timer = 0;
-                        break;
-                    }
-                }
-                batitArticle.attackDir = spr_dir;
-            }
-            move_cooldown[AT_FSTRONG] = 2;
-            unturn = true;
+            attack = AT_FSTRONG_2;
+            doStrong = true;
         }
         break;
     case AT_USTRONG: // batit ustrong
         if (batitDelay > 0){
-            if(batitPlaced){
-                with batitArticle{
-                    switch(state){
-                        case 3:
-                            if(bumpBox != noone){
-                                bumpBox.length = 0;
-                                bumpBox = noone;
-                            }
-                        case 0:
-                            state = 11;
-                            state_timer = 0;
-                        break;
-                    }
-                }
-                batitArticle.attackDir = spr_dir;
-            }
-            move_cooldown[AT_USTRONG] = 2;
-            unturn = true;
+            attack = AT_USTRONG_2;
+            doStrong = true;
         }
         break;
     case AT_DSTRONG:

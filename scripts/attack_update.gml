@@ -15,7 +15,7 @@ switch(attack){
             pickUpBatit = false;
             window = 4;
             window_timer = 0;
-        } else if((window == 3 || window == 4) && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)) {
+        } else if((window == 3 || window == 4 || window == 6) && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)) {
             if(free){
                 if(was_parried)
                     set_state(PS_PRATFALL);
@@ -29,13 +29,16 @@ switch(attack){
             }
         } else if (window == 5){
             if(instance_exists(grabbedid)){
-                    grabbedid.x = x + 45*spr_dir + hsp;
-                    grabbedid.y = y + vsp;
-                    grabbedid.spr_dir = -spr_dir;
-                    grabbedid.wrap_time = 6000;
-                    grabbedid.state = PS_WRAPPED;
-                    grabbedid.ungrab++;
-                if(shield_pressed || grabbedid.ungrab == 60 || (grabbedid.ungrab == 30 && free)){
+                grabbedid.x = x + 45*spr_dir + hsp;
+                grabbedid.y = y + vsp;
+                grabbedid.spr_dir = -spr_dir;
+                grabbedid.wrap_time = 6000;
+                grabbedid.state = PS_WRAPPED;
+                grabbedid.ungrab++;
+                if(special_down || is_special_pressed(DIR_ANY)){
+                    window = 7;
+                    window_timer = 0;
+                } else if(shield_pressed || grabbedid.ungrab == 60 || (grabbedid.ungrab == 30 && free)){
                     grabbedid.state = PS_TUMBLE;
                     grabbedid = noone;
                     window = 6;
@@ -53,6 +56,29 @@ switch(attack){
                     vsp = -1;
                 }
             }
+        } else if (window == 7){
+            if(instance_exists(grabbedid)){
+                grabbedid.spr_dir = -spr_dir;
+                grabbedid.wrap_time = 6000;
+                grabbedid.state = PS_WRAPPED;
+                if(window_timer > get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)/2){
+                    grabbedid.x = lerp(x + 45*spr_dir + hsp, x + 25*spr_dir + hsp, window_timer/get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH));
+                    grabbedid.y = lerp(y + vsp, y - 20 + vsp, window_timer/get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH));
+                } else {
+                    grabbedid.x = x + 45*spr_dir + hsp;
+                    grabbedid.y = y + vsp;
+                }
+            }
+        } else if (window == 8){
+            if(window_timer == 1){
+                var throwBox = create_hitbox(AT_FSPECIAL, 2, round(x+8), round(y-62));
+                for(var i = 0; i < array_length(throwBox.can_hit); i++){
+                    throwBox.can_hit[i] = 0;
+                }
+                if(instance_exists(grabbedid)){
+                    throwBox.can_hit[grabbedid.player] = 1;
+                }
+            }
         }
         break;
     case AT_FTILT: // batit ftilt projectile
@@ -64,7 +90,20 @@ switch(attack){
                 batitAttack(1, spr_dir);
         }
         break;
-    case AT_FAIR: // batit fair projectile
+    case AT_FSTRONG_2: // batit fstrong
+        if(state_timer <= 6 && batitPlaced){
+            if(!strong_down && ((!right_strong_down && spr_dir == 1) || (!left_strong_down && spr_dir == -1))){
+                doStrong = false;
+            }
+            if((state_timer == 6 || strongsMandatory) && doStrong){
+                attack = AT_FSTRONG;
+                attack_end();
+                attack = AT_FSTRONG_2;
+                batitAttack(10, spr_dir);
+            }
+        }
+        break;
+    case AT_FAIR: // batit fair projectile and strong
         if(state_timer <= 6 && batitPlaced){
             if(!strong_down && ((!right_strong_down && spr_dir == 1) || (!left_strong_down && spr_dir == -1))){
                 doStrong = false;
@@ -72,13 +111,16 @@ switch(attack){
             if(!attack_down && ((!right_stick_down && spr_dir == 1) || (!left_stick_down && spr_dir == -1))){
                 doAttack = false;
             }
-            if((state_timer == 6 || strongsMandatory) && doStrong)
+            if((state_timer == 6 || strongsMandatory) && doStrong){
+                attack = AT_FSTRONG;
+                attack_end();
+                attack = AT_FAIR;
                 batitAttack(10, spr_dir);
-            else if((state_timer == 6 || projectilesMandatory) && doAttack && ((!right_strong_down && spr_dir == 1) || (!left_strong_down && spr_dir == -1)))
+            } else if((state_timer == 6 || projectilesMandatory) && doAttack && ((!right_strong_down && spr_dir == 1) || (!left_strong_down && spr_dir == -1)))
                 batitAttack(1, spr_dir);
         }
         break;
-    case AT_BAIR: // batit bair projectile
+    case AT_BAIR: // batit bair projectile and strong
         if(state_timer <= 6 && batitPlaced){
             if(!strong_down && ((!right_strong_down && spr_dir == -1) || (!left_strong_down && spr_dir == 1))){
                 doStrong = false;
@@ -86,9 +128,12 @@ switch(attack){
             if(!attack_down && ((!right_stick_down && spr_dir == -1) || (!left_stick_down && spr_dir == 1))){
                 doAttack = false;
             }
-            if((state_timer == 6 || strongsMandatory) && doStrong)
+            if((state_timer == 6 || strongsMandatory) && doStrong){
+                attack = AT_FSTRONG;
+                attack_end();
+                attack = AT_BAIR;
                 batitAttack(10, -spr_dir);
-            else if((state_timer == 6 || projectilesMandatory) && doAttack && ((!right_strong_down && spr_dir == -1) || (!left_strong_down && spr_dir == 1)))
+            } else if((state_timer == 6 || projectilesMandatory) && doAttack && ((!right_strong_down && spr_dir == -1) || (!left_strong_down && spr_dir == 1)))
                 batitAttack(1, -spr_dir);
         }
         break;
@@ -97,8 +142,43 @@ switch(attack){
             if(!attack_down && !up_stick_down){
                 doAttack = false;
             }
-            else if((state_timer == 6 || projectilesMandatory) && doAttack)
+            if((state_timer == 6 || projectilesMandatory) && doAttack)
                 batitAttack(7, 1); // direction doesn't matter here
+        }
+        break;
+    case AT_USTRONG_2: // batit ustrong
+        if(state_timer <= 6 && batitPlaced){
+            if(!strong_down && !up_strong_down){
+                doStrong = false;
+            }
+            if((state_timer == 6 || strongsMandatory) && doStrong){
+                attack = AT_USTRONG;
+                attack_end();
+                attack = AT_USTRONG_2;
+                batitAttack(11, 1); // direction doesn't matter here
+            }
+        }
+        break;
+    case AT_UAIR: // make Uair work in 2 parts, also batit projectile and strong
+        if(state_timer <= 6 && batitPlaced){
+            if(!strong_down && !up_strong_down){
+                doStrong = false;
+            }
+            if(!attack_down && !up_stick_down){
+                doAttack = false;
+            }
+            if((state_timer == 6 || strongsMandatory) && doStrong){
+                attack = AT_USTRONG;
+                attack_end();
+                attack = AT_UAIR;
+                batitAttack(11, 1); // direction doesn't matter here
+            } else if((state_timer == 6 || projectilesMandatory) && doAttack && !up_strong_down)
+                batitAttack(7, 1); // direction doesn't matter here
+        } else if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
+            if(!finishUair){
+                window = get_attack_value(AT_UAIR, AG_NUM_WINDOWS);
+                window_timer = 0;
+            }
         }
         break;
     case AT_DATTACK: // made Dattack work in 2 parts
@@ -131,26 +211,6 @@ switch(attack){
         if(!free){
             set_state(PS_LAND);
         }
-        move_cooldown[AT_DSPECIAL_AIR] = 30;
-        break;
-    case AT_UAIR: // made Uair work in 2 parts
-        if(state_timer <= 6 && batitPlaced){
-            if(!strong_down && !up_strong_down){
-                doStrong = false;
-            }
-            if(!attack_down && !up_stick_down){
-                doAttack = false;
-            }
-            if((state_timer == 6 || strongsMandatory) && doStrong)
-                batitAttack(11, 1); // direction doesn't matter here
-            else if((state_timer == 6 || projectilesMandatory) && doAttack && !up_strong_down)
-                batitAttack(7, 1); // direction doesn't matter here
-        } else if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
-            if(!finishUair){
-                window = get_attack_value(AT_UAIR, AG_NUM_WINDOWS);
-                window_timer = 0;
-            }
-        }
         break;
     case AT_FSPECIAL_2: // pulls in on hit
         if(window == 2 && whipHitPlayer && !was_parried){
@@ -176,16 +236,6 @@ switch(attack){
             }
         }
         break;
-    case AT_DSPECIAL_2: // artificial attack charging (followed by the same code for AT_DSTRONG and AT_DTILT)
-        if(window == 1 && state_timer > get_window_value(AT_DSPECIAL_2, window, AG_WINDOW_LENGTH)){
-            if(strong_charge > 59 || !special_down){
-                window = 2;
-                window_timer = 0;
-                sprite_index = dspecial2Sprite;
-                set_hitbox_value(AT_DSPECIAL_2, 1, HG_DAMAGE, round(get_hitbox_value(AT_DSPECIAL_2, 1, HG_DAMAGE)*(1 + strong_charge/120)));
-            }
-            strong_charge++;
-        }
     case AT_EXTRA_1:
         if (compatibleUrl == 1932454633){ //this stuff is for the reverse TCO support, mostly copied over
             if(window_timer == 1 && window == 4){
@@ -232,6 +282,7 @@ switch(attack){
         }
     case AT_USPECIAL:
         can_wall_jump = true;
+        hud_offset = 20;
         break;
     case AT_TAUNT_2:
     case AT_TAUNT:

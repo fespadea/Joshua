@@ -8,6 +8,12 @@ switch (state){
             }
         }
         break;
+    case PS_ATTACK_AIR:
+        if(attack == AT_FSPECIAL && window > 6){
+            sprite_index = fspecialBackThrowSprite;
+            hurtboxID.sprite_index = fspecialBackThrowHurtSprite;
+        }
+        break;
     case PS_SPAWN:
         if (introTimer < numIntroFrames && introTimer >= 0) {
             sprite_index = introSprite;
@@ -20,7 +26,3 @@ switch (state){
         }
         break;
 }
-if(unturn){
-    spr_dir = prevSprDir;
-    unturn = false;
-} else prevSprDir = spr_dir;

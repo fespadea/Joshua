@@ -27,7 +27,11 @@ if(attack == AT_FTILT && hbox_num == 1){ //direction and stuff
 } else if (attack == AT_DSPECIAL_AIR){
     if((hbox_num == 2 || hbox_num == 3)){
         hbox_group = 3;
-    } else if((hbox_num == 1 || hbox_num == 4)){
+    } else{
+        if(hbox_num == 1){
+            spawnSplash = false;
+            spawnEffect = false;
+        }
         hbox_group = 4;
     }
 }

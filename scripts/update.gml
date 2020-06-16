@@ -128,6 +128,13 @@ if(batitDelay > 0){
 }
 batitDelay--;
 
+//prevent bombs from being used if unwanted
+if(!free || state_cat == SC_HITSTUN){
+    noMoreBombs = false;
+} else if(noMoreBombs){
+    move_cooldown[AT_DSPECIAL_AIR] = 2;
+}
+
 //toggle optional system to avoid triggering Batit with tilts and strongs
 if(attack_down && taunt_down){
     if(canSwitchProjectiles){

@@ -17,12 +17,22 @@ if (attack == AT_UTILT && hbox_num == 2){
             break;
         case 1:
             if(!free){
-                sound_play(sound_effect);
-                spawn_hit_fx(x, y, hit_effect);
-                create_hitbox(AT_DSPECIAL_AIR, 4, x, y);
-                length = 0;
+                if(spawnSplash){
+                    create_hitbox(AT_DSPECIAL_AIR, 4, round(x), round(y));
+                } else if(spawnEffect){
+                    sound_play(sound_effect);
+                    spawn_hit_fx(round(x), round(y), hit_effect);
+                    length = hitbox_timer + 1;
+                    spawnSplash = true;
+                }
+                spawnEffect = true;
             }
+            hbox_group = 4;
+            break;
         case 4:
+            if(hitbox_timer < 2){
+                priority = 0;
+            }
             hbox_group = 4;
             break;
     }
@@ -33,7 +43,7 @@ if (attack == AT_UTILT && hbox_num == 2){
         }
         var endTime = length - 30; // this is until how long in the projectiles lifetime that it will target the enemy
         if(hitbox_timer < endTime){ // hitbox_timer is the liftime of the hitbox and this is checking that it hasn't been alive longer than this code should run
-            var maxSpeed = ease_quadIn(3, 10, hitbox_timer, endTime); // this makes the speed of the projectile increase from 3 to 10 over the course of its lifetime while its younger than endTime
+            maxSpeed = ease_quadIn(3, 10, hitbox_timer, endTime); // this makes the speed of the projectile increase from 3 to 10 over the course of its lifetime while its younger than endTime
             if(targetPlayer != noone && instance_exists(targetPlayer)){ // only do this code if the projectile is actually targetting someone and if that someone still exists (forsburn clone would break this otherwise)
                 var angleToTarget = point_direction(x, y, targetPlayer.x, targetPlayer.y - targetPlayer.char_height/2); // this gets the angle from the projectile to the target
                 var percentAngle = 0; // this is the percent of angleToTarget that the target will rotate in order to target the opponent
@@ -55,11 +65,11 @@ if (attack == AT_UTILT && hbox_num == 2){
                 }
                 proj_angle = newAngle; // set the new angle to be the projectile's angle
             }
+            hsp = maxSpeed*dcos(proj_angle); //set the horizontal speed (built in variable) to be the speed of the projectile cosine its angle
+            vsp = -maxSpeed*dsin(proj_angle);  //set the vertical speed (built in variable) to be the speed of the projectile sine its angle (this is negative because y values are flipped)
         }
-        hsp = maxSpeed*dcos(proj_angle); //set the horizontal speed (built in variable) to be the speed of the projectile cosine its angle
-        vsp = -maxSpeed*dsin(proj_angle);  //set the vertical speed (built in variable) to be the speed of the projectile sine its angle (this is negative because y values are flipped)
         if(hitbox_timer % 8 == 0){
-            spawn_hit_fx(x, y, leafFollowerVFX);
+            spawn_hit_fx(round(x), round(y), leafFollowerVFX);
         }
     } else if (hbox_num == 2){
         player_id.move_cooldown[AT_NSPECIAL] = 2;

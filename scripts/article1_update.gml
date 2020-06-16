@@ -35,7 +35,7 @@ switch(state) {
             image_index = floor((state_timer-19)/20) + 3;
         }
         if(state_timer == 16){
-            create_hitbox(AT_FTILT, 1, x+10*attackDir, y-25).fx_particles = 1;
+            create_hitbox(AT_FTILT, 1, round(x+10*attackDir), round(y-25)).fx_particles = 1;
         } else if (state_timer == 59){
             changeState(0);
         }
@@ -49,7 +49,7 @@ switch(state) {
                 changeDir(-1);
             else if (hsp > 0)
                 changeDir(1);
-            bumpBox = create_hitbox(AT_DTILT, 2, x, y-20);
+            bumpBox = create_hitbox(AT_DTILT, 2, round(x), round(y-20));
             bumpBox.spr_dir = player_id.spr_dir;
             bumpBox.damage = nudgeDamage;
             bumpBox.kb_angle = radtodeg(nudgeAngle);
@@ -61,7 +61,9 @@ switch(state) {
             bumpBox.y = y + bumpBox.y_pos + vsp;
             bumpBox.length += 1;
         } else {
-            bumpBox.length = 0;
+            if(instance_exists(bumpBox)){
+                bumpBox.length = 0;
+            }
             bumpBox = noone;
             changeState(0);
         }
@@ -134,7 +136,7 @@ switch(state) {
             image_index = floor((state_timer - 19)/20) + 3;
         }
         if(state_timer == 16){
-            create_hitbox(AT_UTILT, 2, x, y-49).fx_particles = 1;
+            create_hitbox(AT_UTILT, 2, round(x), round(y-49)).fx_particles = 1;
         } else if (state_timer == 59){
             changeState(0);
         }
@@ -145,9 +147,9 @@ switch(state) {
             sprite_index = sprite[8];
         } else if(state_timer == 30){
             sound_play(explode);
-            create_hitbox(AT_DSPECIAL_AIR, 2, x+2*spr_dir, y-36);
+            create_hitbox(AT_DSPECIAL_AIR, 2, round(x+2*spr_dir), round(y-36));
         } else if(state_timer == 42){
-            create_hitbox(AT_DSPECIAL_AIR, 3, x+2*spr_dir, y-24);
+            create_hitbox(AT_DSPECIAL_AIR, 3, round(x+2*spr_dir), round(y-24));
         } else if(image_index > 9){
             player_id.batitDied = true;
             changeState(2);
@@ -162,7 +164,7 @@ switch(state) {
         if(state_timer == 0){
             sprite_index = sprite[9];
         } else if(state_timer == 37 || state_timer == 49){
-            create_hitbox(AT_NSPECIAL, 1, x+9*spr_dir, y-25).fx_particles = 1;
+            create_hitbox(AT_NSPECIAL, 1, round(x+9*spr_dir), round(y-25)).fx_particles = 1;
             sound_play(asset_get("sfx_rag_plant_shoot"));
         } else if(image_index > 10){
             changeState(0);
@@ -204,10 +206,10 @@ switch(state) {
             }
         } else if (window == 1){
             if(window_timer == 1){
-                mehBox = create_hitbox(AT_FSTRONG, 3, x+20*spr_dir, y-21);
+                mehBox = create_hitbox(AT_FSTRONG, 3, round(x+20*spr_dir), round(y-21));
                 mehBox.damage *= 1 + strongCharge/120;
                 mehBox.fx_particles = 2;
-                sweetBox = create_hitbox(AT_FSTRONG, 4, x+55*spr_dir, y-20);
+                sweetBox = create_hitbox(AT_FSTRONG, 4, round(x+55*spr_dir), round(y-20));
                 sweetBox.damage *= 1 + strongCharge/120;
                 sweetBox.fx_particles = 1;
             } else if(window_timer == window1Length) changeWindow(2);
@@ -259,7 +261,7 @@ switch(state) {
             if(window_timer == 2){
                 sound_play(asset_get("sfx_swipe_heavy2"));
             } else if(window_timer == 3){
-                attackBox = create_hitbox(AT_USTRONG, 2, x+1*spr_dir, y-37);
+                attackBox = create_hitbox(AT_USTRONG, 2, round(x+1*spr_dir), round(y-37));
                 attackBox.damage *= 1 + strongCharge/120;
                 attackBox.fx_particles = 2;
             } else if(window_timer == window1Length){
@@ -368,7 +370,7 @@ if(batitHealth < 1){
                 other.batitHealth -= min(damage, other.batitHealth);
                 player_id.has_hit = true;
                 sound_play(sound_effect);
-                spawn_hit_fx( other.x, other.y-20, hit_effect);
+                spawn_hit_fx(round(other.x), round(other.y-20), hit_effect);
             }
         }
     }
@@ -384,6 +386,7 @@ if(batitHealth < 1){
         }
         knockBackAngle = get_hitbox_angle(attackFacing);
         knockBackPower = attackFacing.kb_value + attackFacing.kb_scale*(50-batitHealth)*.12;
+        attackFacing.player_id.has_hit = true;
         changeState(6);
     }
 }
@@ -405,19 +408,18 @@ if(explode) changeState(8);
 if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
     with pHitBox {
         if(player == other.player_id.player && id != other.nudgeHitboxID) {
-            if(attack != AT_TAUNT_2 && type != 2 && attack != AT_FSPECIAL){
+            if(attack != AT_TAUNT_2 && (type != 2 || (attack == AT_DSPECIAL_AIR && hbox_num == 4)) && attack != AT_FSPECIAL){
                 if((!instance_exists(other.nudgeHitboxID) || (other.nudgeHitboxID.hit_priority < hit_priority && other.hitByDTilt)) && place_meeting(x, y, other)){
                     other.nudgeHitboxID = id;
                     other.hitByDTilt = true;
                     sound_play(sound_effect);
-                    spawn_hit_fx(other.x, other.y-20, hit_effect);
+                    spawn_hit_fx(round(other.x), round(other.y-20), hit_effect);
                     other.nudgeAttack = attack;
                     if(attack == AT_DSTRONG){
                         other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
                     } else {
                         other.nudgeDamage = damage;
                     }
-                    other.nudgeAngle = degtorad(get_hitbox_angle(id));
                     other.nudgeBaseKnockback = kb_value;
                     other.nudgeKnockbackScaling = kb_scale;
                 }
@@ -425,6 +427,7 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
         }
     }
     if(hitByDTilt){
+        nudgeAngle = degtorad(get_hitbox_angle(nudgeHitboxID));
         switch(nudgeAttack){
             case AT_DTILT:
                 hsp = nudgeDamage*cos(nudgeAngle);

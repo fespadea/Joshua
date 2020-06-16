@@ -134,12 +134,8 @@ strongsMandatory = false;
 canSwitchStrongs = true;
 
 // Nudge variables
-autoNudge = false;
+autoNudge = true;
 canSwitchNudge = true;
-
-// variables to prevent turning around with batitless fstrong and ustrong
-prevSprDir = spr_dir;
-unturn = false;
 
 // parry sfx variables
 newParrySound = sound_get("JoshuaParryUse");
@@ -156,9 +152,12 @@ batitStats = false;
 //command grab variable (template)
 grabbedid = noone;
 
-//dspecial_2 sprites
-dspecial2Sprite = sprite_get("dspecial_2");
-dspecial2ChargeSprite = sprite_get("dspecial_2_charge");
+//variable to indicate that bomb has been used in the air
+noMoreBombs = false;
+
+//fspecial sprites
+fspecialBackThrowSprite = sprite_get("fspecial_back_throw");
+fspecialBackThrowHurtSprite = sprite_get("fspecial_back_throw_hurt");
 
 //hfx
 leafBreakHfx = hit_fx_create(sprite_get("batit_leaf_break"), 25);

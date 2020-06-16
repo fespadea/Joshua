@@ -6,7 +6,7 @@ set_attack_value(AT_DSPECIAL_AIR, AG_HAS_LANDING_LAG, 1);
 set_attack_value(AT_DSPECIAL_AIR, AG_LANDING_LAG, 10);
 set_attack_value(AT_DSPECIAL_AIR, AG_OFF_LEDGE, 1);
 
-set_window_value(AT_DSPECIAL_AIR, 1, AG_WINDOW_LENGTH, 8);
+set_window_value(AT_DSPECIAL_AIR, 1, AG_WINDOW_LENGTH, 16);
 set_window_value(AT_DSPECIAL_AIR, 1, AG_WINDOW_ANIM_FRAMES, 4);
 
 set_window_value(AT_DSPECIAL_AIR, 2, AG_WINDOW_LENGTH, 3);
@@ -25,7 +25,7 @@ set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_WINDOW, 2);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_HITBOX_X, 1);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_HITBOX_Y, 16);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PRIORITY, 1);
-set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_DAMAGE, 8);
+set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_DAMAGE, 5);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_ANGLE, 90);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_BASE_KNOCKBACK, 9);
 set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_KNOCKBACK_SCALING, .2);
@@ -88,12 +88,13 @@ set_hitbox_value(AT_DSPECIAL_AIR, 3, HG_PROJECTILE_IS_TRANSCENDENT, 1);
 set_hitbox_value(AT_DSPECIAL_AIR, 3, HG_PROJECTILE_DOES_NOT_REFLECT, 1);
 
 set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_HITBOX_TYPE, 2);
-set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_LIFETIME, 18);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_LIFETIME, 6);
 set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_WIDTH, 150);
 set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_HEIGHT, 150);
 set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_PRIORITY, 1);
-set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_DAMAGE, 4);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_DAMAGE, 3);
 set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_ANGLE, 90);
+set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_ANGLE_FLIPPER, 0);
 set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_BASE_KNOCKBACK, 7);
 set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_KNOCKBACK_SCALING, .2);
 set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_BASE_HITPAUSE, 6);
