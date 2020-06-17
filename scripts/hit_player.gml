@@ -19,7 +19,6 @@ if (my_hitboxID.attack == AT_FSPECIAL){
         window = 5;
         window_timer = 0;
         my_hitboxID.length = 0;
-        clear_button_buffer(PC_SPECIAL_PRESSED);
     } else if(my_hitboxID.hbox_num == 2){
         grabbedid = noone;
     }
@@ -28,7 +27,7 @@ if (my_hitboxID.attack == AT_FSPECIAL){
     grabbedid = noone;
     window = 6;
     window_timer = 0;
-    hsp = -5*spr_dir;
+    hsp = -7*spr_dir;
     if(free){
         vsp = -1;
     }

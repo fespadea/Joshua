@@ -25,7 +25,7 @@ switch(state) {
         checkForBomb();
         if(state_timer == 1){
             sprite_index = sprite[1];
-            changeDir(-attackDir);
+            changeDir(attackDir);
         }
         if(state_timer < 16){
             image_index = floor(state_timer/8);
@@ -336,14 +336,32 @@ with oPlayer {
         other.hGroupCheck[player, 0] = 0;
     }
     if (state != PS_ATTACK_AIR && state != PS_ATTACK_GROUND) {
-        for (var i = array_length(other.hGroupCheck[player]); i >= 0; i--) {
-            other.hGroupCheck[player,i] = 0;
+        if(!batitHitboxesReset[other.player_id.player]){
+            batitHitboxesReset[other.player_id.player] = true;
+            for (var i = array_length(other.hGroupCheck[player]); i >= 0; i--) {
+                other.hGroupCheck[player,i] = 0;
+            }
+        }
+    } else {
+        batitHitboxesReset[other.player_id.player] = false;
+    }
+}
+//hitbox cleanup
+if(ds_list_size(attacksFaced) && !instance_exists(ds_list_find_value(attacksFaced, 0))){
+    ds_list_delete(attacksFaced, 0);
+    numDamages--;
+    for(var i = 0; i < ds_list_size(attacksFaced); i++){
+        if(!instance_exists(ds_list_find_value(attacksFaced, i))){
+            ds_list_delete(attacksFaced, i);
+            numDamages--;
+            i--;
         }
     }
 }
 
 if(state == 2){ //despawn
     player_id.batitPlaced = false;
+    ds_list_destroy(attacksFaced);
     instance_destroy();
     exit;
 }
@@ -369,18 +387,15 @@ if(batitHealth < 1){
 } else {
     var previousNumDamages = numDamages;
     with pHitBox{
+        if(array_length(other.hGroupCheck) <= player){
+            other.hGroupCheck[player, 0] = 0;
+        }
         if(array_length(other.hGroupCheck[player]) <= hbox_group){
             other.hGroupCheck[player, hbox_group] = 0;
         }
-        if(other.player_id.player != player && (hbox_group == -1 || other.hGroupCheck[player, hbox_group] != 1)){
-            var repeatHitbox = false;
-            for(var i = 0; i < other.numDamages; i++){
-                if(other.attacksFaced[i] == id){
-                    repeatHitbox = true;
-                }
-            }
-            if(!repeatHitbox && place_meeting(x, y, other)){
-                other.attacksFaced[other.numDamages] = id;
+        if(hit_priority > 0 && other.player_id.player != player && (hbox_group == -1 || other.hGroupCheck[player, hbox_group] != 1)){
+            if((hbox_group != -1 || ds_list_find_index(other.attacksFaced, id) == -1) && place_meeting(x, y, other)){
+                ds_list_add(other.attacksFaced, id);
                 other.numDamages++;
                 other.hitstop += hitpause + extra_hitpause;
                 other.batitHealth -= min(damage, other.batitHealth);
@@ -391,13 +406,13 @@ if(batitHealth < 1){
         }
     }
     if(previousNumDamages < numDamages){
-        var highestPriority = -11;
+        var highestPriority = 0;
         var attackFacing = noone;
         for(var i = previousNumDamages; i < numDamages; i++){
-            if(attacksFaced[i].hit_priority > highestPriority){
-                attackFacing = attacksFaced[i];
-            } else if (!(attackFacing.player == attacksFaced[i].player && attackFacing.attack == attacksFaced[i].attack && attackFacing.hbox_group == attacksFaced[i].hbox_group)){
-                attacksFaced[i] = noone;
+            if(ds_list_find_value(attacksFaced, i).hit_priority > highestPriority){
+                attackFacing = ds_list_find_value(attacksFaced, i);
+            } else if (!(attackFacing.player == ds_list_find_value(attacksFaced, i).player && attackFacing.attack == ds_list_find_value(attacksFaced, i).attack && attackFacing.hbox_group == ds_list_find_value(attacksFaced, i).hbox_group)){
+                ds_list_set(attacksFaced, i, noone);
             }
         }
         knockBackAngle = get_hitbox_angle(attackFacing);
@@ -426,6 +441,12 @@ if(explode) changeState(8);
 #define checkForNudge()
 if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
     with pHitBox {
+        if(array_length(other.hGroupCheck) <= player){
+            other.hGroupCheck[player, 0] = 0;
+        }
+        if(array_length(other.hGroupCheck[player]) <= hbox_group){
+            other.hGroupCheck[player, hbox_group] = 0;
+        }
         if(player == other.player_id.player && id != other.nudgeHitboxID && (hbox_group == -1 || other.hGroupCheck[player, hbox_group] != 1)) {
             if(attack != AT_TAUNT_2 && (type != 2 || (attack == AT_DSPECIAL_AIR && hbox_num == 4)) && attack != AT_FSPECIAL){
                 if((!instance_exists(other.nudgeHitboxID) || (other.nudgeHitboxID.hit_priority < hit_priority && other.hitByDTilt)) && place_meeting(x, y, other)){
@@ -474,8 +495,8 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
                 vsp = -1.6*nudgeBaseKnockback*sin(nudgeAngle);
                 break;
             case AT_UTILT:
-                hsp = 2.5*nudgeDamage*cos(nudgeAngle);
-                vsp = -2.5*nudgeDamage*sin(nudgeAngle);
+                hsp = 2*nudgeDamage*cos(nudgeAngle);
+                vsp = -2*nudgeDamage*sin(nudgeAngle);
                 break;
             default:
                 hsp = max((1+nudgeKnockbackScaling)*nudgeBaseKnockback*cos(nudgeAngle), (1+nudgeKnockbackScaling)*nudgeDamage*cos(nudgeAngle));

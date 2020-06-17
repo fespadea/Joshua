@@ -25,10 +25,14 @@ explode = 0;
 //health/damage variables
 batitHealth = 50;
 numDamages = 0;
-attacksFaced[0] = noone;
+attacksFaced = ds_list_create();
 knockBackAngle = 0;
 knockBackPower = 0;
 hGroupCheck[0,0] = 0;
+// tells batit whether to reset hitbox flags
+with oPlayer {
+    batitHitboxesReset[other.player_id.player] = false; //this is an array to account for multiple Joshuas and Batits
+}
 
 //nudge variables
 hitByDTilt = false;

@@ -43,7 +43,7 @@ switch(attack){
                     grabbedid = noone;
                     window = 6;
                     window_timer = 0;
-                    hsp = -5*spr_dir;
+                    hsp = -7*spr_dir;
                     if(free){
                         vsp = -1;
                     }
@@ -51,7 +51,7 @@ switch(attack){
             } else {
                 window = 6;
                 window_timer = 0;
-                hsp = -5*spr_dir;
+                hsp = -7*spr_dir;
                 if(free){
                     vsp = -1;
                 }

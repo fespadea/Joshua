@@ -7,7 +7,6 @@ switch (state){
                 sprite_index = dspecial2Sprite;
             }
         }
-        break;
     case PS_ATTACK_AIR:
         if(attack == AT_FSPECIAL && window > 6){
             sprite_index = fspecialBackThrowSprite;

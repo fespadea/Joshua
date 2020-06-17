@@ -285,6 +285,14 @@ swallowed = 0;
 otto_bobblehead_sprite = sprite_get("otto_head");
 otto_bobblehead_body_sprite = sprite_get("otto_body");
 
+//miiverse support
+miiverse_post = sprite_get("miiverse_joshua_1");
+sprite_change_offset("miiverse_joshua_1", 60, 30);
+miiverse_post2 = sprite_get("miiverse_joshua_2");
+sprite_change_offset("miiverse_joshua_2", 60, 30);
+miiverse_post3 = sprite_get("miiverse_joshua_3");
+sprite_change_offset("miiverse_joshua_3", 60, 30);
+
 //trummel and alto support
 trummelcodecneeded = false;
 trummelcodec_id = noone;
@@ -418,4 +426,44 @@ joshuaCodecLine[page,1] = "salt is real";
 joshuaCodecLine[page,2] = "";
 joshuaCodecLine[page,3] = "";
 joshuaCodecLine[page,4] = "";
+page++;
+
+// Dracula support
+dracula_portrait = sprite_get("dracula_joshua_portrait");
+dracula_portrait2 = sprite_get("dracula_batit_portrait");
+var page = 0;
+
+//Page 0
+dracula_speaker[page] = 1;
+dracula_text[page] = "(Hey Batit, should I go tell him a joke?)";
+page++;
+
+//Page 1
+dracula_speaker[page] = 2;
+dracula_text[page] = "(go for it, i dare you.)";
+page++;
+
+//Page 2
+dracula_speaker[page] = 1;
+dracula_text[page] = "Hey Dracula, I'm a Belmont.";
+page++;
+
+//Page 3
+dracula_speaker[page] = 0;
+dracula_text[page] = "Do you really believe me to be foolish enough to succumb to your lies?";
+page++;
+
+//Page 4
+dracula_speaker[page] = 1;
+dracula_text[page] = "Batit, I don't think he got the joke.";
+page++;
+
+//Page 5
+dracula_speaker[page] = 2;
+dracula_text[page] = "top 10 moments caught before disaster.";
+page++;
+
+//Page 6
+dracula_speaker[page] = 0;
+dracula_text[page] = "I don't have time for your childish games. [glass] For wasting my time, you'll pay with your free will! Join me, or perish!";
 page++;

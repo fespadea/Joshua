@@ -65,7 +65,7 @@ if(batitPlaced){
                                         case 0:
                                             state = 9;
                                             state_timer = 0;
-                                            other.move_cooldown[AT_NSPECIAL] = BATIT_NSPECIAL_COOLDOWN;
+                                            other.move_cooldown[AT_NSPECIAL] = other.BATIT_NSPECIAL_COOLDOWN;
                                             break;
                                     }
                                 }

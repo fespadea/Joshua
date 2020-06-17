@@ -32,11 +32,13 @@ set_color_profile_slot_range( 6, 12, 3, 18 );
 set_color_profile_slot( 0, 7, 82, 180, 127 );
 set_color_profile_slot_range( 7, 27, 9, 28 );
 
+// reset row
+set_color_profile_slot(0, 8, 0, 0, 0);
 
 // ALTERNATE COLORS
 set_num_palettes( 16 );
 
-// Blue
+// Hime
 set_color_profile_slot( 1, 0, 116, 184, 229 ); //Jacket
 set_color_profile_slot( 1, 1, 223, 155, 154 ); //Skin/Pot
 set_color_profile_slot( 1, 2, 206, 180, 167 ); //Pants
@@ -46,7 +48,7 @@ set_color_profile_slot( 1, 5, 191, 178, 181 ); //Shoe/Shirt Dark
 set_color_profile_slot( 1, 6, 255, 254, 255 ); //Stem
 set_color_profile_slot( 1, 7, 237, 127, 126 ); //Leaves
 
-// Red
+// Liz
 set_color_profile_slot( 2, 0, 0, 0, 0 ); //Jacket
 set_color_profile_slot( 2, 1, 204, 119, 119 ); //Skin/Pot
 set_color_profile_slot( 2, 2, 245, 95, 140 ); //Pants
@@ -56,7 +58,7 @@ set_color_profile_slot( 2, 5, 37, 21, 71 ); //Shoe/Shirt Dark
 set_color_profile_slot( 2, 6, 93, 244, 188 ); //Stem
 set_color_profile_slot( 2, 7, 93, 244, 188 ); //Leaves
 
-// Green
+// Acid Rainbows
 set_color_profile_slot( 3, 0, 71, 185, 89 ); //Jacket
 set_color_profile_slot( 3, 1, 221, 159, 134 ); //Skin/Pot
 set_color_profile_slot( 3, 2, 149, 176, 196 ); //Pants
@@ -66,7 +68,7 @@ set_color_profile_slot( 3, 5, 191, 178, 181 ); //Shoe/Shirt Dark
 set_color_profile_slot( 3, 6, 213, 41, 77 ); //Stem
 set_color_profile_slot( 3, 7, 118, 37, 54 ); //Leaves
 
-// Black
+// Donyoku
 set_color_profile_slot( 4, 0, 76, 89, 92 ); //Jacket
 set_color_profile_slot( 4, 1, 192, 172, 123 ); //Skin/Pot
 set_color_profile_slot( 4, 2, 243, 157, 25 ); //Pants
@@ -76,7 +78,7 @@ set_color_profile_slot( 4, 5, 191, 178, 181 ); //Shoe/Shirt Dark
 set_color_profile_slot( 4, 6, 243, 157, 25 ); //Stem
 set_color_profile_slot( 4, 7, 50, 206, 225 ); //Leaves
 
-// Purple
+// Pomme
 set_color_profile_slot( 5, 0, 167, 83, 132 ); //Jacket
 set_color_profile_slot( 5, 1, 233, 190, 224 ); //Skin/Pot
 set_color_profile_slot( 5, 2, 251, 234, 244 ); //Pants
@@ -96,7 +98,7 @@ set_color_profile_slot( 6, 5, 191, 178, 181 ); //Shoe/Shirt Dark
 set_color_profile_slot( 6, 6, 220, 113, 255 ); //Stem
 set_color_profile_slot( 6, 7, 166, 172, 214 ); //Leaves
 
-// GameBoy
+// Early Access
 set_color_profile_slot( 7, 0, 83, 122, 62 ); //Jacket
 set_color_profile_slot( 7, 1, 211, 226, 154 ); //Skin/Pot
 set_color_profile_slot( 7, 2, 167, 186, 74 ); //Pants
@@ -116,7 +118,7 @@ set_color_profile_slot( 8, 5, 75, 34, 34 ); //Shoe/Shirt Dark
 set_color_profile_slot( 8, 6, 55, 105, 70 ); //Stem
 set_color_profile_slot( 8, 7, 53, 47, 56 ); //Leaves
 
-// Contest Two
+// Sans
 set_color_profile_slot( 9, 0, 104, 151, 205 ); //Jacket
 set_color_profile_slot( 9, 1, 212, 192, 190 ); //Skin/Pot
 set_color_profile_slot( 9, 2, 207, 233, 252 ); //Pants
@@ -146,7 +148,7 @@ set_color_profile_slot( 11, 5, 192, 155, 196 ); //Shoe/Shirt Dark
 set_color_profile_slot( 11, 6, 177, 46, 122 ); //Stem
 set_color_profile_slot( 11, 7, 203, 127, 143 ); //Leaves
 
-// VoidPot
+// Voidfox
 set_color_profile_slot( 12, 0, 113, 181, 88 ); //Jacket
 set_color_profile_slot( 12, 1, 255, 255, 255 ); //Skin/Pot
 set_color_profile_slot( 12, 2, 49, 49, 49 ); //Pants
@@ -166,7 +168,7 @@ set_color_profile_slot( 13, 5, 174, 195, 199 ); //Shoe/Shirt Dark
 set_color_profile_slot( 13, 6, 69, 24, 40 ); //Stem
 set_color_profile_slot( 13, 7, 65, 125, 146 ); //Leaves
 
-// KrisPlant
+// Kris
 set_color_profile_slot( 14, 0, 255, 119, 205 ); //Jacket
 set_color_profile_slot( 14, 1, 117, 250, 237 ); //Skin/Pot
 set_color_profile_slot( 14, 2, 68, 68, 145 ); //Pants
