@@ -163,6 +163,7 @@ switch(state) {
         image_index = floor(state_timer/6);
         if(state_timer == 0){
             sprite_index = sprite[9];
+            showNspecialCooldown = true;
         } else if(state_timer == 37 || state_timer == 49){
             create_hitbox(AT_NSPECIAL, 1, round(x+9*spr_dir), round(y-25)).fx_particles = 1;
             sound_play(asset_get("sfx_rag_plant_shoot"));
@@ -329,6 +330,18 @@ if(y > room_height || y < 0 || x < 0 || x > room_width){
     changeState(2);
 }
 
+// hitbox group stuff
+with oPlayer {
+    if(array_length(other.hGroupCheck) <= player){
+        other.hGroupCheck[player, 0] = 0;
+    }
+    if (state != PS_ATTACK_AIR && state != PS_ATTACK_GROUND) {
+        for (var i = array_length(other.hGroupCheck[player]); i >= 0; i--) {
+            other.hGroupCheck[player,i] = 0;
+        }
+    }
+}
+
 if(state == 2){ //despawn
     player_id.batitPlaced = false;
     instance_destroy();
@@ -356,7 +369,10 @@ if(batitHealth < 1){
 } else {
     var previousNumDamages = numDamages;
     with pHitBox{
-        if(other.player_id.player != player){
+        if(array_length(other.hGroupCheck[player]) <= hbox_group){
+            other.hGroupCheck[player, hbox_group] = 0;
+        }
+        if(other.player_id.player != player && (hbox_group == -1 || other.hGroupCheck[player, hbox_group] != 1)){
             var repeatHitbox = false;
             for(var i = 0; i < other.numDamages; i++){
                 if(other.attacksFaced[i] == id){
@@ -387,6 +403,9 @@ if(batitHealth < 1){
         knockBackAngle = get_hitbox_angle(attackFacing);
         knockBackPower = attackFacing.kb_value + attackFacing.kb_scale*(50-batitHealth)*.12;
         attackFacing.player_id.has_hit = true;
+        if(attackFacing.hbox_group != -1){
+            hGroupCheck[attackFacing.player, attackFacing.hbox_group] = 1;
+        }
         changeState(6);
     }
 }
@@ -407,7 +426,7 @@ if(explode) changeState(8);
 #define checkForNudge()
 if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
     with pHitBox {
-        if(player == other.player_id.player && id != other.nudgeHitboxID) {
+        if(player == other.player_id.player && id != other.nudgeHitboxID && (hbox_group == -1 || other.hGroupCheck[player, hbox_group] != 1)) {
             if(attack != AT_TAUNT_2 && (type != 2 || (attack == AT_DSPECIAL_AIR && hbox_num == 4)) && attack != AT_FSPECIAL){
                 if((!instance_exists(other.nudgeHitboxID) || (other.nudgeHitboxID.hit_priority < hit_priority && other.hitByDTilt)) && place_meeting(x, y, other)){
                     other.nudgeHitboxID = id;
@@ -428,6 +447,9 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
     }
     if(hitByDTilt){
         nudgeAngle = degtorad(get_hitbox_angle(nudgeHitboxID));
+        if(nudgeHitboxID.hbox_group != -1){
+            hGroupCheck[nudgeHitboxID.player, nudgeHitboxID.hbox_group] = 1;
+        }
         switch(nudgeAttack){
             case AT_DTILT:
                 hsp = nudgeDamage*cos(nudgeAngle);
@@ -437,7 +459,7 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
                 vsp = -1.5*nudgeDamage;
                 break;
             case AT_DAIR:
-                vsp = -2*nudgeDamage*sin(nudgeAngle);
+                vsp = -1.5*nudgeDamage*sin(nudgeAngle);
                 break;
             case AT_NAIR:
                 hsp = 2*nudgeDamage*cos(nudgeAngle);

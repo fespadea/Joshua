@@ -137,6 +137,9 @@ canSwitchStrongs = true;
 autoNudge = true;
 canSwitchNudge = true;
 
+// Batit nspecial cooldown
+BATIT_NSPECIAL_COOLDOWN = 180;
+
 // parry sfx variables
 newParrySound = sound_get("JoshuaParryUse");
 

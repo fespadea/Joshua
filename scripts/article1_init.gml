@@ -28,6 +28,7 @@ numDamages = 0;
 attacksFaced[0] = noone;
 knockBackAngle = 0;
 knockBackPower = 0;
+hGroupCheck[0,0] = 0;
 
 //nudge variables
 hitByDTilt = false;
@@ -57,6 +58,12 @@ mehBox = noone;
 sweetBox = noone;
 //ustrong hitbox
 attackBox = noone;
+
+//nspecial cooldown variables
+showNspecialCooldown = false;
+//nspecial cooldown sprites
+nspecialCooldownBar = sprite_get("batit_cooldown_bar");
+nspecialCooldownCharge = sprite_get("batit_cooldown_charge");
 
 sprite[12] = sprite_get("batit_taunt");
 sprite[11] = sprite_get("batit_ustrong");
