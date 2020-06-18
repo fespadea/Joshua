@@ -34,6 +34,7 @@ set_color_profile_slot_range( 7, 27, 9, 28 );
 
 // reset row
 set_color_profile_slot(0, 8, 0, 0, 0);
+set_color_profile_slot(1, 8, 0, 0, 0);
 
 // ALTERNATE COLORS
 set_num_palettes( 16 );
