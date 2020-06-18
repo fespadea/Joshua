@@ -1,11 +1,12 @@
+// Muno's CSS template
 var temp_x = x + 8;
 var temp_y = y + 9;
 
-patch_ver = "3";
-patch_day = "18";
-patch_month = "JUNE";
+#macro PATCH_VER "3"
+#macro PATCH_DAY "18"
+#macro PATCH_MONTH "JUNE"
 
-var alt_cur = sprite_get_xoffset(sprite_get("dog"));
+var alt_cur = sprite_get_bbox_left(sprite_get("dog"));
 
 
 //Alt name init. var doesn't work with arrays lol
@@ -50,9 +51,9 @@ alt_name[31]  = "Feri";
 
 draw_set_halign(fa_left);
 
-textDraw(temp_x + 2, temp_y + 30, "medFont", c_white, 0, 1000, 1, true, 1, "VER. " + patch_ver);
+textDraw(temp_x + 2, temp_y + 30, "medFont", c_white, 0, 1000, 1, true, 1, "VER. " + PATCH_VER);
 
-textDraw(temp_x + 2, temp_y + 50, "fName", c_white, 0, 1000, 1, true, 1, patch_day + " " + patch_month);
+textDraw(temp_x + 2, temp_y + 50, "fName", c_white, 0, 1000, 1, true, 1, PATCH_DAY + " " + PATCH_MONTH);
 
 
 
@@ -79,8 +80,8 @@ textDraw(temp_x + 2, temp_y + 124 - 5*(ceil(array_length(alt_name)/16)-1), "fNam
 draw_set_font(asset_get(argument[2]));
 
 if argument[7]{ //outline. doesn't work lol
-    for (i = -1; i < 2; i++){
-        for (j = -1; j < 2; j++){
+    for (var i = -1; i < 2; i++){
+        for (var j = -1; j < 2; j++){
             draw_text_ext_transformed_color(argument[0] + i * 2, argument[1] + j * 2, argument[9], argument[4], argument[5], argument[6], argument[6], 0, c_black, c_black, c_black, c_black, 1);
         }
     }

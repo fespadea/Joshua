@@ -187,7 +187,8 @@ switch(sprite_get_xoffset(sprite_get("dog"))){
 }
 
 // practice mode
-practiceMode = get_training_cpu_action() != CPU_FIGHT && object_index != oTestPlayer;
+isTestPlayer = object_index == oTestPlayer;
+practiceMode = get_training_cpu_action() != CPU_FIGHT && !isTestPlayer;
 //tutorial
 currentTutorialPage = 0;
 var pageNum = 0;
