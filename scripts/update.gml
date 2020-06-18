@@ -201,7 +201,7 @@ if (get_gameplay_time() < COUNTDOWN_LENGTH) {
         var curRealAlt = sprite_get_xoffset(sprite_get("dog"));
         curRealAlt += 16;
         if(curRealAlt >= NUM_ALTS){
-            curRealAlt -= NUM_ALTS;
+            curRealAlt = curRealAlt % 16;
         }
         clear_button_buffer(PC_SHIELD_PRESSED);
         sprite_change_offset("dog", curRealAlt, sprite_get_yoffset(sprite_get("dog")));
