@@ -168,25 +168,25 @@ set_color_profile_slot( 13, 5, 174, 195, 199 ); //Shoe/Shirt Dark
 set_color_profile_slot( 13, 6, 69, 24, 40 ); //Stem
 set_color_profile_slot( 13, 7, 65, 125, 146 ); //Leaves
 
-// Kris
-set_color_profile_slot( 14, 0, 255, 119, 205 ); //Jacket
-set_color_profile_slot( 14, 1, 117, 250, 237 ); //Skin/Pot
-set_color_profile_slot( 14, 2, 68, 68, 145 ); //Pants
-set_color_profile_slot( 14, 3, 33, 33, 81 ); //Hair
-set_color_profile_slot( 14, 4, 201, 228, 242 ); //Shoe/Shirt Light
-set_color_profile_slot( 14, 5, 113, 113, 156 ); //Shoe/Shirt Dark
-set_color_profile_slot( 14, 6, 237, 148, 165 ); //Stem
-set_color_profile_slot( 14, 7, 237, 148, 165 ); //Leaves
-
 // Giik
-set_color_profile_slot( 15, 0, 254, 254, 254 ); //Jacket
-set_color_profile_slot( 15, 1, 59, 37, 47 ); //Skin/Pot
-set_color_profile_slot( 15, 2, 253, 220, 153 ); //Pants
-set_color_profile_slot( 15, 3, 253, 220, 153 ); //Hair
-set_color_profile_slot( 15, 4, 80, 56, 55 ); //Shoe/Shirt Light
-set_color_profile_slot( 15, 5, 59, 37, 47 ); //Shoe/Shirt Dark
-set_color_profile_slot( 15, 6, 254, 254, 254 ); //Stem
-set_color_profile_slot( 15, 7, 253, 220, 153 ); //Leaves
+set_color_profile_slot( 14, 0, 254, 254, 254 ); //Jacket
+set_color_profile_slot( 14, 1, 59, 37, 47 ); //Skin/Pot
+set_color_profile_slot( 14, 2, 253, 220, 153 ); //Pants
+set_color_profile_slot( 14, 3, 253, 220, 153 ); //Hair
+set_color_profile_slot( 14, 4, 80, 56, 55 ); //Shoe/Shirt Light
+set_color_profile_slot( 14, 5, 59, 37, 47 ); //Shoe/Shirt Dark
+set_color_profile_slot( 14, 6, 254, 254, 254 ); //Stem
+set_color_profile_slot( 14, 7, 253, 220, 153 ); //Leaves
+
+// Kris
+set_color_profile_slot( 15, 0, 255, 119, 205 ); //Jacket
+set_color_profile_slot( 15, 1, 117, 250, 237 ); //Skin/Pot
+set_color_profile_slot( 15, 2, 68, 68, 145 ); //Pants
+set_color_profile_slot( 15, 3, 33, 33, 81 ); //Hair
+set_color_profile_slot( 15, 4, 201, 228, 242 ); //Shoe/Shirt Light
+set_color_profile_slot( 15, 5, 113, 113, 156 ); //Shoe/Shirt Dark
+set_color_profile_slot( 15, 6, 237, 148, 165 ); //Stem
+set_color_profile_slot( 15, 7, 237, 148, 165 ); //Leaves
 
 
 /* This is a comment used by that one RoA colors.gml generator tool to store palette data. You can safely keep it in your colors.gml if you plan to re-use the tool later, or safely remove it if you don't.

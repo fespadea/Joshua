@@ -172,22 +172,20 @@ set_hit_particle_sprite(2, PART_SYL_FLOWER);
 //intro
 introTimer = -4;
 introTimer2 = 0;
-switch(get_player_color(player)){
-    case 6:
-        introSprite = sprite_get("intro_abyss");
-        numIntroFrames = 20;
-        break;
-    case 7:
-        introSprite = sprite_get("intro_ea");
-        numIntroFrames = 11;
-        break;
-    default:
-        introSprite = sprite_get("intro");
-        numIntroFrames = 7;
+if(get_player_color(player) == 6 && get_color_profile_slot_r(0, 8) == 0){
+    introSprite = sprite_get("intro_abyss");
+    numIntroFrames = 20;
+} else if(get_player_color(player) == 7 && get_color_profile_slot_r(0, 8) == 0){
+    introSprite = sprite_get("intro_ea");
+    numIntroFrames = 11;
+} else{
+    introSprite = sprite_get("intro");
+    numIntroFrames = 7;
 }
 
 // practice mode
-practiceMode = get_training_cpu_action() != CPU_FIGHT && object_index != oTestPlayer;
+isTestPlayer = object_index == oTestPlayer;
+practiceMode = get_training_cpu_action() != CPU_FIGHT && !isTestPlayer;
 //tutorial
 currentTutorialPage = 0;
 var pageNum = 0;

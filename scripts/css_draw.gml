@@ -2,7 +2,7 @@ var temp_x = x + 8;
 var temp_y = y + 9;
 
 patch_ver = "3";
-patch_day = "11";
+patch_day = "17";
 patch_month = "JUNE";
 
 var num_alts = 16;
@@ -14,7 +14,7 @@ if(!("row" in self)){
     rowAltsSet = false;
     prevTime = current_time;
 }
-
+ranCSSDraw = true;
 // multiple rows code
 #macro NUM_ROWS 2
 if(alt_cur == 0 && prevAlt == 15){
@@ -30,12 +30,14 @@ if(alt_cur == 0 && prevAlt == 15){
         row = NUM_ROWS-1;
     }
 }
-if(prevTime < current_time - 500){
+if(get_color_profile_slot_b(0, 8) < current_time - 500 && prevTime < current_time - 500){
     row = 0;
     rowAltsSet = false;
+    set_color_profile_slot(0, 8, row, 0, current_time);
+    init_shader();
 }
+set_color_profile_slot(0, 8, row, alt_cur > 8 ? (row == NUM_ROWS - 1 ? 0 : row+1) : row, current_time);
 prevTime = current_time;
-set_color_profile_slot(0, 8, row, alt_cur > 8 ? (row == NUM_ROWS - 1 ? 0 : row+1) : row, 0);
 prevAlt = alt_cur;
 if(!rowAltsSet){
     if(row == 0){
@@ -189,7 +191,146 @@ if(!rowAltsSet){
         set_color_profile_slot( 15, 6, 254, 254, 254 ); //Stem
         set_color_profile_slot( 15, 7, 253, 220, 153 ); //Leaves
     } else if(row == 1){
-        
+        // Obama and Wireframe are handled in init_shader.gml
+        // Ellie
+        set_color_profile_slot( 2, 0, 186, 235, 254 ); //Jacket
+        set_color_profile_slot( 2, 1, 217, 176, 100 ); //Skin/Pot
+        set_color_profile_slot( 2, 2, 53, 115, 183 ); //Pants
+        set_color_profile_slot( 2, 3, 249, 244, 153 ); //Hair
+        set_color_profile_slot( 2, 4, 248, 248, 248 ); //Shoe/Shirt Light
+        set_color_profile_slot( 2, 5, 216, 220, 222 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 2, 6, 31, 31, 31 ); //Stem
+        set_color_profile_slot( 2, 7, 120, 231, 243 ); //Leaves
+
+        // Adam Carra
+        set_color_profile_slot( 3, 0, 75, 75, 75 ); //Jacket
+        set_color_profile_slot( 3, 1, 216, 155, 141 ); //Skin/Pot
+        set_color_profile_slot( 3, 2, 255, 243, 23 ); //Pants
+        set_color_profile_slot( 3, 3, 51, 44, 41 ); //Hair
+        set_color_profile_slot( 3, 4, 255, 255, 255 ); //Shoe/Shirt Light
+        set_color_profile_slot( 3, 5, 222, 222, 222 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 3, 6, 44, 43, 43 ); //Stem
+        set_color_profile_slot( 3, 7, 191, 164, 19 ); //Leaves
+
+        // Junior High
+        set_color_profile_slot( 4, 0, 55, 97, 149 ); //Jacket
+        set_color_profile_slot( 4, 1, 216, 155, 141 ); //Skin/Pot
+        set_color_profile_slot( 4, 2, 197, 166, 126 ); //Pants
+        set_color_profile_slot( 4, 3, 51, 44, 41 ); //Hair
+        set_color_profile_slot( 4, 4, 224, 222, 220 ); //Shoe/Shirt Light
+        set_color_profile_slot( 4, 5, 191, 178, 181 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 4, 6, 187, 230, 231 ); //Stem
+        set_color_profile_slot( 4, 7, 155, 170, 235 ); //Leaves
+
+        // Zircon
+        set_color_profile_slot( 5, 0, 1, 229, 255 ); //Jacket
+        set_color_profile_slot( 5, 1, 209, 94, 60 ); //Skin/Pot
+        set_color_profile_slot( 5, 2, 1, 229, 255 ); //Pants
+        set_color_profile_slot( 5, 3, 249, 246, 240 ); //Hair
+        set_color_profile_slot( 5, 4, 249, 246, 240 ); //Shoe/Shirt Light
+        set_color_profile_slot( 5, 5, 224, 211, 193 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 5, 6, 129, 39, 39 ); //Stem
+        set_color_profile_slot( 5, 7, 1, 229, 255 ); //Leaves
+
+        // Sakurai
+        set_color_profile_slot( 6, 0, 53, 53, 53 ); //Jacket
+        set_color_profile_slot( 6, 1, 215, 142, 103 ); //Skin/Pot
+        set_color_profile_slot( 6, 2, 27, 22, 37 ); //Pants
+        set_color_profile_slot( 6, 3, 85, 49, 42 ); //Hair
+        set_color_profile_slot( 6, 4, 111, 46, 46 ); //Shoe/Shirt Light
+        set_color_profile_slot( 6, 5, 75, 31, 31 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 6, 6, 111, 46, 46 ); //Stem
+        set_color_profile_slot( 6, 7, 53, 53, 53 ); //Leaves
+
+        // Lucy
+        set_color_profile_slot( 7, 0, 67, 58, 54 ); //Jacket
+        set_color_profile_slot( 7, 1, 211, 176, 146 ); //Skin/Pot
+        set_color_profile_slot( 7, 2, 95, 20, 45 ); //Pants
+        set_color_profile_slot( 7, 3, 221, 179, 145 ); //Hair
+        set_color_profile_slot( 7, 4, 240, 242, 244 ); //Shoe/Shirt Light
+        set_color_profile_slot( 7, 5, 175, 188, 210 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 7, 6, 95, 20, 45 ); //Stem
+        set_color_profile_slot( 7, 7, 240, 242, 244 ); //Leaves
+
+        // Starfy
+        set_color_profile_slot( 8, 0, 227, 107, 132 ); //Jacket
+        set_color_profile_slot( 8, 1, 243, 191, 29 ); //Skin/Pot
+        set_color_profile_slot( 8, 2, 255, 239, 67 ); //Pants
+        set_color_profile_slot( 8, 3, 243, 191, 29 ); //Hair
+        set_color_profile_slot( 8, 4, 255, 239, 67 ); //Shoe/Shirt Light
+        set_color_profile_slot( 8, 5, 243, 191, 29 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 8, 6, 227, 107, 132 ); //Stem
+        set_color_profile_slot( 8, 7, 117, 217, 255 ); //Leaves
+
+        // Yes, Indeed
+        set_color_profile_slot( 9, 0, 75, 71, 64 ); //Jacket
+        set_color_profile_slot( 9, 1, 164, 123, 91 ); //Skin/Pot
+        set_color_profile_slot( 9, 2, 146, 129, 116 ); //Pants
+        set_color_profile_slot( 9, 3, 51, 44, 41 ); //Hair
+        set_color_profile_slot( 9, 4, 227, 193, 169 ); //Shoe/Shirt Light
+        set_color_profile_slot( 9, 5, 164, 123, 91 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 9, 6, 57, 54, 47 ); //Stem
+        set_color_profile_slot( 9, 7, 227, 193, 169 ); //Leaves
+
+        // Smolburn
+        set_color_profile_slot( 10, 0, 122, 90, 78 ); //Jacket
+        set_color_profile_slot( 10, 1, 175, 126, 62 ); //Skin/Pot
+        set_color_profile_slot( 10, 2, 122, 92, 80 ); //Pants
+        set_color_profile_slot( 10, 3, 255, 124, 0 ); //Hair
+        set_color_profile_slot( 10, 4, 220, 203, 105 ); //Shoe/Shirt Light
+        set_color_profile_slot( 10, 5, 175, 126, 62 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 10, 6, 255, 124, 0 ); //Stem
+        set_color_profile_slot( 10, 7, 255, 228, 0 ); //Leaves
+
+        // Minicane
+        set_color_profile_slot( 11, 0, 59, 73, 135 ); //Jacket
+        set_color_profile_slot( 11, 1, 130, 173, 177 ); //Skin/Pot
+        set_color_profile_slot( 11, 2, 59, 73, 135 ); //Pants
+        set_color_profile_slot( 11, 3, 59, 73, 135 ); //Hair
+        set_color_profile_slot( 11, 4, 205, 247, 247 ); //Shoe/Shirt Light
+        set_color_profile_slot( 11, 5, 130, 173, 177 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 11, 6, 59, 73, 135 ); //Stem
+        set_color_profile_slot( 11, 7, 130, 173, 177 ); //Leaves
+
+        // Wrastiny
+        set_color_profile_slot( 12, 0, 97, 68, 96 ); //Jacket
+        set_color_profile_slot( 12, 1, 129, 60, 116 ); //Skin/Pot
+        set_color_profile_slot( 12, 2, 230, 218, 25 ); //Pants
+        set_color_profile_slot( 12, 3, 97, 68, 96 ); //Hair
+        set_color_profile_slot( 12, 4, 246, 173, 197 ); //Shoe/Shirt Light
+        set_color_profile_slot( 12, 5, 210, 135, 180 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 12, 6, 182, 182, 182 ); //Stem
+        set_color_profile_slot( 12, 7, 141, 231, 255 ); //Leaves
+
+        // MunchKragg
+        set_color_profile_slot( 13, 0, 187, 155, 143 ); //Jacket
+        set_color_profile_slot( 13, 1, 79, 122, 62 ); //Skin/Pot
+        set_color_profile_slot( 13, 2, 79, 122, 62 ); //Pants
+        set_color_profile_slot( 13, 3, 187, 155, 143 ); //Hair
+        set_color_profile_slot( 13, 4, 213, 216, 221 ); //Shoe/Shirt Light
+        set_color_profile_slot( 13, 5, 139, 149, 167 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 13, 6, 213, 216, 221 ); //Stem
+        set_color_profile_slot( 13, 7, 137, 105, 93 ); //Leaves
+
+        // Buch
+        set_color_profile_slot( 14, 0, 39, 92, 171 ); //Jacket
+        set_color_profile_slot( 14, 1, 200, 200, 240 ); //Skin/Pot
+        set_color_profile_slot( 14, 2, 130, 56, 64 ); //Pants
+        set_color_profile_slot( 14, 3, 107, 126, 146 ); //Hair
+        set_color_profile_slot( 14, 4, 220, 203, 105 ); //Shoe/Shirt Light
+        set_color_profile_slot( 14, 5, 200, 126, 30 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 14, 6, 107, 126, 146 ); //Stem
+        set_color_profile_slot( 14, 7, 59, 73, 135 ); //Leaves
+
+        // Feri (anti flicker precaution in init_shader.gml)
+        set_color_profile_slot( 15, 0, 17, 126, 23 ); //Jacket
+        set_color_profile_slot( 15, 1, 169, 71, 225 ); //Skin/Pot
+        set_color_profile_slot( 15, 2, 43, 51, 203 ); //Pants
+        set_color_profile_slot( 15, 3, 75, 10, 240 ); //Hair
+        set_color_profile_slot( 15, 4, 168, 19, 19 ); //Shoe/Shirt Light
+        set_color_profile_slot( 15, 5, 168, 19, 19 ); //Shoe/Shirt Dark
+        set_color_profile_slot( 15, 6, 17, 126, 23 ); //Stem
+        set_color_profile_slot( 15, 7, 255, 48, 224 ); //Leaves
     }
     rowAltsSet = true;
 }
@@ -214,20 +355,20 @@ alt_name[14]  = "Kris";
 alt_name[15]  = "Giik";
 alt_name[16]  = "Obama";
 alt_name[17]  = "Wireframe";
-alt_name[18]  = "Liz";
-alt_name[19]  = "Acid Rainbows";
-alt_name[20]  = "Donyoku";
-alt_name[21]  = "Pomme";
-alt_name[22]  = "Abyss";
-alt_name[23]  = "Early Access";
-alt_name[24]  = "Contest";
-alt_name[25]  = "Sans";
-alt_name[26]  = "Contest";
-alt_name[27]  = "Contest";
-alt_name[28]  = "Voidfox";
-alt_name[29]  = "Classic";
-alt_name[30]  = "Kris";
-alt_name[31]  = "Giik";
+alt_name[18]  = "Ellie";
+alt_name[19]  = "Adam Carra";
+alt_name[20]  = "Junior High";
+alt_name[21]  = "Zircon";
+alt_name[22]  = "Sakurai";
+alt_name[23]  = "Lucy";
+alt_name[24]  = "Starfy";
+alt_name[25]  = "Yes, Indeed";
+alt_name[26]  = "Smolburn";
+alt_name[27]  = "Minicane";
+alt_name[28]  = "Wrastiny";
+alt_name[29]  = "MunchKragg";
+alt_name[30]  = "Buch";
+alt_name[31]  = "Feri";
 
 
 
@@ -246,17 +387,19 @@ textDraw(temp_x + 2, temp_y + 50, "fName", c_white, 0, 1000, 1, true, 1, patch_d
 
 rectDraw(temp_x, temp_y + 135, temp_x + 201, temp_y + 142, c_black);
 
-for(i = 0; i < num_alts; i++){
-	var draw_color = (i == alt_cur) ? c_white : c_gray;
-	var draw_x = temp_x + 2 + 10 * i;
-	rectDraw(draw_x, temp_y + 137, draw_x + 7, temp_y + 140, draw_color);
+for(var i = 0; i < NUM_ROWS; i++){
+    for(var j = 0; j < num_alts; j++){
+        var draw_color = (j == alt_cur && i == (NUM_ROWS-row-1)) ? c_white : c_gray;
+        var draw_x = temp_x + 2 + 10 * j;
+        rectDraw(draw_x, temp_y + 137 - 5*i, draw_x + 7, temp_y + 140 - 5*i, draw_color);
+    }
 }
 
 draw_set_halign(fa_left);
 
 //include alt. name
 var alt_num = alt_cur + 16*row;
-textDraw(temp_x + 2, temp_y + 124, "fName", c_white, 0, 1000, 1, true, 1, "Alt. " + (alt_num < 9 ? "0" : "") + string(alt_num+1) + ": " + alt_name[alt_num]);
+textDraw(temp_x + 2, temp_y + 124 - 5*(NUM_ROWS-1), "fName", c_white, 0, 1000, 1, true, 1, "Alt. " + (alt_num < 9 ? "0" : "") + string(alt_num+1) + ": " + alt_name[alt_num]);
 
 
 #define textDraw(x, y, font, color, lineb, linew, scale, outline, alpha, string)
