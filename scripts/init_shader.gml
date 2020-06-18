@@ -1,19 +1,19 @@
 // init shader
 
-if("alt_name" in self || sprite_get_bbox_right(sprite_get("dog"))){
-    var num_alts = array_length(alt_name);
+NUM_ALTS = 32;
+if("alt_name" in self || !("ping_color" in self)){
     var curAlt = get_player_color(player);
-    var curRealAlt = sprite_get_bbox_left(sprite_get("dog"));
-    var prevAlt = sprite_get_bbox_top(sprite_get("dog"));
+    var curRealAlt = sprite_get_xoffset(sprite_get("dog"));
+    var prevAlt = sprite_get_yoffset(sprite_get("dog"));
     if(curAlt != prevAlt){
         if((curAlt > prevAlt && curAlt < prevAlt + 8) || curAlt < prevAlt - 8){
             curRealAlt++;
-            if(curRealAlt == num_alts){
+            if(curRealAlt == NUM_ALTS){
                 curRealAlt = 0;
             }
         } else{
             if(curRealAlt == 0){
-                curRealAlt = num_alts;
+                curRealAlt = NUM_ALTS;
             }
             curRealAlt--;
         }
@@ -666,5 +666,5 @@ if("alt_name" in self || sprite_get_bbox_right(sprite_get("dog"))){
             break;
     }
 
-    sprite_change_collision_mask("dog", false, 2, curRealAlt, curAlt, 1, 1, 1); // left is the actual alt, top is the previous normal alt, and right proves we aren't online
+    sprite_change_offset("dog", curRealAlt, curAlt ); // x is the actual alt and is the previous normal alt
 }

@@ -195,10 +195,18 @@ if (introTimer2 < 4) {
     introTimer2 = 0;
     introTimer++;
 }
-if (introTimer < numIntroFrames) {
-    draw_indicator = false;
-} else {
-    draw_indicator = true;
+#macro COUNTDOWN_LENGTH 122
+if (get_gameplay_time() < COUNTDOWN_LENGTH) {
+    if(shield_pressed){
+        var curRealAlt = sprite_get_xoffset(sprite_get("dog"));
+        curRealAlt += 16;
+        if(curRealAlt >= NUM_ALTS){
+            curRealAlt -= NUM_ALTS;
+        }
+        clear_button_buffer(PC_SHIELD_PRESSED);
+        sprite_change_offset("dog", curRealAlt, sprite_get_yoffset(sprite_get("dog")));
+        init_shader();
+    }
 }
 
 //kirby support

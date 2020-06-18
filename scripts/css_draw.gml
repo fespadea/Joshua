@@ -6,8 +6,9 @@ var temp_y = y + 9;
 #macro PATCH_DAY "18"
 #macro PATCH_MONTH "JUNE"
 
-var alt_cur = sprite_get_bbox_left(sprite_get("dog"));
+var alt_cur = sprite_get_xoffset(sprite_get("dog"));
 
+var doNotInitShader = "alt_name" in self;
 
 //Alt name init. var doesn't work with arrays lol
 
@@ -44,7 +45,9 @@ alt_name[29]  = "MunchKragg";
 alt_name[30]  = "Buch";
 alt_name[31]  = "Feri";
 
-
+if(!doNotInitShader){
+    init_shader();
+}
 
 
 //Patch
