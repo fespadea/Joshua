@@ -201,11 +201,6 @@ if (introTimer < numIntroFrames) {
     draw_indicator = true;
 }
 
-//keep alt row from reseting if you playtest
-if(isTestPlayer){
-    set_color_profile_slot(0, 8, get_color_profile_slot_r(0, 8), get_color_profile_slot_g(0, 8), current_time);
-}
-
 //kirby support
 if swallowed {
     swallowed = 0

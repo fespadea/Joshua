@@ -1,10 +1,8 @@
 // init shader
 
 #macro NUM_ALTS 32
-if(!("prevAlt" in self)){
-    prevAlt = get_player_color(player);
-}
 var curAlt = get_player_color(player);
+var prevAlt = sprite_get_yoffset(sprite_get("dog"));
 var curRealAlt = sprite_get_xoffset(sprite_get("dog"));
 if(curAlt != prevAlt){
     if((curAlt > prevAlt && curAlt < prevAlt + 8) || curAlt < prevAlt - 8){
@@ -181,10 +179,8 @@ switch(curRealAlt){
         set_article_color_slot( 6, 83, 122, 62, 256 ); //Stem
         set_article_color_slot( 7, 167, 186, 74, 256 ); //Leaves
         // set shading to 0
-        if (get_player_color(player) == 7 && get_color_profile_slot_r(0, 8) == 0){
-            for(i = 0; i < 8; i++){
-                set_character_color_shading(i, 0);
-            }
+        for(i = 0; i < 8; i++){
+            set_character_color_shading(i, 0);
         }
         break;
     case 8:
@@ -669,5 +665,4 @@ switch(curRealAlt){
         break;
 }
 
-prevAlt = curAlt;
-sprite_change_offset("dog", curRealAlt, 0);
+sprite_change_offset("dog", curRealAlt, curAlt); // x is the actual alt and y is the previous normal alt
