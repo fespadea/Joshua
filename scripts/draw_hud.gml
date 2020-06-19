@@ -19,28 +19,7 @@ shader_end();
 
 // practice mode tips
 if(practiceMode){
-    var page = tutorialPages[currentTutorialPage];
-    var numCharactersPerLine = 28;
-    var lines;
-    var i = 0;
-    while(string_length(page) > 0){
-        if(string_length(page) <= numCharactersPerLine){
-            lines[i] = string_copy(page, 1, string_length(page));
-        } else{
-            lines[i] = string_copy(page, 1, numCharactersPerLine);
-            if(string_pos(" ", lines[i])){
-                while(string_char_at(lines[i], string_length(lines[i])) != " "){
-                    lines[i] = string_delete(lines[i], string_length(lines[i]), 1); 
-                }
-            }
-        }
-        page = string_delete(page, 1, string_length(lines[i]));
-        if(string_char_at(lines[i], 0) == " "){
-            lines[i] = string_delete(lines[i], 1, 1);
-        }
-        i++;
-    }
-    var numLines = array_length(lines);
+    var numLines = array_length(parsedLines[currentTutorialPage]);
     if(currentTutorialPage){ //draw the background of the tutorial
         if(numLines == 1){
             draw_sprite(tutorialSingleSprite, 0, temp_x-8, temp_y-24);
@@ -54,7 +33,7 @@ if(practiceMode){
         draw_debug_text(temp_x-2, temp_y-18-18*numLines, string(currentTutorialPage) + "/" + string(totalTutorialPages));
     }
     for(var k = 0; k < numLines; k++){
-        draw_debug_text(temp_x, temp_y-2-18*(numLines - k), lines[k]);
+        draw_debug_text(temp_x, temp_y-2-18*(numLines - k), parsedLines[currentTutorialPage, k]);
     }
 }
 

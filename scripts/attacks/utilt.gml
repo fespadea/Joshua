@@ -39,7 +39,7 @@ set_hitbox_value(AT_UTILT, 1, HG_HIT_SFX, asset_get("sfx_blow_weak2"));
 set_hitbox_value(AT_UTILT, 2, HG_HITBOX_TYPE, 2);
 set_hitbox_value(AT_UTILT, 2, HG_LIFETIME, 70);
 set_hitbox_value(AT_UTILT, 2, HG_PRIORITY, 3);
-set_hitbox_value(AT_UTILT, 2, HG_DAMAGE, 5);
+set_hitbox_value(AT_UTILT, 2, HG_DAMAGE, 6);
 set_hitbox_value(AT_UTILT, 2, HG_ANGLE, 90);
 set_hitbox_value(AT_UTILT, 2, HG_BASE_KNOCKBACK, 2);
 set_hitbox_value(AT_UTILT, 2, HG_BASE_HITPAUSE, 2);

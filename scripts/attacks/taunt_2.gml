@@ -25,7 +25,6 @@ set_hitbox_value(AT_TAUNT_2, 1, HG_HITBOX_X, 36);
 set_hitbox_value(AT_TAUNT_2, 1, HG_HITBOX_Y, -13);
 set_hitbox_value(AT_TAUNT_2, 1, HG_WIDTH, 26);
 set_hitbox_value(AT_TAUNT_2, 1, HG_HEIGHT, 37);
-set_hitbox_value(AT_TAUNT_2, 1, HG_PRIORITY, 1);
 set_hitbox_value(AT_TAUNT_2, 1, HG_HITSTUN_MULTIPLIER, -1);
 set_hitbox_value(AT_TAUNT_2, 1, HG_HITBOX_GROUP, -1);
 set_hitbox_value(AT_TAUNT_2, 1, HG_VISUAL_EFFECT, 1);
