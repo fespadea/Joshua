@@ -115,6 +115,12 @@ initialDattackY = 0;
 
 // Uair variable
 finishUair = false;
+// Uair grab array
+for(var k = 20; k >= 0; k--){
+    uairGrabbedid[k, 0] = noone; // hit player
+    uairGrabbedid[k, 1] = 0; // player's original x value relative to player
+    uairGrabbedid[k, 2] = 0; // player's original y value relative to player
+}
 
 // Fspecial_2 variable
 whipHitPlayer = false;

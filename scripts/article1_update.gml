@@ -299,11 +299,11 @@ can_be_grounded = true;
 ignores_walls = false;
 if (free && vsp > 0){ // this code is to prevent Batit from falling through platforms
     var platformCollidedWith = collision_rectangle(x-4+hsp,y-1+vsp,x+5+hsp,y+1+vsp,asset_get("par_jumpthrough"),false, true);
-    var currentPlatformCollededWith = collision_rectangle(x-4,y-1,x+5,y+1,asset_get("par_jumpthrough"),false, true);
+    var currentPlatformCollededWith = collision_rectangle(x-4+hsp,y-1,x+5+hsp,y+1,asset_get("par_jumpthrough"),false, true);
     if(platformCollidedWith != noone && platformCollidedWith != currentPlatformCollededWith){
         free = false;
         vsp = 0;
-        while(!place_meeting(x, y+1, platformCollidedWith)){
+        while(!place_meeting(x+hsp, y+1, platformCollidedWith)){
             y++;
         }
     }
@@ -332,6 +332,9 @@ if(y > room_height || y < 0 || x < 0 || x > room_width){
 
 // hitbox group stuff
 with oPlayer {
+    if(!("batitHitboxesReset" in self)){
+        batitHitboxesReset[other.player_id.player] = false;
+    }
     if(array_length(other.hGroupCheck) <= player){
         other.hGroupCheck[player, 0] = 0;
     }

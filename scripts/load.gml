@@ -76,9 +76,6 @@ sprite_change_offset("nspecial_proj", 51, 24);
 
 //batit
 sprite_change_offset("batit", 8, 48);
-sprite_change_offset("batit_icon", 20, 26);
-sprite_change_offset("batit_hud_bar", 0, 0);
-sprite_change_offset("batit_hud_hp", 0, 0);
 sprite_change_offset("batit_intro", 12, 54);
 sprite_change_offset("batit_dead", 12, 54);
 sprite_change_offset("batit_ftilt", 62, 126);
@@ -90,9 +87,9 @@ sprite_change_offset("batit_hurt", 22, 63);
 sprite_change_offset("batit_explode", 56, 88);
 sprite_change_offset("batit_nspecial", 62, 126);
 sprite_change_offset("batit_fstrong", 30, 60);
-sprite_change_collision_mask("batit_fstrong", false, 2, 22, 28, 39, 61, 1);
+sprite_change_collision_mask("batit_fstrong", false, 2, 22, 28, 39, 61, 0);
 sprite_change_offset("batit_fstrong_charge", 30, 60);
-sprite_change_collision_mask("batit_fstrong_charge", false, 2, 22, 28, 39, 61, 1);
+sprite_change_collision_mask("batit_fstrong_charge", false, 2, 22, 28, 39, 61, 0);
 sprite_change_offset("batit_ustrong", 20, 96);
 sprite_change_offset("batit_ustrong_charge", 20, 96);
 sprite_change_offset("batit_taunt", 26, 60);
@@ -105,6 +102,10 @@ sprite_change_offset("batit_nspecial_particle_fx", 8, 8);
 sprite_change_offset("batit_leaf_break", 32, 32);
 sprite_change_offset("batit_leaf_hfx", 32, 32);
 sprite_change_offset("batit_strong_hfx", 40, 40);
+//ui
+sprite_change_offset("batit_icon", 20, 26);
+sprite_change_offset("batit_hud_bar", 0, 0);
+sprite_change_offset("batit_hud_hp", 0, 0);
 
 //feri support
 sprite_change_offset("feri_costume_joshua_and_batit", 84, 114);

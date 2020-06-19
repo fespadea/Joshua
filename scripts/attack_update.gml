@@ -38,7 +38,7 @@ switch(attack){
                 if(special_down || is_special_pressed(DIR_ANY)){
                     window = 7;
                     window_timer = 0;
-                } else if(shield_pressed || grabbedid.ungrab == 60 || (grabbedid.ungrab == 30 && free)){
+                } else if(shield_pressed || grabbedid.ungrab >= 60 || (grabbedid.ungrab == 30 && free)){
                     grabbedid.state = PS_TUMBLE;
                     grabbedid = noone;
                     window = 6;
@@ -178,6 +178,23 @@ switch(attack){
             if(!finishUair){
                 window = get_attack_value(AT_UAIR, AG_NUM_WINDOWS);
                 window_timer = 0;
+            }
+        } else if(window == 3){ // grab template kind of
+            for(var k = 0; k < array_length(uairGrabbedid); k++){
+                if(uairGrabbedid[k,0] != noone){
+                    if(instance_exists(uairGrabbedid[k,0]) && uairGrabbedid[k,0].hit_player_obj == id){
+                        uairGrabbedid[k,0].ungrab = 0;
+                        uairGrabbedid[k,0].x = x + hsp + uairGrabbedid[k,1];
+                        uairGrabbedid[k,0].y = y + vsp + uairGrabbedid[k,2];
+                        if(window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
+                            uairGrabbedid[k,0] = noone;
+                            uairGrabbedid[k,1] = 0;
+                            uairGrabbedid[k,2] = 0;
+                        }
+                    } else {
+                        uairGrabbedid[k,0] = noone;
+                    }
+                }
             }
         }
         break;
