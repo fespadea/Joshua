@@ -27,7 +27,7 @@ switch(attack){
         }
         break;
     case AT_USPECIAL: // change to batitless uspecial
-        if(batitDelay > 0){
+        if(batitDelay > 0 && !runeJ){
             if(dontSwitchToUspecial){
                 dontSwitchToUspecial = false;
                 window = 3;

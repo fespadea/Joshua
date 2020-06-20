@@ -2,7 +2,23 @@
 
 // don't allow dspecial/fstrong if batit is placed
 if(batitPlaced){
-    batitDelay = 2;
+    if(runeM){
+        if(batitDied){
+            if(!runeH){
+                batitDelay = 600;
+            }
+            batitDied = false;
+            batitFell = false;
+        } else if(batitFell){
+            if(!runeH){
+                batitDelay = 300;
+            }
+            batitFell = false;
+        }
+    }
+    if(!runeM || array_length(batitArticle) >= 2){
+        batitDelay = 2;
+    }
     // Batit move detection
     switch(state_cat){
         case SC_HITSTUN:
@@ -32,7 +48,17 @@ if(batitPlaced){
                         clear_button_buffer(PC_SHIELD_PRESSED);
                         clear_button_buffer(PC_SPECIAL_PRESSED);
                     }
-                    if(batitArticle.state == 0 || batitArticle.state == 3){
+                    if(runeM){
+                        var batitCanAttack = false;
+                        for(var i = 0; i < array_length(batitArticle); i++){
+                            if(batitArticle[i].state == 0 || batitArticle[i].state == 3){
+                                batitCanAttack = true;
+                            }
+                        }
+                    } else {
+                        var batitCanAttack = batitArticle.state == 0 || batitArticle.state == 3;
+                    }
+                    if(batitCanAttack){
                         if(up_strong_pressed){
                             batitAttack(11, 1); // the direction doesn't matter here
                         } else if(right_strong_pressed){
@@ -75,11 +101,15 @@ if(batitPlaced){
             }
     }
 } else if(batitDied){
-    batitDelay = 600;
+    if(!runeH){
+        batitDelay = 600;
+    }
     batitDied = false;
     batitFell = false;
 } else if(batitFell){
-    batitDelay = 300;
+    if(!runeH){
+        batitDelay = 300;
+    }
     batitFell = false;
 }
 // stat switching
@@ -120,6 +150,8 @@ if(batitDelay > 0 || runeD){
         walljump_vsp -= .5;
         batitStats = true;
     }
+}
+if(batitDelay <= 0 && !runeJ){
     //reset uspecial values
     reset_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING);
     reset_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING);
@@ -131,7 +163,7 @@ batitDelay--;
 //prevent bombs from being used if unwanted
 if(!free || state_cat == SC_HITSTUN){
     noMoreBombs = false;
-} else if(noMoreBombs){
+} else if(noMoreBombs && !runeL){
     move_cooldown[AT_DSPECIAL_AIR] = 2;
 }
 
@@ -205,6 +237,65 @@ if(runesUpdated){
     } else {
         reset_hitbox_value(AT_NSPECIAL, 2, HG_HITSTUN_MULTIPLIER);
     }
+    if(runeL){
+        set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_DAMAGE, 8);
+        set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_DAMAGE, 4);
+        set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_LIFETIME, 18);
+        set_window_value(AT_DSPECIAL_AIR, 1, AG_WINDOW_LENGTH, 8);
+    } else {
+        reset_hitbox_value(AT_DSPECIAL_AIR, 1, HG_DAMAGE);
+        reset_hitbox_value(AT_DSPECIAL_AIR, 4, HG_DAMAGE);
+        reset_hitbox_value(AT_DSPECIAL_AIR, 4, HG_LIFETIME);
+        reset_window_value(AT_DSPECIAL_AIR, 1, AG_WINDOW_LENGTH);
+    }
+    if(runeJ){
+        set_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING, .5);
+        set_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING, .4);
+        set_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE, 0);
+        set_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED, -10);
+    } else {
+        reset_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING);
+        reset_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING);
+        reset_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE);
+        reset_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED);
+    }
+    if(runeF){
+        set_hitbox_value(AT_UAIR, 1, HG_PRIORITY, 0);
+        set_hitbox_value(AT_UAIR, 2, HG_HITBOX_X, 15);
+        set_hitbox_value(AT_UAIR, 2, HG_HITBOX_Y, -40);
+        set_hitbox_value(AT_UAIR, 2, HG_WIDTH, 60);
+        set_hitbox_value(AT_UAIR, 2, HG_HEIGHT, 60);
+        set_hitbox_value(AT_UAIR, 3, HG_HITBOX_X, 15);
+        set_hitbox_value(AT_UAIR, 3, HG_HITBOX_Y, -40);
+        set_hitbox_value(AT_UAIR, 3, HG_WIDTH, 60);
+        set_hitbox_value(AT_UAIR, 3, HG_HEIGHT, 60);
+        set_hitbox_value(AT_UAIR, 4, HG_HITBOX_X, 15);
+        set_hitbox_value(AT_UAIR, 4, HG_HITBOX_Y, -40);
+        set_hitbox_value(AT_UAIR, 4, HG_WIDTH, 60);
+        set_hitbox_value(AT_UAIR, 4, HG_HEIGHT, 60);
+        set_hitbox_value(AT_UAIR, 5, HG_HITBOX_X, 15);
+        set_hitbox_value(AT_UAIR, 5, HG_HITBOX_Y, -40);
+        set_hitbox_value(AT_UAIR, 5, HG_WIDTH, 60);
+        set_hitbox_value(AT_UAIR, 5, HG_HEIGHT, 60);
+    } else {
+        reset_hitbox_value(AT_UAIR, 1, HG_PRIORITY);
+        reset_hitbox_value(AT_UAIR, 2, HG_HITBOX_X);
+        reset_hitbox_value(AT_UAIR, 2, HG_HITBOX_Y);
+        reset_hitbox_value(AT_UAIR, 2, HG_WIDTH);
+        reset_hitbox_value(AT_UAIR, 2, HG_HEIGHT);
+        reset_hitbox_value(AT_UAIR, 3, HG_HITBOX_X);
+        reset_hitbox_value(AT_UAIR, 3, HG_HITBOX_Y);
+        reset_hitbox_value(AT_UAIR, 3, HG_WIDTH);
+        reset_hitbox_value(AT_UAIR, 3, HG_HEIGHT);
+        reset_hitbox_value(AT_UAIR, 4, HG_HITBOX_X);
+        reset_hitbox_value(AT_UAIR, 4, HG_HITBOX_Y);
+        reset_hitbox_value(AT_UAIR, 4, HG_WIDTH);
+        reset_hitbox_value(AT_UAIR, 4, HG_HEIGHT);
+        reset_hitbox_value(AT_UAIR, 5, HG_HITBOX_X);
+        reset_hitbox_value(AT_UAIR, 5, HG_HITBOX_Y);
+        reset_hitbox_value(AT_UAIR, 5, HG_WIDTH);
+        reset_hitbox_value(AT_UAIR, 5, HG_HEIGHT);
+    }
 }
 
 // uair command grab (template)
@@ -233,8 +324,10 @@ if (introTimer2 < 4) {
     introTimer2 = 0;
     introTimer++;
 }
-#macro COUNTDOWN_LENGTH 122
-if (get_gameplay_time() < COUNTDOWN_LENGTH) {
+
+// alt changing
+#macro CHANGE_ALT_FRAME_LIMIT 100
+if (get_gameplay_time() < CHANGE_ALT_FRAME_LIMIT) {
     if(special_pressed){
         var curRealAlt = sprite_get_xoffset(sprite_get("dog"));
         curRealAlt += 16;

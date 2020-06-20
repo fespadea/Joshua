@@ -102,6 +102,7 @@ sprite_change_offset("batit_nspecial_particle_fx", 8, 8);
 sprite_change_offset("batit_leaf_break", 32, 32);
 sprite_change_offset("batit_leaf_hfx", 32, 32);
 sprite_change_offset("batit_strong_hfx", 40, 40);
+sprite_change_offset("batit_sweetspot_hfx", 116, 168);
 //ui
 sprite_change_offset("batit_icon", 20, 26);
 sprite_change_offset("batit_hud_bar", 0, 0);

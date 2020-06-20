@@ -1,8 +1,15 @@
 // draw hud
 
 if(batitPlaced){
-    draw_sprite(batitBarSprite, 0, temp_x+30, temp_y-10);
-    draw_sprite_ext(batitHpSprite, 0, temp_x+34, temp_y-8, batitArticle.batitHealth, 1, 0, -1, 1);
+    if(runeM){
+        for(var i = 0; i < array_length(batitArticle); i++){
+            draw_sprite(batitBarSprite, 0, temp_x+30, temp_y-10-14*i);
+            draw_sprite_ext(batitHpSprite, 0, temp_x+34, temp_y-8-14*i, batitArticle[i].batitHealth, 1, 0, -1, 1);
+        }
+    } else{
+        draw_sprite(batitBarSprite, 0, temp_x+30, temp_y-10);
+        draw_sprite_ext(batitHpSprite, 0, temp_x+34, temp_y-8, batitArticle.batitHealth, 1, 0, -1, 1);
+    }
 }
 
 draw_sprite_ext(toggleIconSprite, 0, temp_x+70, temp_y+10, 1, 1, 0, !projectilesMandatory ? -1 : c_gray, 1);

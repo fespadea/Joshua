@@ -30,8 +30,9 @@ knockBackAngle = 0;
 knockBackPower = 0;
 hGroupCheck[0,0] = 0;
 // tells batit whether to reset hitbox flags
+batitHitboxesReset[0] = false;
 with oPlayer {
-    batitHitboxesReset[other.player_id.player] = false; //this is an array to account for multiple Joshuas and Batits
+    other.batitHitboxesReset[player + (clone ? 10 : 0)] = false; //this is an array to account for multiple Joshuas and Batits
 }
 
 //nudge variables

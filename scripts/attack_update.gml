@@ -4,14 +4,19 @@ if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || a
 }
 switch(attack){
     case AT_DSPECIAL: // place batit
-        if(window == 1 && window_timer == get_window_value(AT_DSPECIAL, 1, AG_WINDOW_LENGTH) && !batitPlaced){
-            batitArticle = instance_create(x+12*spr_dir, y, "obj_article1");
+        if(window == 1 && window_timer == get_window_value(AT_DSPECIAL, 1, AG_WINDOW_LENGTH) && (!batitPlaced || runeM)){
+            if(runeM){
+                if(array_length(batitArticle) < 2){
+                    batitArticle[array_length(batitArticle)] = instance_create(x+12*spr_dir, y, "obj_article1");
+                }
+            } else{
+                batitArticle = instance_create(x+12*spr_dir, y, "obj_article1");
+            }
         }
         break;
     case AT_FSPECIAL: // pick up batit
         if(window == 2 && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH) && pickUpBatit){
             move_cooldown[AT_NSPECIAL] = 0;
-            batitArticle.state = 2;
             pickUpBatit = false;
             window = 4;
             window_timer = 0;
@@ -318,14 +323,28 @@ switch(attack){
         }
         break;
     case AT_USPECIAL_2:
-        if(batitPlaced && place_meeting(x, y, batitArticle) && (special_pressed || is_special_pressed(3))){
-            attack_end();
-            set_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING, .5);
-            set_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING, .4);
-            set_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE, 0);
-            set_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED, -10);
-            dontSwitchToUspecial = true;
-            set_attack(AT_USPECIAL);
+        if(runeM){
+            for(var i = 0; i < array_length(batitArticle); i++){
+                if(batitPlaced && place_meeting(x, y, batitArticle[i]) && (special_pressed || is_special_pressed(3))){
+                    attack_end();
+                    set_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING, .5);
+                    set_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING, .4);
+                    set_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE, 0);
+                    set_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED, -10);
+                    dontSwitchToUspecial = true;
+                    set_attack(AT_USPECIAL);
+                }
+            }
+        } else{
+            if(batitPlaced && place_meeting(x, y, batitArticle) && (special_pressed || is_special_pressed(3))){
+                attack_end();
+                set_hitbox_value(AT_USPECIAL, 13, HG_KNOCKBACK_SCALING, .5);
+                set_hitbox_value(AT_USPECIAL, 13, HG_HITPAUSE_SCALING, .4);
+                set_window_value(AT_USPECIAL, 4, AG_WINDOW_TYPE, 0);
+                set_window_value(AT_USPECIAL, 3, AG_WINDOW_VSPEED, -10);
+                dontSwitchToUspecial = true;
+                set_attack(AT_USPECIAL);
+            }
         }
     case AT_USPECIAL:
         can_wall_jump = true;
@@ -370,6 +389,6 @@ with batitArticle {
             attackDir = newDir;
             state = newState;
             state_timer = 0;
-        break;
+            break;
     }
 }

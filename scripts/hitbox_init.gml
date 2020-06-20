@@ -1,9 +1,6 @@
 //hitbox init
 
-if(attack == AT_FTILT && hbox_num == 1){ //direction and stuff
-    spr_dir = player_id.batitArticle.attackDir;
-    hsp *= player_id.batitArticle.attackDir*player_id.spr_dir;
-} else if (attack == AT_NSPECIAL && hbox_num == 1){ //targetting leaves
+if (attack == AT_NSPECIAL && hbox_num == 1){ //targetting leaves
     targetPlayer = noone; // this is the variable that holds the enemy that will be targetted
     with oPlayer{ // this loops through every oPlayer instance (an instance is each separate player, including forsburn clones) and runs the code inside from the perspective of that instance
         if(get_player_team(player) != get_player_team(other.player)){ // this makes it so that it doesn't run this code for you or your teammates, you don't want it to target your team
@@ -13,7 +10,7 @@ if(attack == AT_FTILT && hbox_num == 1){ //direction and stuff
             }
         }
     }
-    if(player_id.batitArticle.spr_dir == -1){ // if the player is facing the left
+    if(spr_dir == -1){ // if the player is facing the left
         proj_angle = 135; // rotate the projectile so that it is facing left (proj_angle and spr_dir are built in hitbox variables)
         spr_dir = 1; // make it so that it is facing right (the rotation keeps it facing left)
     }else{

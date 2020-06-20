@@ -13,6 +13,7 @@ switch(state) {
                 if(player == other.player_id.player && attack == AT_FSPECIAL && hbox_num == 1) {
                     if (place_meeting(x, y, other)){
                         player_id.pickUpBatit = true;
+                        other.state = 2;
                     }
                 }
             }
@@ -35,7 +36,21 @@ switch(state) {
             image_index = floor((state_timer-19)/20) + 3;
         }
         if(state_timer == 16){
-            create_hitbox(AT_FTILT, 1, round(x+10*attackDir), round(y-25)).fx_particles = 1;
+            if(player_id.runeK){
+                var ftiltHitboxOne = create_hitbox(AT_FTILT, 1, round(x+10*attackDir), round(y-15));
+                ftiltHitboxOne.fx_particles = 1;
+                ftiltHitboxOne.spr_dir = attackDir;
+                ftiltHitboxOne.hsp *= attackDir*player_id.spr_dir;
+                var ftiltHitboxTwo = create_hitbox(AT_FTILT, 1, round(x+10*attackDir), round(y-35));
+                ftiltHitboxTwo.fx_particles = 1;
+                ftiltHitboxTwo.spr_dir = attackDir;
+                ftiltHitboxTwo.hsp *= attackDir*player_id.spr_dir;
+            } else{
+                var ftiltHitbox = create_hitbox(AT_FTILT, 1, round(x+10*attackDir), round(y-25));
+                ftiltHitbox.fx_particles = 1;
+                ftiltHitbox.spr_dir = attackDir;
+                ftiltHitbox.hsp *= attackDir*player_id.spr_dir;
+            }
         } else if (state_timer == 59){
             changeState(0);
         }
@@ -136,7 +151,12 @@ switch(state) {
             image_index = floor((state_timer - 19)/20) + 3;
         }
         if(state_timer == 16){
-            create_hitbox(AT_UTILT, 2, round(x), round(y-49)).fx_particles = 1;
+            if(player_id.runeK){
+                create_hitbox(AT_UTILT, 2, round(x+10), round(y-49)).fx_particles = 1;
+                create_hitbox(AT_UTILT, 2, round(x-10), round(y-49)).fx_particles = 1;
+            } else{
+                create_hitbox(AT_UTILT, 2, round(x), round(y-49)).fx_particles = 1;
+            }
         } else if (state_timer == 59){
             changeState(0);
         }
@@ -165,7 +185,18 @@ switch(state) {
             sprite_index = sprite[9];
             showNspecialCooldown = true;
         } else if(state_timer == 37 || state_timer == 49){
-            create_hitbox(AT_NSPECIAL, 1, round(x+9*spr_dir), round(y-25)).fx_particles = 1;
+            if(player_id.runeK){
+                var nspecialHitboxOne = create_hitbox(AT_NSPECIAL, 1, round(x+(9-5)*spr_dir), round(y-30));
+                nspecialHitboxOne.fx_particles = 1;
+                nspecialHitboxOne.spr_dir = spr_dir;
+                var nspecialHitboxTwo = create_hitbox(AT_NSPECIAL, 1, round(x+(9+5)*spr_dir), round(y-20));
+                nspecialHitboxTwo.fx_particles = 1;
+                nspecialHitboxTwo.spr_dir = spr_dir;
+            } else{
+                var nspecialHitbox = create_hitbox(AT_NSPECIAL, 1, round(x+9*spr_dir), round(y-25));
+                nspecialHitbox.fx_particles = 1;
+                nspecialHitbox.spr_dir = spr_dir;
+            }
             sound_play(asset_get("sfx_rag_plant_shoot"));
         } else if(image_index > 10){
             changeState(0);
@@ -329,24 +360,27 @@ if(y > room_height || y < 0 || x < 0 || x > room_width){
     player_id.batitFell = true;
     changeState(2);
 }
+if(player_id.runeH){
+    batitHealth = 50;
+}
 
 // hitbox group stuff
 with oPlayer {
-    if(!("batitHitboxesReset" in self)){
-        batitHitboxesReset[other.player_id.player] = false;
+    if(array_length(other.batitHitboxesReset) <= player + (clone ? 10 : 0)){
+        other.batitHitboxesReset[player + (clone ? 10 : 0)] = false;
     }
-    if(array_length(other.hGroupCheck) <= player){
-        other.hGroupCheck[player, 0] = 0;
+    if(array_length(other.hGroupCheck) <= player + (clone ? 10 : 0)){
+        other.hGroupCheck[player + (clone ? 10 : 0), 0] = 0;
     }
     if (state != PS_ATTACK_AIR && state != PS_ATTACK_GROUND) {
-        if(!batitHitboxesReset[other.player_id.player]){
-            batitHitboxesReset[other.player_id.player] = true;
-            for (var i = array_length(other.hGroupCheck[player]); i >= 0; i--) {
-                other.hGroupCheck[player,i] = 0;
+        if(!other.batitHitboxesReset[player + (clone ? 10 : 0)]){
+            other.batitHitboxesReset[player + (clone ? 10 : 0)] = true;
+            for (var i = array_length(other.hGroupCheck[player + (clone ? 10 : 0)]); i >= 0; i--) {
+                other.hGroupCheck[player + (clone ? 10 : 0),i] = 0;
             }
         }
     } else {
-        batitHitboxesReset[other.player_id.player] = false;
+        other.batitHitboxesReset[player + (clone ? 10 : 0)] = false;
     }
 }
 //hitbox cleanup
@@ -363,7 +397,18 @@ if(ds_list_size(attacksFaced) && !instance_exists(ds_list_find_value(attacksFace
 }
 
 if(state == 2){ //despawn
-    player_id.batitPlaced = false;
+    if(player_id.runeM){
+        var newBatitArticleArray;
+        for(var i = 0; i < array_length(player_id.batitArticle); i++){
+            if(player_id.batitArticle[i] != id){
+                newBatitArticleArray[0] = player_id.batitArticle[i];
+            }
+        }
+        player_id.batitArticle = newBatitArticleArray;
+        player_id.batitPlaced = array_length(newBatitArticleArray) > 0;
+    } else{
+        player_id.batitPlaced = false;
+    }
     ds_list_destroy(attacksFaced);
     instance_destroy();
     exit;
@@ -390,13 +435,13 @@ if(batitHealth < 1){
 } else {
     var previousNumDamages = numDamages;
     with pHitBox{
-        if(array_length(other.hGroupCheck) <= player){
-            other.hGroupCheck[player, 0] = 0;
+        if(array_length(other.hGroupCheck) <= player + (player_id.clone ? 10 : 0)){
+            other.hGroupCheck[player + (player_id.clone ? 10 : 0), 0] = 0;
         }
-        if(array_length(other.hGroupCheck[player]) <= hbox_group){
-            other.hGroupCheck[player, hbox_group] = 0;
+        if(array_length(other.hGroupCheck[player + (player_id.clone ? 10 : 0)]) <= hbox_group){
+            other.hGroupCheck[player + (player_id.clone ? 10 : 0), hbox_group] = 0;
         }
-        if(hit_priority > 0 && other.player_id.player != player && (hbox_group == -1 || other.hGroupCheck[player, hbox_group] != 1)){
+        if(hit_priority > 0 && other.player_id.player != player && (hbox_group == -1 || other.hGroupCheck[player + (player_id.clone ? 10 : 0), hbox_group] != 1)){
             if((hbox_group != -1 || ds_list_find_index(other.attacksFaced, id) == -1) && place_meeting(x, y, other)){
                 ds_list_add(other.attacksFaced, id);
                 other.numDamages++;
@@ -422,7 +467,7 @@ if(batitHealth < 1){
         knockBackPower = attackFacing.kb_value + attackFacing.kb_scale*(50-batitHealth)*.12;
         attackFacing.player_id.has_hit = true;
         if(attackFacing.hbox_group != -1){
-            hGroupCheck[attackFacing.player, attackFacing.hbox_group] = 1;
+            hGroupCheck[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0), attackFacing.hbox_group] = 1;
         }
         changeState(6);
     }
@@ -444,13 +489,13 @@ if(explode) changeState(8);
 #define checkForNudge()
 if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
     with pHitBox {
-        if(array_length(other.hGroupCheck) <= player){
-            other.hGroupCheck[player, 0] = 0;
+        if(array_length(other.hGroupCheck) <= player + (player_id.clone ? 10 : 0)){
+            other.hGroupCheck[player + (player_id.clone ? 10 : 0), 0] = 0;
         }
-        if(array_length(other.hGroupCheck[player]) <= hbox_group){
-            other.hGroupCheck[player, hbox_group] = 0;
+        if(array_length(other.hGroupCheck[player + (player_id.clone ? 10 : 0)]) <= hbox_group){
+            other.hGroupCheck[player + (player_id.clone ? 10 : 0), hbox_group] = 0;
         }
-        if(player == other.player_id.player && id != other.nudgeHitboxID && (hbox_group == -1 || other.hGroupCheck[player, hbox_group] != 1)) {
+        if(player == other.player_id.player && id != other.nudgeHitboxID && (hbox_group == -1 || other.hGroupCheck[player + (player_id.clone ? 10 : 0), hbox_group] != 1)) {
             if(attack != AT_TAUNT_2 && (type != 2 || (attack == AT_DSPECIAL_AIR && hbox_num == 4)) && attack != AT_FSPECIAL){
                 if((!instance_exists(other.nudgeHitboxID) || (other.nudgeHitboxID.hit_priority < hit_priority && other.hitByDTilt)) && place_meeting(x, y, other)){
                     other.nudgeHitboxID = id;
@@ -472,7 +517,7 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
     if(hitByDTilt){
         nudgeAngle = degtorad(get_hitbox_angle(nudgeHitboxID));
         if(nudgeHitboxID.hbox_group != -1){
-            hGroupCheck[nudgeHitboxID.player, nudgeHitboxID.hbox_group] = 1;
+            hGroupCheck[nudgeHitboxID.player + (nudgeHitboxID.player_id.clone ? 10 : 0), nudgeHitboxID.hbox_group] = 1;
         }
         switch(nudgeAttack){
             case AT_DTILT:
