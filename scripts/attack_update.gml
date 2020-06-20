@@ -103,6 +103,17 @@ switch(attack){
             }
         }
         break;
+    case AT_FSTRONG: // for when Joshua keeps this while Batit is out (runeA)
+        if(runeA && state_timer <= 6 && batitPlaced){
+            if(!strong_down && ((!right_strong_down && spr_dir == 1) || (!left_strong_down && spr_dir == -1))){
+                doStrong = false;
+            }
+            if((state_timer == 6 || strongsMandatory) && doStrong){
+                attack_end();
+                batitAttack(10, spr_dir);
+            }
+        }
+        break;
     case AT_FAIR: // batit fair projectile and strong
         if(state_timer <= 6 && batitPlaced){
             if(!strong_down && ((!right_strong_down && spr_dir == 1) || (!left_strong_down && spr_dir == -1))){
@@ -155,6 +166,17 @@ switch(attack){
                 attack = AT_USTRONG;
                 attack_end();
                 attack = AT_USTRONG_2;
+                batitAttack(11, 1); // direction doesn't matter here
+            }
+        }
+        break;
+    case AT_USTRONG: // for when Joshua keeps this while Batit is out (runeB)
+        if(runeB && state_timer <= 6 && batitPlaced){
+            if(!strong_down && !up_strong_down){
+                doStrong = false;
+            }
+            if((state_timer == 6 || strongsMandatory) && doStrong){
+                attack_end();
                 batitAttack(11, 1); // direction doesn't matter here
             }
         }

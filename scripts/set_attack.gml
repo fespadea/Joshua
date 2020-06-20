@@ -66,16 +66,18 @@ switch(attack){
         }
         break;
     case AT_FSTRONG: // batit fstrong
-        if (batitDelay > 0){
+        if (batitDelay > 0 && !runeA){
             attack = AT_FSTRONG_2;
             doStrong = true;
         }
+        doStrong = true;
         break;
     case AT_USTRONG: // batit ustrong
-        if (batitDelay > 0){
+        if (batitDelay > 0 && !runeB){
             attack = AT_USTRONG_2;
             doStrong = true;
         }
+        doStrong = true;
         break;
     case AT_DSTRONG:
         prevSprDir = spr_dir;
