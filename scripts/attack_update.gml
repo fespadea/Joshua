@@ -49,6 +49,7 @@ switch(attack){
                     }
                 }
             } else {
+                grabbedid = noone;
                 window = 6;
                 window_timer = 0;
                 hsp = -7*spr_dir;
@@ -56,7 +57,7 @@ switch(attack){
                     vsp = -1;
                 }
             }
-        } else if (window == 7){
+        } if (window == 7){
             if(instance_exists(grabbedid)){
                 grabbedid.spr_dir = -spr_dir;
                 grabbedid.wrap_time = 6000;
@@ -146,6 +147,13 @@ switch(attack){
                 batitAttack(10, -spr_dir);
             } else if((state_timer == 6 || projectilesMandatory) && doAttack && ((!right_strong_down && spr_dir == -1) || (!left_strong_down && spr_dir == 1)))
                 batitAttack(1, -spr_dir);
+        }
+        if(runeG){
+            can_attack = true;
+            move_cooldown[AT_NAIR] = max(2, move_cooldown[AT_NAIR]);
+            move_cooldown[AT_DAIR] = max(2, move_cooldown[AT_DAIR]);
+            move_cooldown[AT_UAIR] = max(2, move_cooldown[AT_UAIR]);
+            move_cooldown[AT_FAIR] = max(2, move_cooldown[AT_FAIR]);
         }
         break;
     case AT_UTILT: // utilt/uair batit projectile

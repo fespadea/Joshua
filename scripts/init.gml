@@ -518,13 +518,13 @@ abyssMods = array_create(16,[-1,"Not Implemented."]);
 abyssMods[@ runes.A] = [2, "Keep Batitful FSTRONG when Batit is out."];
 abyssMods[@ runes.B] = [2, "Keep Batitful USTRONG when Batit is out."];
 abyssMods[@ runes.C] = [3, "Switch to a random alt each time you hit the opponent."];
-abyssMods[@ runes.D] = [3, "Holding Batit Does not make Joshua Slower."];
-abyssMods[@ runes.E] = [2, "No let-go push back on batitless FSPECIAL so you can wobble with Batit."];
-abyssMods[@ runes.F] = [1, "Batitful NSPECIAL gets its insane hitstun multiplier back."];
+abyssMods[@ runes.D] = [3, "Holding Batit does not make Joshua Slower."];
+abyssMods[@ runes.E] = [1, "Batitful NSPECIAL gets its insane hitstun multiplier back."];
+abyssMods[@ runes.F] = [-1, ""];
 
 abyssMods[@ runes.G] = [2, "BAIR can be cancelled into BAIR."];
 abyssMods[@ runes.H] = [0, "Batit has unlimited health and no respawn cooldowns."];
-abyssMods[@ runes.I] = [-1, ""];
+abyssMods[@ runes.I] = [2, "No grab push-back when opponent hit and Batit's strongs have extra hitpause."];
 abyssMods[@ runes.J] = [-1, ""];
 abyssMods[@ runes.K] = [-1, ""];
 

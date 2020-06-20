@@ -42,6 +42,7 @@ switch(attack){
             attack = AT_FSPECIAL_2;
             whipHitPlayer = false;
         }
+        opponentHitOutOfGrab = false;
         break;
     case AT_NSPECIAL: // nspecial batit projectile
         if (batitDelay > 0 && move_cooldown[AT_NSPECIAL] < 1){

@@ -189,6 +189,24 @@ if(grabbedid != noone && !((state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)
     }
 }
 
+// decrease endlag on fspecial for runeI
+if(runesUpdated){
+    if(runeI){
+        set_hitbox_value(AT_USTRONG, 2, HG_EXTRA_HITPAUSE, 20);
+        set_hitbox_value(AT_FSTRONG, 3, HG_EXTRA_HITPAUSE, 20);
+        set_hitbox_value(AT_FSTRONG, 4, HG_EXTRA_HITPAUSE, 20);
+    } else{
+        reset_hitbox_value(AT_USTRONG, 2, HG_EXTRA_HITPAUSE);
+        reset_hitbox_value(AT_FSTRONG, 3, HG_EXTRA_HITPAUSE);
+        reset_hitbox_value(AT_FSTRONG, 4, HG_EXTRA_HITPAUSE);
+    }
+    if(runeE){
+        set_hitbox_value(AT_NSPECIAL, 2, HG_HITSTUN_MULTIPLIER, 6);
+    } else {
+        reset_hitbox_value(AT_NSPECIAL, 2, HG_HITSTUN_MULTIPLIER);
+    }
+}
+
 // uair command grab (template)
 if(!(state == PS_ATTACK_AIR && attack == AT_UAIR)){
     for(var k = 0; k < array_length(uairGrabbedid); k++){

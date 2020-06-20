@@ -48,9 +48,11 @@ if (my_hitboxID.attack == AT_FSPECIAL){
     grabbedid = noone;
     window = 6;
     window_timer = 0;
-    hsp = -7*spr_dir;
-    if(free){
-        vsp = -1;
+    if(!runeI){
+        hsp = -7*spr_dir;
+        if(free){
+            vsp = -1;
+        }
     }
 }
 
