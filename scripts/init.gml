@@ -500,3 +500,35 @@ for(var j = array_length(tutorialPages)-1; j >= 0; j--){
         parsedLines[j, i++] = line;
     }
 }
+
+//Rune Support
+abyssEnabled = false;
+enum runes {A = 1,B = 2,C = 3,D = 4,E = 5,F = 6,G = 7,H = 8,I = 9,J = 10,K = 11,L = 12,M = 13,N = 14,O = 15}
+runeA = false; runeB = false; runeC = false; runeD = false; runeE = false; runeF = false; runeG = false; runeH = false; runeI = false; runeJ = false; runeK = false; runeL = false; runeM = false; runeN = false; runeO = false; runesUpdated = false;
+ab_hud_x = 0;
+ab_hud_y = 0;
+
+//abyssMods[1 to 15] = [type, description];
+//types are: -1 - disabled
+// 0 - object mod: Modifies a static object left behind after an attack.
+// 1 - ranged mod: Modifies a projectile attack.
+// 2 - hit mod: Modifies a direct physical interaction with an opponent.
+// 3 - ability boost: Powers up a character attribute or action.
+abyssMods = array_create(16,[-1,"Not Implemented."]);
+abyssMods[@ runes.A] = [2, "Keep Batitful FSTRONG when Batit is out."];
+abyssMods[@ runes.B] = [2, "Keep Batitful USTRONG when Batit is out."];
+abyssMods[@ runes.C] = [3, "Switch to a random alt each time you hit the opponent."];
+abyssMods[@ runes.D] = [3, "Holding Batit Does not make Joshua Slower."];
+abyssMods[@ runes.E] = [2, "No let-go push back on batitless FSPECIAL so you can wobble with Batit."];
+abyssMods[@ runes.F] = [1, "Batitful NSPECIAL gets its insane hitstun multiplier back."];
+
+abyssMods[@ runes.G] = [2, "BAIR can be cancelled into BAIR."];
+abyssMods[@ runes.H] = [0, "Batit has unlimited health and no respawn cooldowns."];
+abyssMods[@ runes.I] = [-1, ""];
+abyssMods[@ runes.J] = [-1, ""];
+abyssMods[@ runes.K] = [-1, ""];
+
+abyssMods[@ runes.L] = [0, "Batit can cancel all attacks into any attack."];
+abyssMods[@ runes.M] = [1, "DSPECIAL spamming."];
+abyssMods[@ runes.N] = [-1, ""];
+abyssMods[@ runes.O] = [-1, ""];

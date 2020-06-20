@@ -83,7 +83,7 @@ if(batitPlaced){
     batitFell = false;
 }
 // stat switching
-if(batitDelay > 0){
+if(batitDelay > 0 || runeD){
     move_cooldown[AT_TAUNT] = 2;
     if(batitStats){
         walk_speed += .25;
@@ -224,6 +224,17 @@ if (get_gameplay_time() < COUNTDOWN_LENGTH) {
             curRealAlt = curRealAlt % 16;
         }
         clear_button_buffer(PC_SPECIAL_PRESSED);
+        sprite_change_offset("dog", curRealAlt, sprite_get_yoffset(sprite_get("dog")));
+        init_shader();
+    } else if(jump_pressed){
+        var curRealAlt = sprite_get_xoffset(sprite_get("dog"));
+        curRealAlt -= 16;
+        if(curRealAlt < 0){
+            while(curRealAlt+16 < NUM_ALTS){ // could not think of better math cause dumb
+                curRealAlt += 16;
+            }
+        }
+        clear_button_buffer(PC_JUMP_PRESSED);
         sprite_change_offset("dog", curRealAlt, sprite_get_yoffset(sprite_get("dog")));
         init_shader();
     }
