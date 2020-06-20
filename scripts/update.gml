@@ -51,7 +51,7 @@ if(batitPlaced){
                     if(runeM){
                         var batitCanAttack = false;
                         for(var i = 0; i < array_length(batitArticle); i++){
-                            if(batitArticle[i].state == 0 || batitArticle[i].state == 3 || (runeN && (batitArticle.state == 1 || batitArticle.state == 7 || batitArticle.state == 9 || batitArticle.state == 10 || batitArticle.state == 11))){
+                            if(batitArticle[i].state == 0 || batitArticle[i].state == 3 || (runeN && (batitArticle[i].state == 1 || batitArticle[i].state == 7 || batitArticle[i].state == 9 || batitArticle[i].state == 10 || batitArticle[i].state == 11))){
                                 batitCanAttack = true;
                             }
                         }
