@@ -36,7 +36,7 @@ switch(state) {
             image_index = floor((state_timer-19)/20) + 3;
         }
         if(state_timer == 16){
-            if(player_id.runeK){
+            if(player_id.runeO){
                 var ftiltHitboxOne = create_hitbox(AT_FTILT, 1, round(x+10*attackDir), round(y-15));
                 ftiltHitboxOne.fx_particles = 1;
                 ftiltHitboxOne.spr_dir = attackDir;
@@ -151,7 +151,7 @@ switch(state) {
             image_index = floor((state_timer - 19)/20) + 3;
         }
         if(state_timer == 16){
-            if(player_id.runeK){
+            if(player_id.runeO){
                 create_hitbox(AT_UTILT, 2, round(x+10), round(y-49)).fx_particles = 1;
                 create_hitbox(AT_UTILT, 2, round(x-10), round(y-49)).fx_particles = 1;
             } else{
@@ -185,7 +185,7 @@ switch(state) {
             sprite_index = sprite[9];
             showNspecialCooldown = true;
         } else if(state_timer == 37 || state_timer == 49){
-            if(player_id.runeK){
+            if(player_id.runeO){
                 var nspecialHitboxOne = create_hitbox(AT_NSPECIAL, 1, round(x+(9-5)*spr_dir), round(y-30));
                 nspecialHitboxOne.fx_particles = 1;
                 nspecialHitboxOne.spr_dir = spr_dir;

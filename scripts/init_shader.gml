@@ -22,6 +22,11 @@ if("alt_name" in self || !("ping_color" in self)){
             curRealAlt--;
         }
     }
+    
+    // set shading to normal
+    for(i = 0; i < 8; i++){
+        set_character_color_shading(i, 1);
+    }
 
     switch(curRealAlt){
         case 0:

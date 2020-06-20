@@ -51,12 +51,12 @@ if(batitPlaced){
                     if(runeM){
                         var batitCanAttack = false;
                         for(var i = 0; i < array_length(batitArticle); i++){
-                            if(batitArticle[i].state == 0 || batitArticle[i].state == 3){
+                            if(batitArticle[i].state == 0 || batitArticle[i].state == 3 || (runeN && (batitArticle.state == 1 || batitArticle.state == 7 || batitArticle.state == 9 || batitArticle.state == 10 || batitArticle.state == 11))){
                                 batitCanAttack = true;
                             }
                         }
                     } else {
-                        var batitCanAttack = batitArticle.state == 0 || batitArticle.state == 3;
+                        var batitCanAttack = batitArticle.state == 0 || batitArticle.state == 3 || (runeN && (batitArticle.state == 1 || batitArticle.state == 7 || batitArticle.state == 9 || batitArticle.state == 10 || batitArticle.state == 11));
                     }
                     if(batitCanAttack){
                         if(up_strong_pressed){
@@ -80,7 +80,7 @@ if(batitPlaced){
                         } else if((attack_pressed && up_down) || up_stick_pressed){
                             batitAttack(7, 1); // the direction doesn't matter here
                         } else if(special_pressed || is_special_pressed(DIR_ANY)){
-                            if (move_cooldown[AT_NSPECIAL] < 1){
+                            if (move_cooldown[AT_NSPECIAL] < 1 || runeE){
                                 with batitArticle{
                                     switch(state){
                                         case 3:
@@ -92,6 +92,17 @@ if(batitPlaced){
                                             state = 9;
                                             state_timer = 0;
                                             other.move_cooldown[AT_NSPECIAL] = other.BATIT_NSPECIAL_COOLDOWN;
+                                            break;
+                                        case 1:
+                                        case 7:
+                                        case 9:
+                                        case 10:
+                                        case 11:
+                                            if(other.runeN){
+                                                state = 9;
+                                                other.move_cooldown[AT_NSPECIAL] = other.BATIT_NSPECIAL_COOLDOWN;
+                                                state_timer = 0;
+                                            }
                                             break;
                                     }
                                 }
@@ -232,7 +243,7 @@ if(runesUpdated){
         reset_hitbox_value(AT_FSTRONG, 3, HG_EXTRA_HITPAUSE);
         reset_hitbox_value(AT_FSTRONG, 4, HG_EXTRA_HITPAUSE);
     }
-    if(runeE){
+    if(runeK){
         set_hitbox_value(AT_NSPECIAL, 2, HG_HITSTUN_MULTIPLIER, 6);
     } else {
         reset_hitbox_value(AT_NSPECIAL, 2, HG_HITSTUN_MULTIPLIER);
@@ -760,6 +771,17 @@ with batitArticle {
             attackDir = newDir;
             state = newState;
             state_timer = 0;
-        break;
+            break;
+        case 1:
+        case 7:
+        case 9:
+        case 10:
+        case 11:
+            if(other.runeN){
+                attackDir = newDir;
+                state = newState;
+                state_timer = 0;
+            }
+            break;
     }
 }

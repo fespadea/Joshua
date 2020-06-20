@@ -45,7 +45,7 @@ switch(attack){
         opponentHitOutOfGrab = false;
         break;
     case AT_NSPECIAL: // nspecial batit projectile
-        if (batitDelay > 0 && move_cooldown[AT_NSPECIAL] < 1){
+        if (batitDelay > 0 && (move_cooldown[AT_NSPECIAL] < 1 || runeE)){
             if(batitPlaced){
                 with batitArticle{
                     switch(state){
@@ -58,6 +58,19 @@ switch(attack){
                             state = 9;
                             state_timer = 0;
                             other.move_cooldown[AT_NSPECIAL] = other.BATIT_NSPECIAL_COOLDOWN;
+                            break;
+                        case 1:
+                        case 7:
+                        case 9:
+                        case 10:
+                        case 11:
+                            if(other.runeN){
+                                state = 9;
+                                other.move_cooldown[AT_NSPECIAL] = other.BATIT_NSPECIAL_COOLDOWN;
+                                state_timer = 0;
+                            } else {
+                                other.move_cooldown[AT_NSPECIAL] = 2;
+                            }
                             break;
                         default:
                             other.move_cooldown[AT_NSPECIAL] = 2;

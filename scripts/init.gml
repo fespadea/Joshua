@@ -173,8 +173,8 @@ leafBreakHfx = hit_fx_create(sprite_get("batit_leaf_break"), 25);
 leafHitHfx = hit_fx_create(sprite_get("batit_leaf_hfx"), 25);
 strongHitHfx = hit_fx_create(sprite_get("batit_strong_hfx"), 30);
 sweetspotHfx = hit_fx_create(sprite_get("batit_sweetspot_hfx"), 35);
-set_hit_particle_sprite(1, PART_MAY_LEAF);
-set_hit_particle_sprite(2, PART_SYL_FLOWER);
+set_hit_particle_sprite(1, sprite_get("particle_leaf"));
+set_hit_particle_sprite(2, sprite_get("particle_wood"));
 
 //intro
 introTimer = -4;
@@ -520,16 +520,16 @@ abyssMods[@ runes.A] = [2, "Keep Batitful FSTRONG when Batit is out."];
 abyssMods[@ runes.B] = [2, "Keep Batitful USTRONG when Batit is out."];
 abyssMods[@ runes.C] = [3, "Switch to a random alt each time you hit the opponent."];
 abyssMods[@ runes.D] = [3, "Holding Batit does not make Joshua Slower."];
-abyssMods[@ runes.E] = [1, "Batitful NSPECIAL gets its very high hitstun multiplier back."];
+abyssMods[@ runes.E] = [0, "No NSPECIAL cooldown for Batit."];
 abyssMods[@ runes.F] = [2, "UAIR always Marios."];
 
 abyssMods[@ runes.G] = [2, "BAIR can be cancelled into BAIR."];
 abyssMods[@ runes.H] = [0, "Batit has unlimited health and no respawn cooldowns."];
 abyssMods[@ runes.I] = [0, "Batit's strongs have extra hitpause and no grab push-back when opponent hit (wobbling)."];
 abyssMods[@ runes.J] = [2, "USPECIAL is permanently upgraded, even when Batit is out."];
-abyssMods[@ runes.K] = [0, "Batit shoots double the projectiles."];
+abyssMods[@ runes.K] = [1, "Batitful NSPECIAL gets its very high hitstun multiplier back."];
 
 abyssMods[@ runes.L] = [1, "Pre-nerf bombs without a cooldown."];
 abyssMods[@ runes.M] = [0, "Batit and Titab."];
-abyssMods[@ runes.N] = [-1, ""];
-abyssMods[@ runes.O] = [-1, ""];
+abyssMods[@ runes.N] = [0, "Batit can cancel his attacks into other attacks."];
+abyssMods[@ runes.O] = [0, "Batit shoots double the projectiles."];

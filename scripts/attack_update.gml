@@ -390,5 +390,16 @@ with batitArticle {
             state = newState;
             state_timer = 0;
             break;
+        case 1:
+        case 7:
+        case 9:
+        case 10:
+        case 11:
+            if(other.runeN){
+                attackDir = newDir;
+                state = newState;
+                state_timer = 0;
+            }
+            break;
     }
 }
