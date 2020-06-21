@@ -107,6 +107,20 @@ if(batitPlaced){
                                     }
                                 }
                             }
+                            if(runeN){
+                                clear_button_buffer(PC_ATTACK_PRESSED);
+                                clear_button_buffer(PC_LEFT_STICK_PRESSED);
+                                clear_button_buffer(PC_RIGHT_STICK_PRESSED);
+                                clear_button_buffer(PC_UP_STICK_PRESSED);
+                                clear_button_buffer(PC_DOWN_STICK_PRESSED);
+                                clear_button_buffer(PC_STRONG_PRESSED);
+                                clear_button_buffer(PC_LEFT_STRONG_PRESSED);
+                                clear_button_buffer(PC_RIGHT_STRONG_PRESSED);
+                                clear_button_buffer(PC_UP_STRONG_PRESSED);
+                                clear_button_buffer(PC_DOWN_STRONG_PRESSED);
+                                clear_button_buffer(PC_SHIELD_PRESSED);
+                                clear_button_buffer(PC_SPECIAL_PRESSED);
+                            }
                         }
                     }
             }
@@ -784,4 +798,18 @@ with batitArticle {
             }
             break;
     }
+}
+if(runeN){
+    clear_button_buffer(PC_ATTACK_PRESSED);
+    clear_button_buffer(PC_LEFT_STICK_PRESSED);
+    clear_button_buffer(PC_RIGHT_STICK_PRESSED);
+    clear_button_buffer(PC_UP_STICK_PRESSED);
+    clear_button_buffer(PC_DOWN_STICK_PRESSED);
+    clear_button_buffer(PC_STRONG_PRESSED);
+    clear_button_buffer(PC_LEFT_STRONG_PRESSED);
+    clear_button_buffer(PC_RIGHT_STRONG_PRESSED);
+    clear_button_buffer(PC_UP_STRONG_PRESSED);
+    clear_button_buffer(PC_DOWN_STRONG_PRESSED);
+    clear_button_buffer(PC_SHIELD_PRESSED);
+    clear_button_buffer(PC_SPECIAL_PRESSED);
 }
