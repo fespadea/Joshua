@@ -235,7 +235,7 @@ if(state == PS_PARRY){
 if(grabbedid != noone && !((state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR) && attack == AT_FSPECIAL)){
     if(instance_exists(grabbedid)){
         grabbedid.ungrab++;
-        if(grabbedid.ungrab == 2){
+        if(grabbedid.ungrab >= 2){
             if(grabbedid.state == PS_WRAPPED)
                 grabbedid.state = PS_TUMBLE;
             grabbedid.ungrab = 0;
@@ -328,7 +328,7 @@ if(!(state == PS_ATTACK_AIR && attack == AT_UAIR)){
     for(var k = 0; k < array_length(uairGrabbedid); k++){
         if(uairGrabbedid[k,0] != noone && instance_exists(uairGrabbedid[k,0])){
             uairGrabbedid[k,0].ungrab++;
-            if(uairGrabbedid[k,0].ungrab == 2){
+            if(uairGrabbedid[k,0].ungrab >= 2){
                 uairGrabbedid[k,0].ungrab = 0;
                 uairGrabbedid[k,0] = noone;
                 uairGrabbedid[k,1] = 0;

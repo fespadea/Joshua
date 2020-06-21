@@ -10,10 +10,10 @@ switch(state) {
         image_index = floor(state_timer/8);
         if (player_id.attack == AT_FSPECIAL){
             with pHitBox {
-                if(player == other.player_id.player && attack == AT_FSPECIAL && hbox_num == 1) {
+                if(orig_player == other.player_id.player && attack == AT_FSPECIAL && hbox_num == 1) {
                     if (place_meeting(x, y, other)){
                         player_id.pickUpBatit = true;
-                        other.state = 2;
+                        player_id.batitToPickUp = other;
                     }
                 }
             }

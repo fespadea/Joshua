@@ -18,6 +18,7 @@ switch(attack){
         if(window == 2 && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH) && pickUpBatit){
             move_cooldown[AT_NSPECIAL] = 0;
             pickUpBatit = false;
+            batitToPickUp.state = 2;
             window = 4;
             window_timer = 0;
         } else if((window == 3 || window == 4 || window == 6) && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)) {
@@ -221,6 +222,35 @@ switch(attack){
                         uairGrabbedid[k,0].ungrab = 0;
                         uairGrabbedid[k,0].x = x + hsp + uairGrabbedid[k,1];
                         uairGrabbedid[k,0].y = y + vsp + uairGrabbedid[k,2];
+                        with pHitBox {
+                            if(orig_player == other.player && attack == AT_UAIR && hbox_num > 1){
+                                var changeX = true;
+                                var changeY = false;
+                                while(!place_meeting(x, y, other.uairGrabbedid[k,0])){
+                                    if(changeX){
+                                        if(other.uairGrabbedid[k,0].x < x){
+                                            other.uairGrabbedid[k,0].x++;
+                                            other.uairGrabbedid[k,1]++;
+                                        } else {
+                                            other.uairGrabbedid[k,0].x--;
+                                            other.uairGrabbedid[k,1]--;
+                                        }
+                                        changeY = true;
+                                        changeX = false;
+                                    } else if(changeY){
+                                        if(other.uairGrabbedid[k,0].y < y){
+                                            other.uairGrabbedid[k,0].y++;
+                                            other.uairGrabbedid[k,2]++;
+                                        } else {
+                                            other.uairGrabbedid[k,0].y--;
+                                            other.uairGrabbedid[k,2]--;
+                                        }
+                                        changeY = false;
+                                        changeX = true;
+                                    }
+                                }
+                            }
+                        }
                         if(window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
                             uairGrabbedid[k,0] = noone;
                             uairGrabbedid[k,1] = 0;
