@@ -8,7 +8,7 @@ var temp_y = y + 9;
 
 var alt_cur = sprite_get_xoffset(sprite_get("dog"));
 
-var doNotInitShader = "alt_name" in self;
+var doNotInitShader = "alt_name" in self; // check if running for the first time
 
 //Alt name init. var doesn't work with arrays lol
 
@@ -46,7 +46,7 @@ alt_name[30]  = "Buch";
 alt_name[31]  = "Feri";
 
 if(!doNotInitShader){
-    init_shader();
+    init_shader(); // makes the shader update when you return to the CSS
 }
 
 
