@@ -20,7 +20,17 @@ if (attack == AT_NSPECIAL && hbox_num == 1){ //targetting leaves
     //follower vfx
     leafFollowerVFX = hit_fx_create(sprite_get("batit_nspecial_particle_fx"), 15);
 } else if (attack == AT_FSTRONG && (hbox_num == 3 || hbox_num == 4)){
-    hbox_group = 2;
+    if(player_id.runeM){
+        hbox_group = 2;
+        with pHitBox {
+            if(id != other && attack == other.attack && orig_player == other.orig_player && hbox_num == other.hbox_num && hbox_group == other.hbox_group){
+                other.hbox_group = 5;
+                break;
+            }
+        }
+    } else{
+        hbox_group = 2;
+    }
 } else if (attack == AT_DSPECIAL_AIR){
     if((hbox_num == 2 || hbox_num == 3)){
         hbox_group = 3;

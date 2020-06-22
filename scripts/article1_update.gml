@@ -162,18 +162,61 @@ switch(state) {
         }
         break;
     case 8: // exploding attack
-        image_index = floor(state_timer/6);
         if(state_timer == 1){
             sprite_index = sprite[8];
-        } else if(state_timer == 30){
-            sound_play(explode);
-            create_hitbox(AT_DSPECIAL_AIR, 2, round(x+2*spr_dir), round(y-36));
-        } else if(state_timer == 42){
-            create_hitbox(AT_DSPECIAL_AIR, 3, round(x+2*spr_dir), round(y-24));
-        } else if(image_index > 9){
+            if(skipFirstExplodeWindow){
+                changeWindow(1);
+            } else{
+                changeWindow(0);
+                window0Length = 12;
+            }
+            window1Length = 12;
+            window2Length = 6;
+            window3Length = 30;
+        }
+        if(window == 0){
+            if(window_timer == window0Length){
+                changeWindow(1);
+            }
+            checkForNudge();
+            image_index = floor(window_timer/(window0Length/2));
+        }
+        if(window == 1){
+            if(window_timer == window1Length){
+                if(player_id.special_down && numFramesExplosionDelayed < 90){
+                    window_timer--;
+                    numFramesExplosionDelayed++;
+                } else{
+                    changeWindow(2);
+                }
+            }
+            checkForNudge();
+            image_index = 2 + floor(window_timer/(window1Length/2));
+        }
+        if(window == 2){
+            if(window_timer == window2Length){
+                changeWindow(3);
+            }
+            checkForNudge();
+            image_index = 4;
+        }
+        if(window == 3){
+            hsp = 0;
+            vsp = 0;
+            free = false;
+            if(window_timer == 0){
+                sound_play(explode);
+                create_hitbox(AT_DSPECIAL_AIR, 2, round(x+2*spr_dir), round(y-36));
+            } else if(window_timer == 12){
+                create_hitbox(AT_DSPECIAL_AIR, 3, round(x+2*spr_dir), round(y-24));
+            }
+            image_index = 5 + floor(window_timer/(window3Length/5));
+        }
+        if(image_index > 9){
             player_id.batitDied = true;
             changeState(2);
         }
+        window_timer++;
         break;
     case 9: //nspecial attack
         checkForTaunt();
@@ -479,12 +522,17 @@ with pHitBox {
         if (attack == AT_DSPECIAL_AIR && hbox_num == 1){
             if(!destroyed && place_meeting(x, y, other)){
                 other.explode = sound_effect;
-                length = hitbox_timer + 2;
+                if(y > other.y - 30){
+                    other.skipFirstExplodeWindow = true;
+                }
+                instance_destroy(id);
             }
         }
     }
 }
-if(explode) changeState(8);
+if(explode){
+    changeState(8);
+}
 
 #define checkForNudge()
 if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
@@ -503,7 +551,7 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
                     sound_play(sound_effect);
                     spawn_hit_fx(round(other.x), round(other.y-20), hit_effect);
                     other.nudgeAttack = attack;
-                    if(attack == AT_DSTRONG){
+                    if(attack == AT_DSTRONG || attack == AT_USTRONG_2 || attack == AT_FSTRONG_2){
                         other.nudgeDamage = damage*(1 + player_id.strong_charge/120);
                     } else {
                         other.nudgeDamage = damage;
@@ -535,8 +583,10 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
                 vsp = -2*nudgeDamage*sin(nudgeAngle);
                 break;
             case AT_DSTRONG:
-                hsp = nudgeDamage*cos(nudgeAngle);
-                vsp = -nudgeDamage*sin(nudgeAngle);
+            case AT_USTRONG_2:
+            case AT_FSTRONG_2:
+                hsp = 1.25*nudgeDamage*cos(nudgeAngle);
+                vsp = -1.25*nudgeDamage*sin(nudgeAngle);
                 break;
             case AT_UAIR:
                 hsp = 1.6*nudgeBaseKnockback*cos(nudgeAngle);
@@ -547,8 +597,8 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
                 vsp = -2*nudgeDamage*sin(nudgeAngle);
                 break;
             default:
-                hsp = max((1+nudgeKnockbackScaling)*nudgeBaseKnockback*cos(nudgeAngle), (1+nudgeKnockbackScaling)*nudgeDamage*cos(nudgeAngle));
-                vsp = max(-(1+nudgeKnockbackScaling)*nudgeBaseKnockback*sin(nudgeAngle), -(1+nudgeKnockbackScaling)*nudgeDamage*sin(nudgeAngle));
+                hsp = max((1+nudgeKnockbackScaling)*nudgeBaseKnockback, (1+nudgeKnockbackScaling)*nudgeDamage)*cos(nudgeAngle);
+                vsp = max(-(1+nudgeKnockbackScaling)*nudgeBaseKnockback, -(1+nudgeKnockbackScaling)*nudgeDamage)*sin(nudgeAngle);
                 break;
         }
         if(!free && vsp > 0){

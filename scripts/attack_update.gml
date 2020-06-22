@@ -291,7 +291,8 @@ switch(attack){
         break;
     case AT_DSPECIAL_AIR: // change AT_DSPECIAL_AIR to land when landing
         if(!free){
-            set_state(PS_LAND);
+            landing_lag_time = 10;
+            set_state(PS_LANDING_LAG);
         }
         break;
     case AT_FSPECIAL_2: // pulls in on hit

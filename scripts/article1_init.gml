@@ -21,6 +21,8 @@ tauntTime = false;
 
 //explode variable
 explode = 0;
+skipFirstExplodeWindow = false;
+numFramesExplosionDelayed = 0;
 
 //health/damage variables
 batitHealth = 50;
@@ -49,12 +51,14 @@ nudgeBounced = false;
 nudgeHitboxID = noone;
 bumpBox = noone;
 
-//strong variables
+// window variables
 window = 0;
 window_timer = 0;
 window0Length = 0;
 window1Length = 0;
 window2Length = 0;
+window3Length = 0;
+//strong variables
 strongCharge = 0;
 fstrongChargeSprite = sprite_get("batit_fstrong_charge");
 ustrongChargeSprite = sprite_get("batit_ustrong_charge");
