@@ -389,7 +389,7 @@ switch(attack){
                     if(right_down){
                         currentTutorialPage += 10;
                         if(currentTutorialPage > totalTutorialPages){
-                            currentTutorialPage = totalTutorialPages
+                            currentTutorialPage = totalTutorialPages;
                         }
                     } else if(left_down){
                         currentTutorialPage--;
