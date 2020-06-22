@@ -183,7 +183,7 @@ switch(state) {
         }
         if(window == 1){
             if(window_timer == window1Length){
-                if(player_id.special_down && numFramesExplosionDelayed < 90){
+                if(player_id.special_down && numFramesExplosionDelayed < MAX_EXPLOSION_DELAY_FRAMES){
                     window_timer--;
                     numFramesExplosionDelayed++;
                 } else{
@@ -206,9 +206,15 @@ switch(state) {
             free = false;
             if(window_timer == 0){
                 sound_play(explode);
-                create_hitbox(AT_DSPECIAL_AIR, 2, round(x+2*spr_dir), round(y-36));
+                var bombHitboxEarly = create_hitbox(AT_DSPECIAL_AIR, 2, round(x+2*spr_dir), round(y-36));
+                bombHitboxEarly.damage *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
+                bombHitboxEarly.kb_value *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
+                bombHitboxEarly.kb_scale *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
             } else if(window_timer == 12){
-                create_hitbox(AT_DSPECIAL_AIR, 3, round(x+2*spr_dir), round(y-24));
+                var bombHitboxLate = create_hitbox(AT_DSPECIAL_AIR, 3, round(x+2*spr_dir), round(y-24));
+                bombHitboxLate.damage *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
+                bombHitboxLate.kb_value *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
+                bombHitboxLate.kb_scale *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
             }
             image_index = 5 + floor(window_timer/(window3Length/5));
         }

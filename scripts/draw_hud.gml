@@ -62,7 +62,6 @@ if(drawingTimer){
         draw_sprite_ext(artPaper, 4, temp_x + 126, temp_y - 81.8, 1, 1, 0, -1, 1);
         draw_sprite(artTCO, 0, temp_x + 126, temp_y - 347);
     }
-    drawingTimer--;
 }
 
 // trummel and alto reverse support 
@@ -97,7 +96,6 @@ if(codecOut){
         draw_debug_text(temp_x-26-offset-offset2, temp_y-36, (string(currentPage+1) + "/" + string(lastPage+1)));
         draw_sprite(joshuaCodecSprites[joshuaCodecSpeaker[currentPage]], floor(codecTimer/2) < string_length(joshuaCodecLine[currentPage,1]) + string_length(joshuaCodecLine[currentPage,2]) + string_length(joshuaCodecLine[currentPage,3]) + string_length(joshuaCodecLine[currentPage,4]) ? floor(codecTimer/6) % 2 + joshuaCodecExpression[currentPage]*2 : joshuaCodecExpression[currentPage]*2, temp_x - 34, temp_y - 82);
     }
-    codecTimer++;
 }
 
 //abyss gui code

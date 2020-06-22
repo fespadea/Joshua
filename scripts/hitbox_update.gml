@@ -17,6 +17,7 @@ if (attack == AT_UTILT && hbox_num == 2){
             break;
         case 1:
             if(!free){
+                hit_priority = 0;
                 if(spawnSplash){
                     create_hitbox(AT_DSPECIAL_AIR, 4, round(x), round(y));
                 } else if(spawnEffect){

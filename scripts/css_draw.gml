@@ -3,7 +3,7 @@ var temp_x = x + 8;
 var temp_y = y + 9;
 
 #macro PATCH_VER "3.1"
-#macro PATCH_DAY "21"
+#macro PATCH_DAY "22"
 #macro PATCH_MONTH "JUNE"
 
 var alt_cur = sprite_get_xoffset(sprite_get("dog"));

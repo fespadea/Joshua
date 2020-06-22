@@ -23,6 +23,7 @@ tauntTime = false;
 explode = 0;
 skipFirstExplodeWindow = false;
 numFramesExplosionDelayed = 0;
+MAX_EXPLOSION_DELAY_FRAMES = 90;
 
 //health/damage variables
 batitHealth = 50;

@@ -773,6 +773,16 @@ if(get_gameplay_time() == 2){
     }
 }
 
+// TCO reverse support
+if(drawingTimer){
+    drawingTimer--;
+}
+
+//Trummel and Alto reverse support
+if(codecOut){
+    codecTimer++;
+}
+
 #define batitAttack(newState, newDir)
 with batitArticle {
     switch(state){

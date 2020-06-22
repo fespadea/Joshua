@@ -4,7 +4,7 @@ if (attack == AT_NSPECIAL || attack == AT_FSPECIAL || attack == AT_DSPECIAL || a
 }
 switch(attack){
     case AT_DSPECIAL: // place batit
-        if(window == 1 && window_timer == get_window_value(AT_DSPECIAL, 1, AG_WINDOW_LENGTH) && (!batitPlaced || runeM)){
+        if(window == 1 && window_timer == get_window_value(attack, 1, AG_WINDOW_LENGTH) && (!batitPlaced || runeM)){
             if(runeM){
                 if(array_length(batitArticle) < 2){
                     batitArticle[array_length(batitArticle)] = instance_create(x+12*spr_dir, y, "obj_article1");
@@ -15,13 +15,13 @@ switch(attack){
         }
         break;
     case AT_FSPECIAL: // pick up batit
-        if(window == 2 && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH) && pickUpBatit){
+        if(window == 2 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH) && pickUpBatit){
             move_cooldown[AT_NSPECIAL] = 0;
             pickUpBatit = false;
             batitToPickUp.state = 2;
             window = 4;
             window_timer = 0;
-        } else if((window == 3 || window == 4 || window == 6) && window_timer == get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)) {
+        } else if((window == 3 || window == 4 || window == 6) && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)) {
             if(free){
                 if(was_parried)
                     set_state(PS_PRATFALL);
@@ -68,9 +68,9 @@ switch(attack){
                 grabbedid.spr_dir = -spr_dir;
                 grabbedid.wrap_time = 6000;
                 grabbedid.state = PS_WRAPPED;
-                if(window_timer > get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH)/2){
-                    grabbedid.x = lerp(x + 45*spr_dir + hsp, x + 25*spr_dir + hsp, window_timer/get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH));
-                    grabbedid.y = lerp(y + vsp, y - 20 + vsp, window_timer/get_window_value(AT_FSPECIAL, window, AG_WINDOW_LENGTH));
+                if(window_timer > get_window_value(attack, window, AG_WINDOW_LENGTH)/2){
+                    grabbedid.x = lerp(x + 45*spr_dir + hsp, x + 25*spr_dir + hsp, window_timer/get_window_value(attack, window, AG_WINDOW_LENGTH));
+                    grabbedid.y = lerp(y + vsp, y - 20 + vsp, window_timer/get_window_value(attack, window, AG_WINDOW_LENGTH));
                 } else {
                     grabbedid.x = x + 45*spr_dir + hsp;
                     grabbedid.y = y + vsp;
@@ -78,7 +78,7 @@ switch(attack){
             }
         } else if (window == 8){
             if(window_timer == 1){
-                var throwBox = create_hitbox(AT_FSPECIAL, 2, round(x+8), round(y-62));
+                var throwBox = create_hitbox(attack, 2, round(x+8), round(y-62));
                 for(var i = 0; i < array_length(throwBox.can_hit); i++){
                     throwBox.can_hit[i] = 0;
                 }
@@ -210,9 +210,9 @@ switch(attack){
                 batitAttack(11, 1); // direction doesn't matter here
             } else if((state_timer == 6 || projectilesMandatory) && doAttack && !up_strong_down)
                 batitAttack(7, 1); // direction doesn't matter here
-        } else if(window == 2 && window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
+        } else if(window == 2 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)){
             if(!finishUair){
-                window = get_attack_value(AT_UAIR, AG_NUM_WINDOWS);
+                window = get_attack_value(attack, AG_NUM_WINDOWS);
                 window_timer = 0;
             }
         } else if(window == 3){ // grab template kind of
@@ -251,7 +251,7 @@ switch(attack){
                                 }
                             }
                         }
-                        if(window_timer == get_window_value(AT_UAIR, window, AG_WINDOW_LENGTH)){
+                        if(window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)){
                             uairGrabbedid[k,0] = noone;
                             uairGrabbedid[k,1] = 0;
                             uairGrabbedid[k,2] = 0;
@@ -264,28 +264,28 @@ switch(attack){
         }
         break;
     case AT_DATTACK: // made Dattack work in 2 parts
-        if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS) - 1){
+        if(window == get_attack_value(attack, AG_NUM_WINDOWS) - 1){
             if(finishDattack && !was_parried){
                 if(window_timer == 1) sound_play(asset_get("sfx_swipe_heavy1"));
                 else if(window_timer > 4){
-                    set_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS), AG_WINDOW_TYPE, 9);
-                    window = get_attack_value(AT_DATTACK, AG_NUM_WINDOWS);
+                    set_window_value(attack, get_attack_value(attack, AG_NUM_WINDOWS), AG_WINDOW_TYPE, 9);
+                    window = get_attack_value(attack, AG_NUM_WINDOWS);
                     window_timer = 0;
                     initialDattackY = y;
                     vsp = -6;
                 }
-            } else if (window_timer == get_window_value(AT_DATTACK, window, AG_WINDOW_LENGTH)){
+            } else if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)){
                 spr_dir *= -1;
                 if(!was_parried) set_state(PS_IDLE);
                 else set_state(PS_PRATLAND);
             }
-        } else if(window == get_attack_value(AT_DATTACK, AG_NUM_WINDOWS)){
+        } else if(window == get_attack_value(attack, AG_NUM_WINDOWS)){
             if(state_timer > dashAttackLength){
                 can_jump = true;
                 can_wall_jump = true;
             }
             if(y >= initialDattackY || !free){
-                set_window_value(AT_DATTACK, get_attack_value(AT_DATTACK, AG_NUM_WINDOWS), AG_WINDOW_TYPE, 0);
+                set_window_value(attack, get_attack_value(attack, AG_NUM_WINDOWS), AG_WINDOW_TYPE, 0);
             }
         }
         break;
@@ -305,7 +305,7 @@ switch(attack){
             can_strong  = true;
             can_ustrong = true;
             can_shield = true;
-        } else if(window == 3 && window_timer == get_window_value(AT_FSPECIAL_2, window, AG_WINDOW_LENGTH)){
+        } else if(window == 3 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)){
             if(free){
                 if(was_parried)
                     set_state(PS_PRATFALL);
@@ -325,7 +325,7 @@ switch(attack){
                 sound_stop(pencilDrawSound);
             } else if (window_timer == 18 && window == 7){
                 drawingTimer = 179;
-                move_cooldown[AT_EXTRA_1] = 179;
+                move_cooldown[attack] = 179;
             }
         } else if(compatibleUrl == 1933111975){ //this stuff is for the reverse Trummel and Alto support
             if(!codecOut || endCodec){
