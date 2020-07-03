@@ -20,7 +20,7 @@ set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_LENGTH, 18);
 set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_ANIM_FRAMES, 2);
 set_window_value(AT_FSPECIAL_2, 3, AG_WINDOW_ANIM_FRAME_START, 6);
 
-set_window_value(AT_FSPECIAL_2, 4, AG_WINDOW_LENGTH, 6);
+set_window_value(AT_FSPECIAL_2, 4, AG_WINDOW_LENGTH, 12);
 set_window_value(AT_FSPECIAL_2, 4, AG_WINDOW_ANIM_FRAMES, 2);
 set_window_value(AT_FSPECIAL_2, 4, AG_WINDOW_ANIM_FRAME_START, 4);
 set_window_value(AT_FSPECIAL_2, 4, AG_WINDOW_HSPEED_TYPE, 1);
@@ -43,4 +43,5 @@ set_hitbox_value(AT_FSPECIAL_2, 1, HG_DAMAGE, 4);
 set_hitbox_value(AT_FSPECIAL_2, 1, HG_ANGLE, 170);
 set_hitbox_value(AT_FSPECIAL_2, 1, HG_BASE_KNOCKBACK, 7);
 set_hitbox_value(AT_FSPECIAL_2, 1, HG_BASE_HITPAUSE, 5);
+set_hitbox_value(AT_FSPECIAL_2, 1, HG_HITSTUN_MULTIPLIER, 0.8);
 set_hitbox_value(AT_FSPECIAL_2, 1, HG_HIT_SFX, asset_get("sfx_may_whip1"));

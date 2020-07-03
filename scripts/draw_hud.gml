@@ -25,22 +25,47 @@ if(batitDelay < 0){
 shader_end();
 
 // practice mode tips
+#macro TUTORIAL_X_BASE_OFFSET -8
+#macro TUTORIAL_Y_BASE_OFFSET -2
+#macro ABOVE_TEXTBOX_X_OFFSET_OFFSET 6
+#macro ABOVE_TEXTBOX_Y_OFFSET_OFFSET 10
+#macro TEXT_X_OFFSET_OFFSET 8
+#macro TEXT_Y_OFFSET_OFFSET 0
 if(practiceMode){
     var numLines = array_length(parsedLines[currentTutorialPage]);
     if(currentTutorialPage){ //draw the background of the tutorial
+        var pageNumberYOffset;
         if(numLines == 1){
-            draw_sprite(tutorialSingleSprite, 0, temp_x-8, temp_y-24);
+            var singleSpriteXOffset = TUTORIAL_X_BASE_OFFSET;
+            var singleSpriteYOffset = TUTORIAL_Y_BASE_OFFSET - TUTORIAL_SINGLE_SPRITE_HEIGHT;
+            draw_sprite(tutorialSingleSprite, 0, temp_x + singleSpriteXOffset, temp_y + singleSpriteYOffset);
+            pageNumberYOffset = singleSpriteYOffset;
         } else {
-            draw_sprite(tutorialBottomSprite, 0, temp_x-8, temp_y-20);
+            var bottomSpriteXOffset = TUTORIAL_X_BASE_OFFSET;
+            var bottomSpriteYOffset = TUTORIAL_Y_BASE_OFFSET - TUTORIAL_BOTTOM_SPRITE_HEIGHT;
+            draw_sprite(tutorialBottomSprite, 0, temp_x + bottomSpriteXOffset, temp_y + bottomSpriteYOffset);
+            var middleSpriteXOffset = bottomSpriteXOffset;
+            var middleSpriteYOffset = bottomSpriteYOffset;
             for(var j = 1; j < numLines - 1; j++){
-                draw_sprite(tutorialMiddleSprite, 0, temp_x-8, temp_y-24-18*j);
+                middleSpriteXOffset = bottomSpriteXOffset;
+                middleSpriteYOffset = bottomSpriteYOffset - TUTORIAL_MIDDLE_SPRITE_HEIGHT*j;
+                draw_sprite(tutorialMiddleSprite, 0, temp_x + middleSpriteXOffset, temp_y + middleSpriteYOffset);
             }
-            draw_sprite(tutorialTopSprite, 0, temp_x-8, temp_y-24-18*(numLines-1));
+            var topSpriteXOffset = bottomSpriteXOffset;
+            var topSpriteYOffset = middleSpriteYOffset - TUTORIAL_TOP_SPRITE_HEIGHT;
+            draw_sprite(tutorialTopSprite, 0, temp_x + topSpriteXOffset, temp_y + topSpriteYOffset);
+            pageNumberYOffset = topSpriteYOffset;
         }
-        draw_debug_text(temp_x-2, temp_y-18-18*numLines, string(currentTutorialPage) + "/" + string(totalTutorialPages));
+        var pageNumberXOffset = TUTORIAL_X_BASE_OFFSET + ABOVE_TEXTBOX_X_OFFSET_OFFSET;
+        pageNumberYOffset = ABOVE_TEXTBOX_Y_OFFSET_OFFSET + pageNumberYOffset - TEXT_HEIGHT;
+        draw_debug_text(temp_x + pageNumberXOffset, temp_y + pageNumberYOffset, string(currentTutorialPage) + "/" + string(totalTutorialPages));
     }
+    var textXOffset;
+    var textYOffset;
     for(var k = 0; k < numLines; k++){
-        draw_debug_text(temp_x, temp_y-2-18*(numLines - k), parsedLines[currentTutorialPage, k]);
+        textXOffset = TUTORIAL_X_BASE_OFFSET + TEXT_X_OFFSET_OFFSET;
+        textYOffset = TUTORIAL_Y_BASE_OFFSET + TEXT_Y_OFFSET_OFFSET - TUTORIAL_MIDDLE_SPRITE_HEIGHT*(numLines - k);
+        draw_debug_text(temp_x + textXOffset, temp_y+textYOffset, parsedLines[currentTutorialPage, k]);
     }
 }
 

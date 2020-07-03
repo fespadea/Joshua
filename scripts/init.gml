@@ -468,15 +468,20 @@ tutorialPages[pageNum] = "Nudging can be toggled to not be default, so that you 
 pageNum++;
 tutorialPages[pageNum] = "The state of this toggle is indicated by the bottom light on the HUD.";
 pageNum++;
-tutorialPages[pageNum] = "One last thing regarding the extra alts on the CSS. They can't be selected online, so you can press special during the countdown to change to the alt on the next row (this loops). That's all probably.";
+tutorialPages[pageNum] = "One last thing regarding the extra alts on the CSS. They can't be selected online, so you can press special during the countdown to change to the alt on the next row or jump to go the other way (this loops). That's all probably.";
 totalTutorialPages = array_length(tutorialPages) - 1;
 //tutorial sprites
 tutorialSingleSprite = sprite_get("tutorial_single_line");
+TUTORIAL_SINGLE_SPRITE_HEIGHT = sprite_get_height(tutorialSingleSprite);
 tutorialBottomSprite = sprite_get("tutorial_bottom_line");
+TUTORIAL_BOTTOM_SPRITE_HEIGHT = sprite_get_height(tutorialBottomSprite);
 tutorialTopSprite = sprite_get("tutorial_top_line");
+TUTORIAL_TOP_SPRITE_HEIGHT = sprite_get_height(tutorialTopSprite);
 tutorialMiddleSprite = sprite_get("tutorial_middle_line");
+TUTORIAL_MIDDLE_SPRITE_HEIGHT = sprite_get_height(tutorialMiddleSprite);
+TEXT_HEIGHT = string_height("0123456789/");
 // string parsing
-// the width of the line in pixels minus 2
+// the width of the line where the text is written on in pixels minus 2
 #macro MAX_LINE_LENGTH 210
 for(var j = array_length(tutorialPages)-1; j >= 0; j--){
     var page = tutorialPages[j];

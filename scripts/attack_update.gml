@@ -299,12 +299,6 @@ switch(attack){
         if(window == 2 && whipHitPlayer && !was_parried){
             window = 4;
             window_timer = 0;
-            can_jump = true;
-            can_attack = true;
-            can_wall_jump = true;
-            can_strong  = true;
-            can_ustrong = true;
-            can_shield = true;
         } else if(window == 3 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)){
             if(free){
                 if(was_parried)
@@ -317,6 +311,15 @@ switch(attack){
                 else
                     set_state(PS_IDLE);
             }
+        } else if(window == 4){
+            if(free){
+                can_jump = true;
+                can_shield = true;
+            }
+            can_attack = true;
+            can_wall_jump = true;
+            can_strong  = true;
+            can_ustrong = true;
         }
         break;
     case AT_EXTRA_1:

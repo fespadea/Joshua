@@ -2,9 +2,9 @@
 var temp_x = x + 8;
 var temp_y = y + 9;
 
-#macro PATCH_VER "3.1"
-#macro PATCH_DAY "22"
-#macro PATCH_MONTH "JUNE"
+#macro PATCH_VER "3.2"
+#macro PATCH_DAY "3"
+#macro PATCH_MONTH "JULY"
 
 var alt_cur = sprite_get_xoffset(sprite_get("dog"));
 
@@ -46,7 +46,7 @@ alt_name[30]  = "Buch";
 alt_name[31]  = "Feri";
 
 if(!doNotInitShader){
-    init_shader(); // makes the shader update when you return to the CSS
+    init_shader(); // makes the shader update when you return to the CSS (don't know why the game is coded so that this necessary)
 }
 
 
