@@ -483,12 +483,16 @@ TEXT_HEIGHT = string_height("0123456789/");
 // string parsing
 // the width of the line where the text is written on in pixels minus 2
 #macro MAX_LINE_LENGTH 210
+var page;
+var i;
+var word;
+var line;
 for(var j = array_length(tutorialPages)-1; j >= 0; j--){
-    var page = tutorialPages[j];
-    var i = 0;
-    var word = "";
+    page = tutorialPages[j];
+    i = 0;
+    word = "";
     while(string_length(page) > 0 || string_length(word) > 0){
-        var line = "";
+        line = "";
         word = string_copy(word, 2, string_length(word)-1);
         while(string_width(line + word) <= MAX_LINE_LENGTH){
             line += word;
