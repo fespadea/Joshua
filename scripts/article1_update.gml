@@ -105,6 +105,11 @@ switch(state) {
                 nudgeBounced = true;
             } else if (nudgePrevVsp < 0){
                 vsp = nudgePrevVsp+player_id.gravity_speed + min(player_id.air_friction, -vsp);
+            } else {
+                if(instance_exists(bumpBox)){
+                    bumpBox.length = 0;
+                }
+                bumpBox = noone;
             }
         }
         nudgePrevVsp = vsp;

@@ -4,6 +4,7 @@ NUM_ALTS = 32;
 if("alt_name" in self || !("ping_color" in self)){
     var curAlt = get_player_color(player);
     if(!sprite_get_bbox_left(sprite_get("dog"))){
+        sprite_change_collision_mask("batit_explode", true, 0, 0, 0, 0, 0, 0);
         sprite_change_offset("dog", curAlt, curAlt);
         sprite_change_collision_mask("dog", false, 2, 1, 1, 1, 1, 1);
     }

@@ -450,11 +450,13 @@ tutorialPages[pageNum] = "This version of uspecial starts in window 3 (the windo
 pageNum++;
 tutorialPages[pageNum] = "If you have Batit with you, you can also drop him midair to use this move for recovery if necessary. You'll be dropping Batit Yoshi-style though.";
 pageNum++;
-tutorialPages[pageNum] = "The last move is aerial dspecial. Joshua can throw a bomb into Batit for a very good kill move, but be careful as this kills Batit.";
+tutorialPages[pageNum] = "The last move is batitless dspecial. Joshua can throw a bomb into Batit for a very good kill move, but be careful as this kills Batit.";
+pageNum++;
+tutorialPages[pageNum] = "The explosion can be delayed by up to 90 frames by holding special, but delaying the explosion decreases its strength by up to 50% at the max delay (for damage, base knockback, and knockback scaling).";
 pageNum++;
 tutorialPages[pageNum] = "Also, Batit can be healed with Taunt.";
 pageNum++;
-tutorialPages[pageNum] = "Finally, I want to go over nudging. If Joshua attacks Batit (excluding aerial dspecial and fspecial for obvious reasons), Batit will get nudged.";
+tutorialPages[pageNum] = "Finally, I want to go over nudging. If Joshua attacks Batit (excluding batitless dspecial and fspecial for obvious reasons), Batit will get nudged.";
 pageNum++;
 tutorialPages[pageNum] = "This will put Batit in a state where he is sent flying in a the direction of the hitbox's knockback angle (some hitboxes have adjusted knockback).";
 pageNum++;
