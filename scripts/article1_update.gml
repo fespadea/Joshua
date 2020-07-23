@@ -435,7 +435,19 @@ with oPlayer {
         if(!other.batitHitboxesReset[player + (clone ? 10 : 0)]){
             other.batitHitboxesReset[player + (clone ? 10 : 0)] = true;
             for (var i = array_length(other.hGroupCheck[player + (clone ? 10 : 0)]); i >= 0; i--) {
-                other.hGroupCheck[player + (clone ? 10 : 0),i] = 0;
+                var resetHitboxFlag = true;
+                with pHitBox {
+                    if(player == other.player){
+                        if(hbox_group == i){
+                            resetHitboxFlag = false;
+                        }
+                    }
+                }
+                if(resetHitboxFlag){
+                    other.hGroupCheck[player + (clone ? 10 : 0),i] = 0;
+                } else {
+                    other.batitHitboxesReset[player + (clone ? 10 : 0)] = false;
+                }
             }
         }
     } else {
@@ -504,10 +516,6 @@ if(batitHealth < 1){
             if((hbox_group != -1 || ds_list_find_index(other.attacksFaced, id) == -1) && place_meeting(x, y, other)){
                 ds_list_add(other.attacksFaced, id);
                 other.numDamages++;
-                other.batitHealth -= min(damage, other.batitHealth);
-                player_id.has_hit = true;
-                sound_play(sound_effect);
-                spawn_hit_fx(round(other.x), round(other.y-20), hit_effect);
             }
         }
     }
@@ -521,6 +529,10 @@ if(batitHealth < 1){
                 ds_list_set(attacksFaced, i, noone);
             }
         }
+        batitHealth -= min(attackFacing.damage, batitHealth);
+        attackFacing.player_id.has_hit = true;
+        sound_play(attackFacing.sound_effect);
+        spawn_hit_fx(round(x), round(y-20), attackFacing.hit_effect);
         knockBackAngle = get_hitbox_angle(attackFacing);
         knockBackPower = attackFacing.kb_value + attackFacing.kb_scale*(50-batitHealth)*.12;
         hitstop = max(round(attackFacing.hitpause + attackFacing.extra_hitpause + attackFacing.hitpause_growth*(50-batitHealth)*.05), 0);

@@ -9,7 +9,7 @@ if(my_hitboxID.attack == AT_DATTACK && my_hitboxID.hbox_num == get_num_hitboxes(
 if(my_hitboxID.attack == AT_UAIR && my_hitboxID.hbox_num > 1 && my_hitboxID.hbox_num < get_num_hitboxes(AT_UAIR)){
     if(my_hitboxID.hbox_num == 2){
         finishUair = true;
-        if(!hit_player_obj.clone){
+        if(!hit_player_obj.clone && hit_player_obj.hitstun > 0){
             uairGrabbedid[hit_player, 0] = hit_player_obj;
             uairGrabbedid[hit_player, 0].grabbed = 1;
             uairGrabbedid[hit_player, 0].ungrab = 0;
@@ -29,8 +29,7 @@ if(my_hitboxID.attack == AT_FSPECIAL_2){
 // command grab (template)
 if (my_hitboxID.attack == AT_FSPECIAL){
     if(my_hitboxID.hbox_num == 1){
-        sound_play(asset_get("sfx_blow_weak1")); //this wouldn't play as the hitbox's hit sfx for some reason
-        if(!hit_player_obj.clone){
+        if(!hit_player_obj.clone && hit_player_obj.hitstun > 0){
             grabbedid = hit_player_obj;
             grabbedid.grabbed = 1;
             grabbedid.ungrab = 0;

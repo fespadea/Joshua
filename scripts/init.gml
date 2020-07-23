@@ -234,6 +234,10 @@ arena_short_name = "Joshua & Batit";
 //soulbound conflict support
 battle_text = "";
 
+//toon link support
+toonlink_photo = sprite_get("toon_link_joshua_selfie");
+toonlink_photo2 = sprite_get("toon_link_owo_selfie");
+
 //trummel and alto support
 trummelcodecneeded = false;
 trummelcodec_id = noone;

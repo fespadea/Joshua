@@ -57,6 +57,8 @@ set_hitbox_value(AT_FSPECIAL, 1, HG_WIDTH, 65);
 set_hitbox_value(AT_FSPECIAL, 1, HG_HEIGHT, 41);
 set_hitbox_value(AT_FSPECIAL, 1, HG_PRIORITY, 2);
 set_hitbox_value(AT_FSPECIAL, 1, HG_DAMAGE, 2);
+set_hitbox_value(AT_FSPECIAL, 1, HG_BASE_KNOCKBACK, 1);
+set_hitbox_value(AT_FSPECIAL, 1, HG_HIT_SFX, asset_get("sfx_blow_weak1"));
 set_hitbox_value(AT_FSPECIAL, 1, HG_HITBOX_GROUP, -1);
 
 set_hitbox_value(AT_FSPECIAL, 2, HG_HITBOX_TYPE, 1); //throw hitbox
