@@ -21,6 +21,11 @@ if(ai_recovering){
     }
 }
 
+if(autoNudge){
+    taunt_down = true;
+    shield_down = true;
+}
+
 if(get_training_cpu_action() == CPU_FIGHT){
     if(batitDelay < 1 && !free && !batitPlaced && get_player_damage(player) < 80){ // place Batit because this seems like a reasonable time to do it
         special_pressed = true;

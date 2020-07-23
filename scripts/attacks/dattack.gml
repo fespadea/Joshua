@@ -12,7 +12,7 @@ set_window_value(AT_DATTACK, 1, AG_WINDOW_SFX, asset_get("sfx_spin"));
 
 set_window_value(AT_DATTACK, 2, AG_WINDOW_LENGTH, 9);
 set_window_value(AT_DATTACK, 2, AG_WINDOW_ANIM_FRAMES, 3);
-set_window_value(AT_DATTACK, 2, AG_WINDOW_HSPEED, 6);
+set_window_value(AT_DATTACK, 2, AG_WINDOW_HSPEED, 4);
 set_window_value(AT_DATTACK, 2, AG_WINDOW_HSPEED_TYPE, 1);
 set_window_value(AT_DATTACK, 2, AG_WINDOW_ANIM_FRAME_START, 3);
 
@@ -27,7 +27,7 @@ set_window_value(AT_DATTACK, 4, AG_WINDOW_TYPE, 9);
 set_window_value(AT_DATTACK, 4, AG_WINDOW_LENGTH, 12);
 set_window_value(AT_DATTACK, 4, AG_WINDOW_ANIM_FRAMES, 1);
 set_window_value(AT_DATTACK, 4, AG_WINDOW_ANIM_FRAME_START, 7);
-set_window_value(AT_DATTACK, 4, AG_WINDOW_HSPEED, 7);
+set_window_value(AT_DATTACK, 4, AG_WINDOW_HSPEED, 5);
 set_window_value(AT_DATTACK, 4, AG_WINDOW_HSPEED_TYPE, 1);
 
 // this variable holds the length of dash attack with no looping of the last window, this is for efficiency
@@ -111,8 +111,8 @@ set_hitbox_value(AT_DATTACK, 4, HG_HEIGHT, 70);
 set_hitbox_value(AT_DATTACK, 4, HG_PRIORITY, 2);
 set_hitbox_value(AT_DATTACK, 4, HG_DAMAGE, 5);
 set_hitbox_value(AT_DATTACK, 4, HG_ANGLE, 40);
-set_hitbox_value(AT_DATTACK, 4, HG_BASE_KNOCKBACK, 10);
-set_hitbox_value(AT_DATTACK, 4, HG_KNOCKBACK_SCALING, .3);
+set_hitbox_value(AT_DATTACK, 4, HG_BASE_KNOCKBACK, 5);
+set_hitbox_value(AT_DATTACK, 4, HG_KNOCKBACK_SCALING, .2);
 set_hitbox_value(AT_DATTACK, 4, HG_BASE_HITPAUSE, 4);
 set_hitbox_value(AT_DATTACK, 4, HG_HITPAUSE_SCALING, .6);
 set_hitbox_value(AT_DATTACK, 4, HG_VISUAL_EFFECT_X_OFFSET, 8);

@@ -66,10 +66,10 @@ switch(state) {
                 changeDir(1);
             bumpBox = create_hitbox(AT_DTILT, 2, round(x), round(y-20));
             bumpBox.spr_dir = player_id.spr_dir;
-            bumpBox.damage = nudgeDamage;
+            bumpBox.damage = nudgeDamage/2;
             bumpBox.kb_angle = radtodeg(nudgeAngle);
-            bumpBox.kb_value = nudgeBaseKnockback;
-            bumpBox.kb_scale = nudgeKnockbackScaling;
+            bumpBox.kb_value = nudgeBaseKnockback/2;
+            bumpBox.kb_scale = nudgeKnockbackScaling/2;
             nudgeBounced = false;
         } else if((hsp != 0 || free || nudgePrevVsp != 0) && instance_exists(bumpBox)){
             bumpBox.x = x + hsp;
@@ -100,16 +100,15 @@ switch(state) {
                 }
             }
         } else {
+            if(instance_exists(bumpBox)){
+                bumpBox.length = 0;
+            }
+            bumpBox = noone;
             if(nudgePrevVsp > 6){
                 vsp = -nudgePrevVsp/3;
                 nudgeBounced = true;
             } else if (nudgePrevVsp < 0){
                 vsp = nudgePrevVsp+player_id.gravity_speed + min(player_id.air_friction, -vsp);
-            } else {
-                if(instance_exists(bumpBox)){
-                    bumpBox.length = 0;
-                }
-                bumpBox = noone;
             }
         }
         nudgePrevVsp = vsp;
@@ -138,7 +137,10 @@ switch(state) {
         }
         checkForDamage();
         checkForBomb();
-        if(hsp == 0 && vsp == 0) changeState(0);
+        hitstunTimer--;
+        if(hitstunTimer <= 0){
+            changeState(0);
+        }
         break;
     case 7: // utilt/uair attack
         checkForTaunt();
@@ -382,6 +384,9 @@ state_timer++;
 depth = player_id.depth - 1;
 can_be_grounded = true;
 ignores_walls = false;
+if(hitstop < 0){
+    hitstop = 0;
+}
 if (free && vsp > 0){ // this code is to prevent Batit from falling through platforms
     var platformCollidedWith = collision_rectangle(x-4+hsp,y-1+vsp,x+5+hsp,y+1+vsp,asset_get("par_jumpthrough"),false, true);
     var currentPlatformCollededWith = collision_rectangle(x-4+hsp,y-1,x+5+hsp,y+1,asset_get("par_jumpthrough"),false, true);
@@ -499,7 +504,6 @@ if(batitHealth < 1){
             if((hbox_group != -1 || ds_list_find_index(other.attacksFaced, id) == -1) && place_meeting(x, y, other)){
                 ds_list_add(other.attacksFaced, id);
                 other.numDamages++;
-                other.hitstop += hitpause + extra_hitpause;
                 other.batitHealth -= min(damage, other.batitHealth);
                 player_id.has_hit = true;
                 sound_play(sound_effect);
@@ -519,7 +523,14 @@ if(batitHealth < 1){
         }
         knockBackAngle = get_hitbox_angle(attackFacing);
         knockBackPower = attackFacing.kb_value + attackFacing.kb_scale*(50-batitHealth)*.12;
+        hitstop = max(round(attackFacing.hitpause + attackFacing.extra_hitpause + attackFacing.hitpause_growth*(50-batitHealth)*.05), 0);
+        attackFacing.player_id.old_hsp = attackFacing.player_id.hsp;
+        attackFacing.player_id.old_vsp = attackFacing.player_id.vsp;
+        attackFacing.player_id.hitpause = true;
+        attackFacing.player_id.hitstop_full = max(round(attackFacing.hitpause + attackFacing.hitpause_growth*(50-batitHealth)*.05), 0);
+        attackFacing.player_id.hitstop = attackFacing.player_id.hitstop_full;
         attackFacing.player_id.has_hit = true;
+        hitstunTimer = round(attackFacing.kb_value*4 + (50-batitHealth)*0.12*attackFacing.kb_scale*4*0.65);
         if(attackFacing.hbox_group != -1){
             hGroupCheck[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0), attackFacing.hbox_group] = 1;
         }
@@ -596,8 +607,8 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
             case AT_DSTRONG:
             case AT_USTRONG_2:
             case AT_FSTRONG_2:
-                hsp = 1.25*nudgeDamage*cos(nudgeAngle);
-                vsp = -1.25*nudgeDamage*sin(nudgeAngle);
+                hsp = nudgeDamage*cos(nudgeAngle);
+                vsp = -nudgeDamage*sin(nudgeAngle);
                 break;
             case AT_UAIR:
                 hsp = 1.6*nudgeBaseKnockback*cos(nudgeAngle);

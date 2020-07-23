@@ -52,6 +52,9 @@ nudgeBounced = false;
 nudgeHitboxID = noone;
 bumpBox = noone;
 
+//hitstun variables
+hitstunTimer = 0;
+
 // window variables
 window = 0;
 window_timer = 0;

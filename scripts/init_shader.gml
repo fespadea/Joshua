@@ -1,7 +1,7 @@
 // init shader
 
 NUM_ALTS = 32;
-if("alt_name" in self || !("ping_color" in self)){
+if(!("onlineCSS" in self) || !onlineCSS){
     var curAlt = get_player_color(player);
     if(!sprite_get_bbox_left(sprite_get("dog"))){
         sprite_change_collision_mask("batit_explode", true, 0, 0, 0, 0, 0, 0);
@@ -23,7 +23,7 @@ if("alt_name" in self || !("ping_color" in self)){
             curRealAlt--;
         }
     }
-    
+
     // set shading to normal
     for(i = 0; i < 8; i++){
         set_character_color_shading(i, 1);
@@ -315,26 +315,6 @@ if("alt_name" in self || !("ping_color" in self)){
             set_article_color_slot( 7, 65, 125, 146, 256 ); //Leaves
             break;
         case 14:
-            // Kris alt
-            set_character_color_slot( 0, 255, 119, 205, 256 ); //Jacket
-            set_character_color_slot( 1, 117, 250, 237, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 68, 68, 145, 256 ); //Pants
-            set_character_color_slot( 3, 33, 33, 81, 256 ); //Hair
-            set_character_color_slot( 4, 201, 228, 242, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 113, 113, 156, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 237, 148, 165, 256 ); //Stem
-            set_character_color_slot( 7, 237, 148, 165, 256 ); //Leaves
-            // Kris alt article colors
-            set_article_color_slot( 0, 255, 119, 205, 256 ); //Jacket
-            set_article_color_slot( 1, 117, 250, 237, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 68, 68, 145, 256 ); //Pants
-            set_article_color_slot( 3, 33, 33, 81, 256 ); //Hair
-            set_article_color_slot( 4, 201, 228, 242, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 113, 113, 156, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 237, 148, 165, 256 ); //Stem
-            set_article_color_slot( 7, 237, 148, 165, 256 ); //Leaves
-            break;
-        case 15:
             // Giik alt
             set_character_color_slot( 0, 254, 254, 254, 256 ); //Jacket
             set_character_color_slot( 1, 59, 37, 47, 256 ); //Skin/Pot
@@ -353,6 +333,26 @@ if("alt_name" in self || !("ping_color" in self)){
             set_article_color_slot( 5, 59, 37, 47, 256 ); //Shoe/Shirt Dark
             set_article_color_slot( 6, 254, 254, 254, 256 ); //Stem
             set_article_color_slot( 7, 253, 220, 153, 256 ); //Leaves
+            break;
+        case 15:
+            // Kris alt
+            set_character_color_slot( 0, 255, 119, 205, 256 ); //Jacket
+            set_character_color_slot( 1, 117, 250, 237, 256 ); //Skin/Pot
+            set_character_color_slot( 2, 68, 68, 145, 256 ); //Pants
+            set_character_color_slot( 3, 33, 33, 81, 256 ); //Hair
+            set_character_color_slot( 4, 201, 228, 242, 256 ); //Shoe/Shirt Light
+            set_character_color_slot( 5, 113, 113, 156, 256 ); //Shoe/Shirt Dark
+            set_character_color_slot( 6, 237, 148, 165, 256 ); //Stem
+            set_character_color_slot( 7, 237, 148, 165, 256 ); //Leaves
+            // Kris alt article colors
+            set_article_color_slot( 0, 255, 119, 205, 256 ); //Jacket
+            set_article_color_slot( 1, 117, 250, 237, 256 ); //Skin/Pot
+            set_article_color_slot( 2, 68, 68, 145, 256 ); //Pants
+            set_article_color_slot( 3, 33, 33, 81, 256 ); //Hair
+            set_article_color_slot( 4, 201, 228, 242, 256 ); //Shoe/Shirt Light
+            set_article_color_slot( 5, 113, 113, 156, 256 ); //Shoe/Shirt Dark
+            set_article_color_slot( 6, 237, 148, 165, 256 ); //Stem
+            set_article_color_slot( 7, 237, 148, 165, 256 ); //Leaves
             break;
         case 16:
             // Obama alt
@@ -677,4 +677,13 @@ if("alt_name" in self || !("ping_color" in self)){
     }
 
     sprite_change_offset("dog", curRealAlt, curAlt ); // x is the actual alt and is the previous normal alt
+} else {
+    switch(get_player_color(0)){
+        case 7:
+            // set shading to 0
+            for(i = 0; i < 8; i++){
+                set_character_color_shading(i, 0);
+            }
+            break;
+    }
 }

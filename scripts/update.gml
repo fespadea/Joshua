@@ -21,7 +21,6 @@ if(batitPlaced){
     }
     // Batit move detection
     switch(state_cat){
-        case SC_HITSTUN:
         case SC_AIR_COMMITTED:
         case SC_GROUND_COMMITTED:
             switch(state){
@@ -62,16 +61,10 @@ if(batitPlaced){
                         if(up_strong_pressed){
                             batitAttack(11, 1); // the direction doesn't matter here
                         } else if(right_strong_pressed){
-                            var tempAttack = attack;
-                            attack = AT_FSTRONG
-                            attack_end();
-                            attack = tempAttack;
+                            attack_end(AT_FSTRONG);
                             batitAttack(10, 1);
                         } else if(left_strong_pressed){
-                            var tempAttack = attack;
-                            attack = AT_FSTRONG;
-                            attack_end();
-                            attack = tempAttack;
+                            attack_end(AT_FSTRONG);
                             batitAttack(10, -1);
                         } else if((attack_pressed && right_down) || right_stick_pressed){
                             batitAttack(1, 1);
@@ -246,8 +239,9 @@ if(grabbedid != noone && !((state == PS_ATTACK_GROUND || state == PS_ATTACK_AIR)
     }
 }
 
-// decrease endlag on fspecial for runeI
-if(runesUpdated){
+// runes
+if(runesUpdated || runesEnabled){
+    runesEnabled = false;
     if(runeI){
         set_hitbox_value(AT_USTRONG, 2, HG_EXTRA_HITPAUSE, 20);
         set_hitbox_value(AT_FSTRONG, 3, HG_EXTRA_HITPAUSE, 20);
@@ -264,13 +258,23 @@ if(runesUpdated){
     }
     if(runeL){
         set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_DAMAGE, 8);
+        set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_BASE_KNOCKBACK, 9);
+        set_hitbox_value(AT_DSPECIAL_AIR, 1, HG_VISUAL_EFFECT, 143);
+        set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_WIDTH, 150);
+        set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_HEIGHT, 150);
         set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_DAMAGE, 4);
         set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_LIFETIME, 18);
+        set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_BASE_KNOCKBACK, 7);
         set_window_value(AT_DSPECIAL_AIR, 1, AG_WINDOW_LENGTH, 8);
     } else {
         reset_hitbox_value(AT_DSPECIAL_AIR, 1, HG_DAMAGE);
+        reset_hitbox_value(AT_DSPECIAL_AIR, 1, HG_BASE_KNOCKBACK);
+        reset_hitbox_value(AT_DSPECIAL_AIR, 1, HG_VISUAL_EFFECT);
+        reset_hitbox_value(AT_DSPECIAL_AIR, 4, HG_WIDTH);
+        reset_hitbox_value(AT_DSPECIAL_AIR, 4, HG_HEIGHT);
         reset_hitbox_value(AT_DSPECIAL_AIR, 4, HG_DAMAGE);
         reset_hitbox_value(AT_DSPECIAL_AIR, 4, HG_LIFETIME);
+        reset_hitbox_value(AT_DSPECIAL_AIR, 4, HG_BASE_KNOCKBACK);
         reset_window_value(AT_DSPECIAL_AIR, 1, AG_WINDOW_LENGTH);
     }
     if(runeJ){
@@ -621,7 +625,9 @@ if trummelcodecneeded{
     page++; 
 }
 
-if(get_gameplay_time() == 2){
+if(get_gameplay_time() == 2 || wasReloaded){ // runs at the beginning of the match or after reloading the character
+    wasReloaded = false; // this makes it so that it only runs once after reloading the character
+
     var compatiblePlayer = 5;
 
     with oPlayer {
@@ -770,6 +776,118 @@ if(get_gameplay_time() == 2){
         set_window_value(AT_EXTRA_1, 2, AG_WINDOW_ANIM_FRAME_START, 3);
         set_window_value(AT_EXTRA_1, 2, AG_WINDOW_ANIM_FRAMES, 1);
         set_window_value(AT_EXTRA_1, 2, AG_WINDOW_LENGTH, 10);
+    }
+
+    
+    practiceMode = get_training_cpu_action() != CPU_FIGHT && object_index != oTestPlayer;
+    if(practiceMode){
+        //tutorial
+        currentTutorialPage = 0;
+        var pageNum = 0;
+        tutorialPages[pageNum] = "Taunt for tutorial.";
+        pageNum++;
+        tutorialPages[pageNum] = "In practice mode only, taunt can be cancelled for the sake of this tutorial. You can go back a page with left + taunt and right 10 pages with right + taunt.";
+        pageNum++;
+        tutorialPages[pageNum] = "Joshua's main gimmick is his plant Batit which can be placed with dspecial.";
+        pageNum++;
+        tutorialPages[pageNum] = "Batit has 50 health, and has a 10 second cooldown before he can be placed again if he dies. He also has a 5 second cooldown if he falls offstage.";
+        pageNum++;
+        tutorialPages[pageNum] = "When placed, Joshua's specials change, and he also loses his fstrong and ustrong.";
+        pageNum++;
+        tutorialPages[pageNum] = "Most of Joshua's moves are pretty self-explanatory, so just figure them out yourself. This tutorial will cover more obscure things.";
+        pageNum++;
+        tutorialPages[pageNum] = "Let's cover how to control Batit first.";
+        pageNum++;
+        tutorialPages[pageNum] = "Batit has 3 main projectiles: nspecial (2.5 second cooldown), fattack (side + attack), and uattack (up + attack). He also has 2 strongs: fstrong and ustrong.";
+        pageNum++;
+        tutorialPages[pageNum] = "These moves can be used at any time, almost entirely desynced from Joshua.";
+        pageNum++;
+        tutorialPages[pageNum] = "In order to use fair, uair, bair, ftilt, utilt, fstrong, or ustrong without triggering Batit's attacks or strongs, you have to quickly tap the input.";
+        pageNum++;
+        tutorialPages[pageNum] = "You have until frame 6 of the move to let go of the input before Batit starts his attack or strong.";
+        pageNum++;
+        tutorialPages[pageNum] = "This does mean that Batit will have 6 frames of extra start up in these situations.";
+        pageNum++;
+        tutorialPages[pageNum] = "If you're fast, you can just repress the inputs immediately to make Batit attack sooner.";
+        pageNum++;
+        tutorialPages[pageNum] = "However, you also have the option to toggle this option, so that Batit always attacks with you (assuming he's able to).";
+        pageNum++;
+        tutorialPages[pageNum] = "This is done by pressing taunt+attack for the attacks and taunt + strong for the strongs at any point during a match.";
+        pageNum++;
+        tutorialPages[pageNum] = "These two toggles are independent of each other, and their status is indicated by the top two lights on the HUD (attack is top and strong is middle).";
+        pageNum++;
+        tutorialPages[pageNum] = "Next, I'll go over some specific interactions that Joshua's moves can have with Batit.";
+        pageNum++;
+        tutorialPages[pageNum] = "The most simple is that fspecial picks up Batit. It also functions as a grab (this takes priority over picking up Batit).";
+        pageNum++;
+        tutorialPages[pageNum] = "Next is uspecial. When Joshua is using uspecial and touching Batit, he can press special (or up-special with special stick) to transition into his Batitful uspecial.";
+        pageNum++;
+        tutorialPages[pageNum] = "This version of uspecial starts in window 3 (the window where you go up), goes higher, has better knockback scaling on the final hit, and does not end in pratfall.";
+        pageNum++;
+        tutorialPages[pageNum] = "If you have Batit with you, you can also drop him midair to use this move for recovery if necessary. You'll be dropping Batit Yoshi-style though.";
+        pageNum++;
+        tutorialPages[pageNum] = "The last move is batitless dspecial. Joshua can throw a bomb into Batit for a very good kill move, but be careful as this kills Batit.";
+        pageNum++;
+        tutorialPages[pageNum] = "The explosion can be delayed by up to 90 frames by holding special, but delaying the explosion decreases its strength by up to 50% at the max delay (for damage, base knockback, and knockback scaling).";
+        pageNum++;
+        tutorialPages[pageNum] = "Also, Batit can be healed with Taunt.";
+        pageNum++;
+        tutorialPages[pageNum] = "Finally, I want to go over nudging. If Joshua attacks Batit (excluding batitless dspecial and fspecial for obvious reasons), Batit will get nudged.";
+        pageNum++;
+        tutorialPages[pageNum] = "This will put Batit in a state where he is sent flying in a the direction of the hitbox's knockback angle (some hitboxes have adjusted knockback).";
+        pageNum++;
+        tutorialPages[pageNum] = "In this state, Batit cannot be damage, and he is surrounded by a hitbox that inherits the properties of the hitbox that hit it.";
+        pageNum++;
+        tutorialPages[pageNum] = "Nudge can also be cancelled into any of Batit's attacks, but he loses his invincibility and hitbox.";
+        pageNum++;
+        tutorialPages[pageNum] = "In order to not nudge Batit, Joshua has to hold shield during his attack.";
+        pageNum++;
+        tutorialPages[pageNum] = "Nudging can be toggled to not be default, so that you have to hold shield during attacks to nudge Batit by pressing taunt+shield anytime during a match.";
+        pageNum++;
+        tutorialPages[pageNum] = "The state of this toggle is indicated by the bottom light on the HUD.";
+        pageNum++;
+        tutorialPages[pageNum] = "One last thing regarding the extra alts on the CSS. They can't be selected online, so you can press special during the countdown to change to the alt on the next row or jump to go the other way (this loops). That's all probably.";
+        totalTutorialPages = array_length(tutorialPages) - 1;
+        //tutorial sprites
+        tutorialSingleSprite = sprite_get("tutorial_single_line");
+        TUTORIAL_SINGLE_SPRITE_HEIGHT = sprite_get_height(tutorialSingleSprite);
+        tutorialBottomSprite = sprite_get("tutorial_bottom_line");
+        TUTORIAL_BOTTOM_SPRITE_HEIGHT = sprite_get_height(tutorialBottomSprite);
+        tutorialTopSprite = sprite_get("tutorial_top_line");
+        TUTORIAL_TOP_SPRITE_HEIGHT = sprite_get_height(tutorialTopSprite);
+        tutorialMiddleSprite = sprite_get("tutorial_middle_line");
+        TUTORIAL_MIDDLE_SPRITE_HEIGHT = sprite_get_height(tutorialMiddleSprite);
+        TEXT_HEIGHT = string_height("0123456789/");
+        // string parsing
+        // the width of the line where the text is written on in pixels minus 2 (this can't be indented since it's a macro)
+#macro MAX_LINE_LENGTH 210
+        var page;
+        var i;
+        var word;
+        var line;
+        for(var j = array_length(tutorialPages)-1; j >= 0; j--){
+            page = tutorialPages[j];
+            i = 0;
+            word = "";
+            while(string_length(page) > 0 || string_length(word) > 0){
+                line = "";
+                word = string_copy(word, 2, string_length(word)-1);
+                while(string_width(line + word) <= MAX_LINE_LENGTH){
+                    line += word;
+                    word = "";
+                    if(string_length(page) == 0){
+                        break;
+                    }
+                    word += string_char_at(page, 1);
+                    page = string_copy(page, 2, string_length(page)-1);
+                    while(string_char_at(page, 1) != " " && string_length(page) > 0){
+                        word += string_char_at(page, 1);
+                        page = string_copy(page, 2, string_length(page)-1);
+                    }
+                }
+                parsedLines[j, i++] = line;
+            }
+        }
     }
 }
 

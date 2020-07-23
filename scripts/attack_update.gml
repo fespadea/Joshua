@@ -103,9 +103,7 @@ switch(attack){
                 doStrong = false;
             }
             if((state_timer == 6 || strongsMandatory) && doStrong){
-                attack = AT_FSTRONG;
-                attack_end();
-                attack = AT_FSTRONG_2;
+                attack_end(AT_FSTRONG);
                 batitAttack(10, spr_dir);
             }
         }
@@ -130,9 +128,7 @@ switch(attack){
                 doAttack = false;
             }
             if((state_timer == 6 || strongsMandatory) && doStrong){
-                attack = AT_FSTRONG;
-                attack_end();
-                attack = AT_FAIR;
+                attack_end(AT_FSTRONG);
                 batitAttack(10, spr_dir);
             } else if((state_timer == 6 || projectilesMandatory) && doAttack && ((!right_strong_down && spr_dir == 1) || (!left_strong_down && spr_dir == -1)))
                 batitAttack(1, spr_dir);
@@ -147,9 +143,7 @@ switch(attack){
                 doAttack = false;
             }
             if((state_timer == 6 || strongsMandatory) && doStrong){
-                attack = AT_FSTRONG;
-                attack_end();
-                attack = AT_BAIR;
+                attack_end(AT_FSTRONG);
                 batitAttack(10, -spr_dir);
             } else if((state_timer == 6 || projectilesMandatory) && doAttack && ((!right_strong_down && spr_dir == -1) || (!left_strong_down && spr_dir == 1)))
                 batitAttack(1, -spr_dir);
@@ -177,9 +171,7 @@ switch(attack){
                 doStrong = false;
             }
             if((state_timer == 6 || strongsMandatory) && doStrong){
-                attack = AT_USTRONG;
-                attack_end();
-                attack = AT_USTRONG_2;
+                attack_end(AT_USTRONG);
                 batitAttack(11, 1); // direction doesn't matter here
             }
         }
@@ -204,9 +196,7 @@ switch(attack){
                 doAttack = false;
             }
             if((state_timer == 6 || strongsMandatory) && doStrong){
-                attack = AT_USTRONG;
-                attack_end();
-                attack = AT_UAIR;
+                attack_end(AT_USTRONG);
                 batitAttack(11, 1); // direction doesn't matter here
             } else if((state_timer == 6 || projectilesMandatory) && doAttack && !up_strong_down)
                 batitAttack(7, 1); // direction doesn't matter here
@@ -272,7 +262,7 @@ switch(attack){
                     window = get_attack_value(attack, AG_NUM_WINDOWS);
                     window_timer = 0;
                     initialDattackY = y;
-                    vsp = -6;
+                    vsp = -4.5;
                 }
             } else if (window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)){
                 spr_dir *= -1;
@@ -291,8 +281,12 @@ switch(attack){
         break;
     case AT_DSPECIAL_AIR: // change AT_DSPECIAL_AIR to land when landing
         if(!free){
-            landing_lag_time = 10;
-            set_state(PS_LANDING_LAG);
+            if(runeL){
+                set_state(PS_LAND);
+            } else {
+                landing_lag_time = 10;
+                set_state(PS_LANDING_LAG);
+            }
         }
         break;
     case AT_FSPECIAL_2: // pulls in on hit
