@@ -109,8 +109,7 @@ batitFell = false;
 batitDelay = 0;
 pickUpBatit = false;
 
-// Dattack variables
-finishDattack = false;
+// Dattack variable
 initialDattackY = 0;
 
 // Uair variable
@@ -121,9 +120,6 @@ for(var k = 20; k >= 0; k--){
     uairGrabbedid[k, 1] = 0; // player's original x value relative to player
     uairGrabbedid[k, 2] = 0; // player's original y value relative to player
 }
-
-// Fspecial_2 variable
-whipHitPlayer = false;
 
 // Uspecial_2 variable
 dontSwitchToUspecial = false;
@@ -193,6 +189,13 @@ switch(sprite_get_xoffset(sprite_get("dog"))){
         numIntroFrames = 7;
 }
 
+//player article support
+has_hit_player_article = false;
+hit_player_article_obj = noone;
+//specific stuff
+has_hit_player_article_still_new_update_gml = false;
+has_hit_player_article_still_new_attack_update_gml = false;
+
 //tco support
 tcoart = sprite_get("tcoart_joshuake");
 
@@ -220,19 +223,15 @@ otto_bobblehead_sprite = sprite_get("otto_head");
 otto_bobblehead_body_sprite = sprite_get("otto_body");
 
 //miiverse support
-miiverse_post = sprite_get("miiverse_joshua_1");
-sprite_change_offset("miiverse_joshua_1", 60, 30);
-miiverse_post2 = sprite_get("miiverse_joshua_2");
-sprite_change_offset("miiverse_joshua_2", 60, 30);
-miiverse_post3 = sprite_get("miiverse_joshua_3");
-sprite_change_offset("miiverse_joshua_3", 60, 30);
+miiverse_post = sprite_get("miiverse_joshua");
 
 //Mt. Dedede support
 arena_title = "The Symbiotic Duo";
 arena_short_name = "Joshua & Batit";
 
 //soulbound conflict support
-battle_text = "";
+battle_text = "*Joshua wants you to josh your hands.";
+battle_text2 = "*Batit too.";
 
 //toon link support
 toonlink_photo = sprite_get("toon_link_joshua_selfie");

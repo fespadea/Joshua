@@ -116,3 +116,6 @@ sprite_change_offset("feri_costume_joshua_and_batit", 84, 114);
 //kirby support
 sprite_change_offset("kirby_nspecial_joshua", 54, 98);
 sprite_change_offset("kirby_nspecial_icon", 8, 10);
+
+//miiverse support
+sprite_change_offset("miiverse_joshua", 60, 30);

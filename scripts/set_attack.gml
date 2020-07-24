@@ -1,9 +1,6 @@
 // set attack
 
 switch(attack){
-    case AT_DATTACK: // set up Dattack variable
-        finishDattack = false;
-        break;
     case AT_UAIR: // set up Uair variable
         finishUair = false;
     case AT_BAIR:
@@ -40,7 +37,6 @@ switch(attack){
     case AT_FSPECIAL: // change to batitfull fspecial (this is reversed because batitless was made first)
         if(batitDelay < 1){
             attack = AT_FSPECIAL_2;
-            whipHitPlayer = false;
         }
         opponentHitOutOfGrab = false;
         break;

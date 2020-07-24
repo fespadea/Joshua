@@ -254,8 +254,12 @@ switch(attack){
         }
         break;
     case AT_DATTACK: // made Dattack work in 2 parts
-        if(window == get_attack_value(attack, AG_NUM_WINDOWS) - 1){
-            if(finishDattack && !was_parried){
+        if(window == get_attack_value(attack, AG_NUM_WINDOWS) - 2){
+            if(window_timer == get_hitbox_value(attack, get_num_hitboxes(attack)-1, HG_WINDOW_CREATION_FRAME)-1){
+                has_hit = false;
+            }
+        } else if(window == get_attack_value(attack, AG_NUM_WINDOWS) - 1){
+            if(has_hit && !was_parried){
                 if(window_timer == 1) sound_play(asset_get("sfx_swipe_heavy1"));
                 else if(window_timer > 4){
                     set_window_value(attack, get_attack_value(attack, AG_NUM_WINDOWS), AG_WINDOW_TYPE, 9);
@@ -290,7 +294,7 @@ switch(attack){
         }
         break;
     case AT_FSPECIAL_2: // pulls in on hit
-        if(window == 2 && whipHitPlayer && !was_parried){
+        if(window == 2 && has_hit && !was_parried){
             window = 4;
             window_timer = 0;
         } else if(window == 3 && window_timer == get_window_value(attack, window, AG_WINDOW_LENGTH)){

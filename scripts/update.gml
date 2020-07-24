@@ -380,6 +380,21 @@ if (get_gameplay_time() < CHANGE_ALT_FRAME_LIMIT) {
     }
 }
 
+//mark recent hit on a player article
+has_hit_player_article_still_new_attack_update_gml = has_hit_player_article;
+has_hit_player_article_still_new_update_gml = has_hit_player_article;
+has_hit_player_article = false;
+
+//runeC support for player articles
+if(has_hit_player_article_still_new_update_gml){
+    has_hit_player_article_still_new_update_gml = false;
+    // random alt rune
+    if(runeC){
+        sprite_change_offset("dog", random_func(10, NUM_ALTS, true), sprite_get_yoffset(sprite_get("dog")));
+        init_shader();
+    }
+}
+
 //kirby support
 if swallowed {
     swallowed = 0

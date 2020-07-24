@@ -32,6 +32,7 @@ attacksFaced = ds_list_create();
 knockBackAngle = 0;
 knockBackPower = 0;
 hGroupCheck[0,0] = 0;
+playerLockout[0] = 0;
 // tells batit whether to reset hitbox flags
 batitHitboxesReset[0] = false;
 with oPlayer {
@@ -54,6 +55,12 @@ bumpBox = noone;
 
 //hitstun variables
 hitstunTimer = 0;
+
+//hitstop variables
+histop = 0;
+old_hsp = 0;
+old_vsp = 0;
+inHitstop = false;
 
 // window variables
 window = 0;
