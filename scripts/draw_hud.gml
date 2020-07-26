@@ -19,7 +19,9 @@ if(batitDelay > 0){
         gpu_set_blendenable(true);
         gpu_set_colorwriteenable(true,true,true,true);
         gpu_set_blendmode_ext(bm_dest_alpha,bm_inv_dest_alpha);
+        gpu_set_alphatestenable(true);
         draw_sprite_ext(bombCooldownIndicatorMaskOverlay, 0, temp_x+BOMB_INDICATOR_X_OFFSET+BOMB_MASK_OVERLAY_X_OFFSET_OFFSET, temp_y+BOMB_INDICATOR_Y_OFFSET+BOMB_MASK_OVERLAY_Y_OFFSET_OFFSET, 1, (move_cooldown[AT_DSPECIAL_AIR]/BOMB_COOLDOWN)*BOMB_MASK_HEIGHT, 0, c_white, 1);
+        gpu_set_alphatestenable(false);
         gpu_set_blendmode(bm_normal);
     } else {
         draw_sprite(bombProjectilesprite, floor(get_gameplay_time()*get_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_ANIM_SPEED)), temp_x+BOMB_INDICATOR_X_OFFSET, temp_y+BOMB_INDICATOR_Y_OFFSET);

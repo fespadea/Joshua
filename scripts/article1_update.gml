@@ -401,18 +401,21 @@ if(hitstop == 0){
             }
             break;
     }
+} else {
+    inHitstop = true;
+    checkForNudge();
+    checkForDamage();
+    checkForBomb();
+}
 
-    
+if(hitstop == 0){
     state_timer++;
     if(inHitstop){
         inHitstop = 0;
         hsp = old_hsp;
         vsp = old_vsp;
     }
-} else {
-    inHitstop = true;
 }
-
 article_timer++;
 depth = player_id.depth - 1;
 can_be_grounded = true;
@@ -626,6 +629,7 @@ with pHitBox {
     }
 }
 if(explode){
+    hitstop = 0;
     changeState(8);
 }
 
