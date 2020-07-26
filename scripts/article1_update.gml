@@ -432,8 +432,11 @@ if (free && vsp > 0){ // this code is to prevent Batit from falling through plat
     }
 }
 if(free){
-    if(state == 6) vsp += player_id.hitstun_grav;
-    else vsp += player_id.gravity_speed;
+    if(state == 6){
+        vsp += player_id.hitstun_grav;
+    } else{
+        vsp += player_id.gravity_speed;
+    }
     if(vsp > 0)
         vsp -= min(player_id.air_friction, vsp);
     else if(vsp < 0)
