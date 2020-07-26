@@ -5,7 +5,7 @@ set_attack_value(AT_BAIR, AG_NUM_WINDOWS, 4);
 set_attack_value(AT_BAIR, AG_HAS_LANDING_LAG, 1);
 set_attack_value(AT_BAIR, AG_LANDING_LAG, 4);
 
-set_window_value(AT_BAIR, 1, AG_WINDOW_LENGTH, 7);
+set_window_value(AT_BAIR, 1, AG_WINDOW_LENGTH, 9);
 set_window_value(AT_BAIR, 1, AG_WINDOW_ANIM_FRAMES, 2);
 
 set_window_value(AT_BAIR, 2, AG_WINDOW_LENGTH, 5);

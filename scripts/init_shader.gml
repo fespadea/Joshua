@@ -1,6 +1,6 @@
 // init shader
 
-NUM_ALTS = 32;
+NUM_ALTS = 33;
 if(!("onlineCSS" in self) || !onlineCSS){
     var curAlt = get_player_color(player);
     if(!sprite_get_bbox_left(sprite_get("dog"))){
@@ -673,6 +673,36 @@ if(!("onlineCSS" in self) || !onlineCSS){
             set_article_color_slot( 5, 168, 19, 19, 256 ); //Shoe/Shirt Dark
             set_article_color_slot( 6, 17, 126, 23, 256 ); //Stem
             set_article_color_slot( 7, 255, 48, 224, 256 ); //Leaves
+            break;
+        case 32:
+            // Rainbow alt
+            if(!("color_rgb" in self)){ // set the start colors of the sprite here (only set the amount of color slots you actually use)
+                color_rgb[0] = make_color_rgb(57, 92, 104); //Jacket -- put the RGB values here for each corresponding slot 
+                color_rgb[1] = -1; //Skin/Pot -- just put -1 if you don't want the rainbow effect to apply to this slot
+                color_rgb[2] = make_color_rgb(111, 170, 193); //Pants
+                color_rgb[3] = make_color_rgb(75, 10, 240); //Hair
+                color_rgb[4] = make_color_rgb(220, 203, 105); //Shoe/Shirt Light
+                color_rgb[5] = make_color_rgb(200, 126, 30); //Shoe/Shirt Dark
+                color_rgb[6] = make_color_rgb(17, 126, 23); //Stem
+                color_rgb[7] = make_color_rgb(82, 180, 127); //Leaves
+            }
+            var hue;
+            var color_hsv;
+            var hue_speed = 1; // this is the speed of the hue shift
+            for(var i = 0; i < array_length(color_rgb); i++){ // update the rainbow slots here
+                if(color_rgb[i] != -1){
+                    set_character_color_slot(i, color_get_red(color_rgb[i]), color_get_green(color_rgb[i]), color_get_blue(color_rgb[i]), 256);
+                    set_article_color_slot(i, color_get_red(color_rgb[i]), color_get_green(color_rgb[i]), color_get_blue(color_rgb[i]), 256);
+                    hue = (color_get_hue(color_rgb[i]) + hue_speed) % 255; // finds the hue and shifts it
+                    color_hsv = make_color_hsv(hue, color_get_saturation(color_rgb[i]), color_get_value(color_rgb[i])); // creates a new gamemaker colour variable using the shifted hue
+                    color_rgb[i] = make_color_rgb(color_get_red(color_hsv), color_get_green(color_hsv), color_get_blue(color_hsv));
+                }
+            }
+            // set the normal color slots here
+            // Rainbow alt
+            set_character_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
+            // Rainbow alt article colors
+            set_article_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
             break;
     }
 

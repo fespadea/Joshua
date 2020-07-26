@@ -1,5 +1,32 @@
 // draw hud
 
+//bomb cooldown indicator
+#macro BOMB_INDICATOR_X_OFFSET 18
+#macro BOMB_INDICATOR_Y_OFFSET -5
+#macro BOMB_MASK_OVERLAY_X_OFFSET_OFFSET 0
+#macro BOMB_MASK_OVERLAY_Y_OFFSET_OFFSET 10
+#macro BOMB_MASK_HEIGHT 20
+if(batitDelay > 0){
+    if(move_cooldown[AT_DSPECIAL_AIR] > 0){
+        draw_sprite(bombCooldownIndicator, 0, temp_x+BOMB_INDICATOR_X_OFFSET, temp_y+BOMB_INDICATOR_Y_OFFSET);
+        gpu_set_blendenable(false)
+        gpu_set_colorwriteenable(false,false,false,true);
+        draw_set_alpha(0);
+        draw_rectangle_color(0, 0, room_width, room_height, c_black, c_black, c_black, c_black, false);
+        draw_set_alpha(.25);
+        draw_sprite(bombCooldownIndicatorMask, 0, temp_x+BOMB_INDICATOR_X_OFFSET, temp_y+BOMB_INDICATOR_Y_OFFSET);
+        draw_set_alpha(1);
+        gpu_set_blendenable(true);
+        gpu_set_colorwriteenable(true,true,true,true);
+        gpu_set_blendmode_ext(bm_dest_alpha,bm_inv_dest_alpha);
+        draw_sprite_ext(bombCooldownIndicatorMaskOverlay, 0, temp_x+BOMB_INDICATOR_X_OFFSET+BOMB_MASK_OVERLAY_X_OFFSET_OFFSET, temp_y+BOMB_INDICATOR_Y_OFFSET+BOMB_MASK_OVERLAY_Y_OFFSET_OFFSET, 1, (move_cooldown[AT_DSPECIAL_AIR]/BOMB_COOLDOWN)*BOMB_MASK_HEIGHT, 0, c_white, 1);
+        gpu_set_blendmode(bm_normal);
+    } else {
+        draw_sprite(bombProjectilesprite, floor(get_gameplay_time()*get_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_ANIM_SPEED)), temp_x+BOMB_INDICATOR_X_OFFSET, temp_y+BOMB_INDICATOR_Y_OFFSET);
+    }
+}
+
+// batit health
 if(batitPlaced){
     if(runeM){
         for(var i = 0; i < array_length(batitArticle); i++){
@@ -16,17 +43,19 @@ draw_sprite_ext(toggleIconSprite, 0, temp_x+70, temp_y+10, 1, 1, 0, !projectiles
 draw_sprite_ext(toggleIconSprite, 0, temp_x+70, temp_y+20, 1, 1, 0, !strongsMandatory ? -1 : c_gray, 1);
 draw_sprite_ext(toggleIconSprite, 0, temp_x+70, temp_y+30, 1, 1, 0, autoNudge ? -1 : c_gray, 1);
 
+//batit indicator
 shader_start();
+#macro BATIT_INDICATOR_X_OFFSET 200
 if(batitDelay < 0){
-    draw_sprite_ext(batitIconSprite, 0, temp_x+200, temp_y, 1, 1, 0, -1, 1);
+    draw_sprite_ext(batitIconSprite, 0, temp_x+BATIT_INDICATOR_X_OFFSET, temp_y, 1, 1, 0, -1, 1);
 } else {
-    draw_sprite_ext(batitIconSprite, 0, temp_x+200, temp_y, 1, 1, 0, c_gray, 1);
+    draw_sprite_ext(batitIconSprite, 0, temp_x+BATIT_INDICATOR_X_OFFSET, temp_y, 1, 1, 0, c_gray, 1);
 }
 shader_end();
 
 // practice mode tips
 #macro TUTORIAL_X_BASE_OFFSET -8
-#macro TUTORIAL_Y_BASE_OFFSET -2
+#macro TUTORIAL_Y_BASE_OFFSET -10
 #macro ABOVE_TEXTBOX_X_OFFSET_OFFSET 6
 #macro ABOVE_TEXTBOX_Y_OFFSET_OFFSET 10
 #macro TEXT_X_OFFSET_OFFSET 8

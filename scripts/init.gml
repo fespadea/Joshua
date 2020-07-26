@@ -157,8 +157,13 @@ batitStats = false;
 //command grab variable (template)
 grabbedid = noone;
 
-//variable to indicate that bomb has been used in the air
-noMoreBombs = false;
+//bomb hud sprites
+bombCooldownIndicator = sprite_get("dspecial_air_proj_HUD_cooldown_indicator");
+bombCooldownIndicatorMask = sprite_get("dspecial_air_proj_HUD_cooldown_indicator_mask");
+bombCooldownIndicatorMaskOverlay = sprite_get("dspecial_air_proj_HUD_cooldown_indicator_mask_overlay");
+bombProjectilesprite = sprite_get("dspecial_air_proj");
+//bomb cooldown
+BOMB_COOLDOWN = 60;
 
 //fspecial sprites
 fspecialBackThrowSprite = sprite_get("fspecial_back_throw");
@@ -169,8 +174,6 @@ leafBreakHfx = hit_fx_create(sprite_get("batit_leaf_break"), 25);
 leafHitHfx = hit_fx_create(sprite_get("batit_leaf_hfx"), 25);
 strongHitHfx = hit_fx_create(sprite_get("batit_strong_hfx"), 30);
 sweetspotHfx = hit_fx_create(sprite_get("batit_sweetspot_hfx"), 35);
-set_hit_particle_sprite(1, sprite_get("particle_leaf"));
-set_hit_particle_sprite(2, sprite_get("particle_wood"));
 
 //intro
 introTimer = -4;

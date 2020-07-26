@@ -14,12 +14,13 @@ switch(attack){
         if(batitDelay > 0){
             attack = AT_DSPECIAL_AIR;
             attack_end();
-            noMoreBombs = true;
             if (free){
                 reset_hitbox_value(AT_DSPECIAL_AIR, 4, HG_ANGLE_FLIPPER);
             } else{
                 set_hitbox_value(AT_DSPECIAL_AIR, 4, HG_ANGLE_FLIPPER, 8);
-                vsp = -short_hop_speed;
+                if(move_cooldown[AT_DSPECIAL_AIR] <= 0){
+                    vsp = -short_hop_speed;
+                }
             }
         }
         break;

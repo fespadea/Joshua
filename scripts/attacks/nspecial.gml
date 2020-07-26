@@ -30,7 +30,7 @@ set_hitbox_value(AT_NSPECIAL, 1, HG_DAMAGE, 3);
 set_hitbox_value(AT_NSPECIAL, 1, HG_ANGLE_FLIPPER, 8);
 set_hitbox_value(AT_NSPECIAL, 1, HG_BASE_KNOCKBACK, 1);
 set_hitbox_value(AT_NSPECIAL, 1, HG_BASE_HITPAUSE, 1);
-set_hitbox_value(AT_NSPECIAL, 1, HG_HITSTUN_MULTIPLIER, 4);
+set_hitbox_value(AT_NSPECIAL, 1, HG_HITSTUN_MULTIPLIER, 2);
 set_hitbox_value(AT_NSPECIAL, 1, HG_VISUAL_EFFECT, leafHitHfx);
 set_hitbox_value(AT_NSPECIAL, 1, HG_HIT_PARTICLE_NUM, 1);
 set_hitbox_value(AT_NSPECIAL, 1, HG_HIT_SFX, asset_get("sfx_leafy_hit2"));

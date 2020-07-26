@@ -284,6 +284,9 @@ switch(attack){
         }
         break;
     case AT_DSPECIAL_AIR: // change AT_DSPECIAL_AIR to land when landing
+        if(!runeL){
+            move_cooldown[AT_DSPECIAL_AIR] = BOMB_COOLDOWN;
+        }
         if(!free){
             if(runeL){
                 set_state(PS_LAND);

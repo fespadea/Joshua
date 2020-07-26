@@ -73,6 +73,10 @@ set_victory_theme(sound_get("notdotbatit"));
 //projectiles
 sprite_change_offset("dspecial_air_proj", 18, 25);
 sprite_change_offset("nspecial_proj", 51, 24);
+//hud
+sprite_change_offset("dspecial_air_proj_HUD_cooldown_indicator", sprite_get_xoffset(sprite_get("dspecial_air_proj")), sprite_get_yoffset(sprite_get("dspecial_air_proj")));
+sprite_change_offset("dspecial_air_proj_HUD_cooldown_indicator_mask", sprite_get_xoffset(sprite_get("dspecial_air_proj_HUD_cooldown_indicator")), sprite_get_yoffset(sprite_get("dspecial_air_proj_HUD_cooldown_indicator")));
+sprite_change_offset("dspecial_air_proj_HUD_cooldown_indicator_mask_overlay", sprite_get_width(sprite_get("dspecial_air_proj_HUD_cooldown_indicator_mask_overlay"))/2, sprite_get_height(sprite_get("dspecial_air_proj_HUD_cooldown_indicator_mask_overlay")));
 
 //batit
 sprite_change_offset("batit", 8, 48);

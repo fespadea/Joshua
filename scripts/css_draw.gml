@@ -2,8 +2,8 @@
 var temp_x = x + 8;
 var temp_y = y + 9;
 
-#macro PATCH_VER "3.4"
-#macro PATCH_DAY "24"
+#macro PATCH_VER "3.5"
+#macro PATCH_DAY "25"
 #macro PATCH_MONTH "JULY"
 
 // player is set to 0 online, but not in init_shader.gml, so I have to check it here
@@ -14,6 +14,11 @@ if(onlineCSS){
     alt_cur = get_player_color(player);
 } else{
     alt_cur = sprite_get_xoffset(sprite_get("dog"));
+}
+
+//rainbow alt
+if(alt_cur == 32){
+    init_shader();
 }
 
 //Alt names
@@ -50,6 +55,7 @@ alt_name[28]  = "Wrastiny";
 alt_name[29]  = "MunchKragg";
 alt_name[30]  = "Buch";
 alt_name[31]  = "Feri";
+alt_name[32]  = "Rainbow";
 
 //Patch
 
