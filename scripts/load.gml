@@ -123,3 +123,17 @@ sprite_change_offset("kirby_nspecial_icon", 8, 10);
 
 //miiverse support
 sprite_change_offset("miiverse_joshua", 60, 30);
+
+
+if (attack == AT_NSPECIAL){
+    if (window == 2){
+        if(special_down && charge < 4){
+            charge += 1;
+            increase += 0.5;
+            set_hitbox_value(AT_NSPECIAL, 1, HG_DAMAGE, 9*increase);
+        } else{
+            window = 3;
+            window_timer = 0;
+        }
+    }
+}

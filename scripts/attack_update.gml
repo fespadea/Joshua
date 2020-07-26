@@ -54,8 +54,27 @@ switch(attack){
                         vsp = -1;
                     }
                 }
-            } else {
+            } else if(instance_exists(grabbedArticleId)){
+                grabbedArticleId.x = x + 45*spr_dir + hsp;
+                grabbedArticleId.y = y + vsp;
+                grabbedArticleId.spr_dir = -spr_dir;
+                grabbedArticleId.hitstop = 2;
+                grabbedArticleId.ungrab++;
+                if(special_down || is_special_pressed(DIR_ANY)){
+                    window = 7;
+                    window_timer = 0;
+                } else if(shield_pressed || grabbedArticleId.ungrab >= 60 || (grabbedArticleId.ungrab == 30 && free)){
+                    grabbedArticleId = noone;
+                    window = 6;
+                    window_timer = 0;
+                    hsp = -7*spr_dir;
+                    if(free){
+                        vsp = -1;
+                    }
+                }
+            }else {
                 grabbedid = noone;
+                grabbedArticleId = noone;
                 window = 6;
                 window_timer = 0;
                 hsp = -7*spr_dir;
@@ -74,6 +93,16 @@ switch(attack){
                 } else {
                     grabbedid.x = x + 45*spr_dir + hsp;
                     grabbedid.y = y + vsp;
+                }
+            } else if(instance_exists(grabbedArticleId)){
+                grabbedArticleId.spr_dir = -spr_dir;
+                grabbedArticleId.hitstop = 2;
+                if(window_timer > get_window_value(attack, window, AG_WINDOW_LENGTH)/2){
+                    grabbedArticleId.x = lerp(x + 45*spr_dir + hsp, x + 25*spr_dir + hsp, window_timer/get_window_value(attack, window, AG_WINDOW_LENGTH));
+                    grabbedArticleId.y = lerp(y + vsp, y - 20 + vsp, window_timer/get_window_value(attack, window, AG_WINDOW_LENGTH));
+                } else {
+                    grabbedArticleId.x = x + 45*spr_dir + hsp;
+                    grabbedArticleId.y = y + vsp;
                 }
             }
         } else if (window == 8){

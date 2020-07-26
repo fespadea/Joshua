@@ -10,6 +10,10 @@ spr_dir = player_id.spr_dir;
 depth = player_id.depth - 1;
 uses_shader = true;
 
+// player article variables
+is_player_article = true;
+player_article_height = 44;
+
 can_be_grounded = true;
 ignores_walls = false;
 
@@ -54,7 +58,7 @@ nudgeHitboxID = noone;
 bumpBox = noone;
 
 //hitstun variables
-hitstunTimer = 0;
+hitstun = 0;
 
 //hitstop variables
 histop = 0;

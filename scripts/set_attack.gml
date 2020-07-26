@@ -1,5 +1,9 @@
 // set attack
 
+has_hit_player_article = false;
+hit_player_article_obj = noone;
+my_hitboxID_player_article = noone;
+
 switch(attack){
     case AT_UAIR: // set up Uair variable
         finishUair = false;
@@ -40,6 +44,8 @@ switch(attack){
             attack = AT_FSPECIAL_2;
         }
         opponentHitOutOfGrab = false;
+        grabbedArticleId = noone;
+        grabbedid = noone;
         break;
     case AT_NSPECIAL: // nspecial batit projectile
         if (batitDelay > 0 && (move_cooldown[AT_NSPECIAL] < 1 || runeE)){

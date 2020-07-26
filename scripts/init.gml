@@ -156,6 +156,7 @@ batitStats = false;
 
 //command grab variable (template)
 grabbedid = noone;
+grabbedArticleId = noone;
 
 //bomb hud sprites
 bombCooldownIndicator = sprite_get("dspecial_air_proj_HUD_cooldown_indicator");
@@ -195,6 +196,7 @@ switch(sprite_get_xoffset(sprite_get("dog"))){
 //player article support
 has_hit_player_article = false;
 hit_player_article_obj = noone;
+my_hitboxID_player_article = noone;
 //specific stuff
 has_hit_player_article_still_new_update_gml = false;
 has_hit_player_article_still_new_attack_update_gml = false;

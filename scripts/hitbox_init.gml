@@ -20,13 +20,8 @@ if (attack == AT_NSPECIAL && hbox_num == 1){ //targetting leaves
     //follower vfx
     leafFollowerVFX = hit_fx_create(sprite_get("batit_nspecial_particle_fx"), 15);
 } else if (attack == AT_DSPECIAL_AIR){
-    if((hbox_num == 2 || hbox_num == 3)){
-        hbox_group = 3;
-    } else{
-        if(hbox_num == 1){
-            spawnSplash = false;
-            spawnEffect = false;
-        }
-        hbox_group = 4;
+    if(hbox_num == 1){
+        spawnSplash = false;
+        spawnEffect = false;
     }
 }

@@ -144,8 +144,8 @@ if(hitstop == 0){
             }
             checkForDamage();
             checkForBomb();
-            hitstunTimer--;
-            if(hitstunTimer <= 0){
+            hitstun--;
+            if(hitstun <= 0){
                 changeState(0);
             }
             break;
@@ -224,11 +224,13 @@ if(hitstop == 0){
                     bombHitboxEarly.damage *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
                     bombHitboxEarly.kb_value *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
                     bombHitboxEarly.kb_scale *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
+                    bombHitboxEarly.hbox_group = 3;
                 } else if(window_timer == 12){
                     var bombHitboxLate = create_hitbox(AT_DSPECIAL_AIR, 3, round(x+2*spr_dir), round(y-24));
                     bombHitboxLate.damage *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
                     bombHitboxLate.kb_value *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
                     bombHitboxLate.kb_scale *= 1 - numFramesExplosionDelayed/(MAX_EXPLOSION_DELAY_FRAMES*2);
+                    bombHitboxLate.hbox_group = 3;
                 }
                 image_index = 5 + floor(window_timer/(window3Length/5));
             }
@@ -582,7 +584,13 @@ if(batitHealth < 1){
             spawn_hit_fx(round(other.x), round(other.y-20), hit_effect);
             player_id.has_hit = true;
             player_id.has_hit_player_article = true;
-            player_id.hit_player_article_obj = noone;
+            player_id.hit_player_article_obj = other;
+            player_id.my_hitboxID_player_article = attackFacing;
+            if(type == 2){
+                if(enemies == 0){
+                    length = 0;
+                }
+            }
         }
         knockBackAngle = get_hitbox_angle(attackFacing);
         knockBackPower = attackFacing.kb_value + attackFacing.kb_scale*(50-batitHealth)*.12;
@@ -594,7 +602,7 @@ if(batitHealth < 1){
         attackFacing.player_id.hitstop = attackFacing.player_id.hitstop_full;
         attackFacing.player_id.has_hit = true;
         playerLockout[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0)] = max(round(attackFacing.no_other_hit+2), 0);
-        hitstunTimer = round(attackFacing.kb_value*4 + (50-batitHealth)*0.12*attackFacing.kb_scale*4*0.65);
+        hitstun = round(attackFacing.kb_value*4 + (50-batitHealth)*0.12*attackFacing.kb_scale*4*0.65);
         if(attackFacing.hbox_group != -1){
             hGroupCheck[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0), attackFacing.hbox_group] = 1;
             batitHitboxesReset[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0)] = false;

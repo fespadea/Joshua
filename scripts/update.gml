@@ -44,7 +44,6 @@ if(batitPlaced){
                         clear_button_buffer(PC_RIGHT_STRONG_PRESSED);
                         clear_button_buffer(PC_UP_STRONG_PRESSED);
                         clear_button_buffer(PC_DOWN_STRONG_PRESSED);
-                        clear_button_buffer(PC_SHIELD_PRESSED);
                         clear_button_buffer(PC_SPECIAL_PRESSED);
                     }
                     if(runeM){
@@ -72,7 +71,7 @@ if(batitPlaced){
                             batitAttack(1, -1);
                         } else if((attack_pressed && up_down) || up_stick_pressed){
                             batitAttack(7, 1); // the direction doesn't matter here
-                        } else if(special_pressed || is_special_pressed(DIR_ANY)){
+                        } else if((special_pressed || is_special_pressed(DIR_ANY)) && joy_pad_idle){
                             if (move_cooldown[AT_NSPECIAL] < 1 || runeE){
                                 with batitArticle{
                                     switch(state){
@@ -111,7 +110,6 @@ if(batitPlaced){
                                 clear_button_buffer(PC_RIGHT_STRONG_PRESSED);
                                 clear_button_buffer(PC_UP_STRONG_PRESSED);
                                 clear_button_buffer(PC_DOWN_STRONG_PRESSED);
-                                clear_button_buffer(PC_SHIELD_PRESSED);
                                 clear_button_buffer(PC_SPECIAL_PRESSED);
                             }
                         }
@@ -385,6 +383,32 @@ if(has_hit_player_article_still_new_update_gml){
     if(runeC){
         sprite_change_offset("dog", random_func(10, NUM_ALTS, true), sprite_get_yoffset(sprite_get("dog")));
         init_shader();
+    }
+    if(instance_exists(my_hitboxID_player_article) && instance_exists(hit_player_article_obj)){
+        // command grab (template)
+        if (my_hitboxID_player_article.attack == AT_FSPECIAL){
+            if(my_hitboxID_player_article.hbox_num == 1){
+                if(!("hitstun" in hit_player_article_obj) || hit_player_article_obj.hitstun > 0){
+                    grabbedArticleId = hit_player_article_obj;
+                    grabbedArticleId.ungrab = 0;
+                    window = 5;
+                    window_timer = 0;
+                    my_hitboxID_player_article.length = 0;
+                }
+            } else if(my_hitboxID_player_article.hbox_num == 2){
+                grabbedArticleId = noone;
+            }
+        } else if(hit_player_article_obj == grabbedArticleId){
+            grabbedArticleId = noone;
+            window = 6;
+            window_timer = 0;
+            if(!runeI){
+                hsp = -7*spr_dir;
+                if(free){
+                    vsp = -1;
+                }
+            }
+        }
     }
 }
 
@@ -920,6 +944,5 @@ if(runeN){
     clear_button_buffer(PC_RIGHT_STRONG_PRESSED);
     clear_button_buffer(PC_UP_STRONG_PRESSED);
     clear_button_buffer(PC_DOWN_STRONG_PRESSED);
-    clear_button_buffer(PC_SHIELD_PRESSED);
     clear_button_buffer(PC_SPECIAL_PRESSED);
 }
