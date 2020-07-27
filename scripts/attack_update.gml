@@ -106,7 +106,7 @@ switch(attack){
                 }
             }
         } else if (window == 8){
-            if(window_timer == 1){
+            if(window_timer == 1 && !hitpause){
                 var throwBox = create_hitbox(attack, 2, round(x+8), round(y-62));
                 for(var i = 0; i < array_length(throwBox.can_hit); i++){
                     throwBox.can_hit[i] = 0;

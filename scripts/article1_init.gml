@@ -59,6 +59,7 @@ bumpBox = noone;
 
 //hitstun variables
 hitstun = 0;
+histunPrevSprite = sprite_index;
 
 //hitstop variables
 histop = 0;

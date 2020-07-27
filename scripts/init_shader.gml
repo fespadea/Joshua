@@ -676,7 +676,7 @@ if(!("onlineCSS" in self) || !onlineCSS){
             break;
         case 32:
             // Rainbow alt
-            if(!("color_rgb" in self)){ // set the start colors of the sprite here (only set the amount of color slots you actually use)
+            if(curAlt != prevAlt || !("color_rgb" in self)){ // set the start colors of the sprite here (only set the amount of color slots you actually use)
                 color_rgb[0] = make_color_rgb(57, 92, 104); //Jacket -- put the RGB values here for each corresponding slot 
                 color_rgb[1] = -1; //Skin/Pot -- just put -1 if you don't want the rainbow effect to apply to this slot
                 color_rgb[2] = make_color_rgb(111, 170, 193); //Pants

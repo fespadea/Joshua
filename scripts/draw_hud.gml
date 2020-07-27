@@ -8,7 +8,9 @@
 #macro BOMB_MASK_HEIGHT 20
 if(batitDelay > 0){
     if(move_cooldown[AT_DSPECIAL_AIR] > 0){
+        shader_start();
         draw_sprite(bombCooldownIndicator, 0, temp_x+BOMB_INDICATOR_X_OFFSET, temp_y+BOMB_INDICATOR_Y_OFFSET);
+        shader_end();
         gpu_set_blendenable(false)
         gpu_set_colorwriteenable(false,false,false,true);
         draw_set_alpha(0);
@@ -24,7 +26,9 @@ if(batitDelay > 0){
         gpu_set_alphatestenable(false);
         gpu_set_blendmode(bm_normal);
     } else {
+        shader_start();
         draw_sprite(bombProjectilesprite, floor(get_gameplay_time()*get_hitbox_value(AT_DSPECIAL_AIR, 1, HG_PROJECTILE_ANIM_SPEED)), temp_x+BOMB_INDICATOR_X_OFFSET, temp_y+BOMB_INDICATOR_Y_OFFSET);
+        shader_end();
     }
 }
 

@@ -5,6 +5,13 @@ if(hitstop < 0){
 }
 
 if(hitstop == 0){
+    if(inHitstop){
+        inHitstop = 0;
+        hsp = old_hsp;
+        vsp = old_vsp;
+        sprite_index = histunPrevSprite;
+    }
+
     switch(state) {
         case 0: //idle
             checkForTaunt();
@@ -401,7 +408,10 @@ if(hitstop == 0){
             }
             break;
     }
+
+    histunPrevSprite = sprite_index;
 } else {
+    sprite_index = sprite[6];
     inHitstop = true;
     checkForNudge();
     checkForDamage();
@@ -410,11 +420,6 @@ if(hitstop == 0){
 
 if(hitstop == 0){
     state_timer++;
-    if(inHitstop){
-        inHitstop = 0;
-        hsp = old_hsp;
-        vsp = old_vsp;
-    }
 }
 article_timer++;
 depth = player_id.depth - 1;
@@ -606,7 +611,8 @@ if(batitHealth < 1){
         attackFacing.player_id.hitpause = true;
         attackFacing.player_id.hitstop_full = max(round(attackFacing.hitpause + attackFacing.hitpause_growth*(50-batitHealth)*.05), 0);
         attackFacing.player_id.hitstop = attackFacing.player_id.hitstop_full;
-        attackFacing.player_id.has_hit = true;
+        attackFacing.in_hitpause = true;
+        attackFacing.hitstop = hitstop;
         playerLockout[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0)] = max(round(attackFacing.no_other_hit+2), 0);
         hitstun = round(attackFacing.kb_value*4 + (50-batitHealth)*0.12*attackFacing.kb_scale*4*0.65);
         if(attackFacing.hbox_group != -1){

@@ -59,7 +59,7 @@ set_hitbox_value(AT_FSPECIAL, 1, HG_PRIORITY, 2);
 set_hitbox_value(AT_FSPECIAL, 1, HG_DAMAGE, 2);
 set_hitbox_value(AT_FSPECIAL, 1, HG_BASE_KNOCKBACK, 1);
 set_hitbox_value(AT_FSPECIAL, 1, HG_HIT_SFX, asset_get("sfx_blow_weak1"));
-set_hitbox_value(AT_FSPECIAL, 1, HG_HITBOX_GROUP, -1);
+set_hitbox_value(AT_FSPECIAL, 1, HG_HITBOX_GROUP, 1);
 
 set_hitbox_value(AT_FSPECIAL, 2, HG_HITBOX_TYPE, 1); //throw hitbox
 set_hitbox_value(AT_FSPECIAL, 2, HG_LIFETIME, get_window_value(AT_FSPECIAL, 8, AG_WINDOW_LENGTH));
@@ -75,4 +75,4 @@ set_hitbox_value(AT_FSPECIAL, 2, HG_KNOCKBACK_SCALING, 0.2);
 set_hitbox_value(AT_FSPECIAL, 2, HG_BASE_HITPAUSE, 6);
 set_hitbox_value(AT_FSPECIAL, 2, HG_HITPAUSE_SCALING, 0.2);
 set_hitbox_value(AT_FSPECIAL, 2, HG_HITSTUN_MULTIPLIER, 1.2);
-set_hitbox_value(AT_FSPECIAL, 2, HG_HITBOX_GROUP, -1);
+set_hitbox_value(AT_FSPECIAL, 2, HG_HITBOX_GROUP, 2);
