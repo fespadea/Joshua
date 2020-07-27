@@ -135,6 +135,9 @@ canSwitchProjectiles = true;
 strongsMandatory = false;
 canSwitchStrongs = true;
 
+clear_button_buffer(PC_SPECIAL_PRESSED);
+clear_button_buffer(PC_JUMP_PRESSED);
+
 // Nudge variables
 autoNudge = true;
 canSwitchNudge = true;

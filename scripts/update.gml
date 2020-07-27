@@ -376,7 +376,7 @@ has_hit_player_article_still_new_attack_update_gml = has_hit_player_article;
 has_hit_player_article_still_new_update_gml = has_hit_player_article;
 has_hit_player_article = false;
 
-//runeC support for player articles
+//hit player article support
 if(has_hit_player_article_still_new_update_gml){
     has_hit_player_article_still_new_update_gml = false;
     // random alt rune
