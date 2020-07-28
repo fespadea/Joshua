@@ -66,6 +66,7 @@ histop = 0;
 old_hsp = 0;
 old_vsp = 0;
 inHitstop = false;
+preserveHitboxes = false;
 
 // window variables
 window = 0;

@@ -9,7 +9,11 @@ if(hitstop == 0){
         inHitstop = 0;
         hsp = old_hsp;
         vsp = old_vsp;
-        sprite_index = histunPrevSprite;
+        if(preserveHitboxes){
+            preserveHitboxes = false;
+        } else {
+            sprite_index = histunPrevSprite;
+        }
     }
 
     switch(state) {
@@ -411,11 +415,23 @@ if(hitstop == 0){
 
     histunPrevSprite = sprite_index;
 } else {
-    sprite_index = sprite[6];
     inHitstop = true;
     checkForNudge();
     checkForDamage();
     checkForBomb();
+    if(preserveHitboxes){
+        if(instance_exists(mehBox)){
+            mehBox.length++;
+        }
+        if(instance_exists(sweetBox)){
+            sweetBox.length++;
+        }
+        if(instance_exists(attackBox)){
+            attackBox.length++;
+        }
+    } else {
+        sprite_index = sprite[6];
+    }
 }
 
 if(hitstop == 0){
@@ -611,8 +627,7 @@ if(batitHealth < 1){
         attackFacing.player_id.hitpause = true;
         attackFacing.player_id.hitstop_full = max(round(attackFacing.hitpause + attackFacing.hitpause_growth*(50-batitHealth)*.05), 0);
         attackFacing.player_id.hitstop = attackFacing.player_id.hitstop_full;
-        attackFacing.in_hitpause = true;
-        attackFacing.hitstop = hitstop;
+        preserveHitboxes = false;
         playerLockout[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0)] = max(round(attackFacing.no_other_hit+2), 0);
         hitstun = round(attackFacing.kb_value*4 + (50-batitHealth)*0.12*attackFacing.kb_scale*4*0.65);
         if(attackFacing.hbox_group != -1){
@@ -685,6 +700,7 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
         nudgeHitboxID.player_id.hitstop_full = max(round(nudgeHitboxID.hitpause + nudgeHitboxID.hitpause_growth*(50-batitHealth)*.05), 0);
         nudgeHitboxID.player_id.hitstop = nudgeHitboxID.player_id.hitstop_full;
         nudgeHitboxID.player_id.has_hit = true;
+        preserveHitboxes = true;
         switch(nudgeAttack){
             case AT_DTILT:
                 hsp = nudgeDamage*cos(nudgeAngle);

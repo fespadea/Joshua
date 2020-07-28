@@ -847,7 +847,7 @@ if(get_gameplay_time() == 2 || wasReloaded){ // runs at the beginning of the mat
         tutorialPages[pageNum++] = "Also, Batit can be healed with Taunt.";
         tutorialPages[pageNum++] = "Finally, I want to go over nudging. If Joshua attacks Batit (excluding batitless dspecial and fspecial for obvious reasons), Batit will get nudged.";
         tutorialPages[pageNum++] = "This will put Batit in a state where he is sent flying in a the direction of the hitbox's knockback angle (some hitboxes have adjusted knockback).";
-        tutorialPages[pageNum++] = "In this state, Batit cannot be damage, and he is surrounded by a hitbox that inherits the properties of the hitbox that hit it.";
+        tutorialPages[pageNum++] = "In this state, Batit cannot be damage, and he is surrounded by a hitbox that inherits half the damage, base knockback, and knockback scaling along with the knockback angle of the hitbox that hit it.";
         tutorialPages[pageNum++] = "Nudge can also be cancelled into any of Batit's attacks, but he loses his invincibility and hitbox.";
         tutorialPages[pageNum++] = "In order to not nudge Batit, Joshua has to hold shield during his attack.";
         tutorialPages[pageNum++] = "Nudging can be toggled to not be default, so that you have to hold shield during attacks to nudge Batit by pressing taunt+shield anytime during a match.";
