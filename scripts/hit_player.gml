@@ -62,7 +62,7 @@ if(my_hitboxID.attack == AT_USPECIAL && my_hitboxID.hbox_num > 2 && my_hitboxID.
 }
 
 // random alt rune
-if(runeC){
+if(randomAltOnHit){
     sprite_change_offset("dog", random_func(10, NUM_ALTS, true), sprite_get_yoffset(sprite_get("dog")));
     init_shader();
 }

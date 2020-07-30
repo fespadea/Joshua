@@ -605,7 +605,13 @@ if(batitHealth < 1){
                 ds_list_set(attacksFaced, i, noone);
             }
         }
-        batitHealth -= min(attackFacing.damage, batitHealth);
+        var chargeAttack = false;
+        with attackFacing.player_id {
+            if(get_attack_value(attackFacing.attack, AG_STRONG_CHARGE_WINDOW)){
+                chargeAttack = true;
+            }
+        }
+        batitHealth -= min(round(attackFacing.damage*(1 + (chargeAttack ? attackFacing.player_id.strong_charge/120 : 0))), batitHealth);
         with attackFacing{
             sound_play(sound_effect);
             spawn_hit_fx(round(other.x), round(other.y-20), hit_effect);
@@ -620,13 +626,15 @@ if(batitHealth < 1){
             }
         }
         knockBackAngle = get_hitbox_angle(attackFacing);
-        knockBackPower = attackFacing.kb_value + attackFacing.kb_scale*(50-batitHealth)*.12;
+        knockBackPower = (attackFacing.kb_value + attackFacing.kb_scale*(50-batitHealth)*.12)*(player_id.runeC ? 0.7 : 1);
         hitstop = max(round(attackFacing.hitpause + attackFacing.extra_hitpause + attackFacing.hitpause_growth*(50-batitHealth)*.05), 0);
-        attackFacing.player_id.old_hsp = attackFacing.player_id.hsp;
-        attackFacing.player_id.old_vsp = attackFacing.player_id.vsp;
-        attackFacing.player_id.hitpause = true;
-        attackFacing.player_id.hitstop_full = max(round(attackFacing.hitpause + attackFacing.hitpause_growth*(50-batitHealth)*.05), 0);
-        attackFacing.player_id.hitstop = attackFacing.player_id.hitstop_full;
+        if(attackFacing.type == 1){
+            attackFacing.player_id.old_hsp = attackFacing.player_id.hsp;
+            attackFacing.player_id.old_vsp = attackFacing.player_id.vsp;
+            attackFacing.player_id.hitpause = true;
+            attackFacing.player_id.hitstop_full = max(round(attackFacing.hitpause + attackFacing.hitpause_growth*(50-batitHealth)*.05), 0);
+            attackFacing.player_id.hitstop = attackFacing.player_id.hitstop_full;
+        }
         preserveHitboxes = false;
         playerLockout[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0)] = max(round(attackFacing.no_other_hit+2), 0);
         hitstun = round(attackFacing.kb_value*4 + (50-batitHealth)*0.12*attackFacing.kb_scale*4*0.65);

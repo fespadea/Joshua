@@ -74,6 +74,5 @@ if (attack == AT_UTILT && hbox_num == 2){
         }
     } else if (hbox_num == 2){
         player_id.move_cooldown[AT_NSPECIAL] = 2;
-        print_debug(string(x))
     }
 }

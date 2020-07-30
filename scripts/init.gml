@@ -154,8 +154,8 @@ batitBarSprite = sprite_get("Batit_hud_bar");
 batitHpSprite = sprite_get("batit_hud_hp");
 toggleIconSprite = sprite_get("toggle_icon");
 
-//variable to keep track of current Joshua stats
-batitStats = false;
+/*//variable to keep track of current Joshua stats
+batitStats = false;*/
 
 //command grab variable (template)
 grabbedid = noone;
@@ -195,6 +195,9 @@ switch(sprite_get_xoffset(sprite_get("dog"))){
         introSprite = sprite_get("intro");
         numIntroFrames = 7;
 }
+
+//random alt on hit
+randomAltOnHit = false;
 
 //player article support
 has_hit_player_article = false;
@@ -442,12 +445,12 @@ ab_hud_y = 0;
 abyssMods = array_create(16,[-1,"Not Implemented."]);
 abyssMods[@ runes.A] = [2, "Keep Batitful FSTRONG when Batit is out."];
 abyssMods[@ runes.B] = [2, "Keep Batitful USTRONG when Batit is out."];
-abyssMods[@ runes.C] = [3, "Switch to a random alt each time you hit the opponent."];
-abyssMods[@ runes.D] = [3, "Holding Batit does not make Joshua Slower."];
+abyssMods[@ runes.C] = [3, "Joshua & Batit have a knockback_adj of 0.7."];
+abyssMods[@ runes.D] = [2, "BAIR can be cancelled into BAIR."];
 abyssMods[@ runes.E] = [0, "No NSPECIAL cooldown for Batit."];
 abyssMods[@ runes.F] = [2, "UAIR always Marios."];
 
-abyssMods[@ runes.G] = [2, "BAIR can be cancelled into BAIR."];
+abyssMods[@ runes.G] = [2, "Old DASH ATTACK, FAIR, and BAIR."];
 abyssMods[@ runes.H] = [0, "Batit has unlimited health and no respawn cooldowns."];
 abyssMods[@ runes.I] = [0, "Batit's strongs have extra hitpause and no grab push-back when opponent hit (wobbling)."];
 abyssMods[@ runes.J] = [2, "USPECIAL is permanently upgraded, even when Batit is out."];
