@@ -200,6 +200,7 @@ switch(sprite_get_xoffset(sprite_get("dog"))){
 randomAltOnHit = false;
 
 //player article support
+hit_player_article_gml = false;
 has_hit_player_article = false;
 hit_player_article_obj = noone;
 my_hitboxID_player_article = noone;
