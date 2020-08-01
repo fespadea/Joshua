@@ -2,9 +2,9 @@
 var temp_x = x + 8;
 var temp_y = y + 9;
 
-#macro PATCH_VER "3.8"
-#macro PATCH_DAY "30"
-#macro PATCH_MONTH "JULY"
+#macro PATCH_VER "3.9"
+#macro PATCH_DAY "1"
+#macro PATCH_MONTH "AUGUST"
 
 // player is set to 0 online, but not in init_shader.gml, so I have to check it here
 onlineCSS = player == 0;

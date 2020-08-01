@@ -16,7 +16,9 @@ if (attack == AT_UTILT && hbox_num == 2){
             hbox_group = 3;
             break;
         case 1:
-            if(!free){
+            if(was_parried){
+                destroyed = true;
+            } else if(!free){
                 hit_priority = 0;
                 if(spawnSplash){
                     create_hitbox(AT_DSPECIAL_AIR, 4, round(x), round(y));

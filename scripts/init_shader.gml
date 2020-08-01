@@ -25,7 +25,7 @@ if(!("onlineCSS" in self) || !onlineCSS){
     }
 
     // set shading to normal
-    for(i = 0; i < 8; i++){
+    for(var i = 0; i < 8; i++){
         set_character_color_shading(i, 1);
     }
 
@@ -190,7 +190,7 @@ if(!("onlineCSS" in self) || !onlineCSS){
             set_article_color_slot( 6, 83, 122, 62, 256 ); //Stem
             set_article_color_slot( 7, 167, 186, 74, 256 ); //Leaves
             // set shading to 0
-            for(i = 0; i < 8; i++){
+            for(var i = 0; i < 8; i++){
                 set_character_color_shading(i, 0);
             }
             break;
@@ -711,7 +711,7 @@ if(!("onlineCSS" in self) || !onlineCSS){
     switch(get_player_color(0)){
         case 7:
             // set shading to 0
-            for(i = 0; i < 8; i++){
+            for(var i = 0; i < 8; i++){
                 set_character_color_shading(i, 0);
             }
             break;
