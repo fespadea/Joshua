@@ -615,8 +615,11 @@ if(batitHealth < 1){
         with attackFacing{
             sound_play(sound_effect);
             spawn_hit_fx(round(other.x), round(other.y-20), hit_effect);
-            player_id.has_hit = true;
-            player_id.has_hit_player_article = true;
+            if(type == 1){
+                player_id.has_hit = true;
+                player_id.has_hit_player_article = true;
+            }
+            player_id.hit_player_article_gml = true;
             player_id.hit_player_article_obj = other;
             player_id.my_hitboxID_player_article = attackFacing;
             if(type == 2){
@@ -707,7 +710,9 @@ if(player_id.autoNudge ? !player_id.shield_down : player_id.shield_down){
         nudgeHitboxID.player_id.hitpause = true;
         nudgeHitboxID.player_id.hitstop_full = max(round(nudgeHitboxID.hitpause + nudgeHitboxID.hitpause_growth*(50-batitHealth)*.05), 0);
         nudgeHitboxID.player_id.hitstop = nudgeHitboxID.player_id.hitstop_full;
-        nudgeHitboxID.player_id.has_hit = true;
+        if(nudgeHitboxID.type == 1){
+            nudgeHitboxID.player_id.has_hit = true;
+        }
         preserveHitboxes = true;
         switch(nudgeAttack){
             case AT_DTILT:
