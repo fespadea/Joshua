@@ -2,7 +2,7 @@
 var temp_x = x + 8;
 var temp_y = y + 9;
 
-#macro PATCH_VER "3.9"
+#macro PATCH_VER "3.10"
 #macro PATCH_DAY "1"
 #macro PATCH_MONTH "AUGUST"
 
