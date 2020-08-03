@@ -90,6 +90,9 @@ sprite_change_offset("batit_kicked_up", 18, 60);
 sprite_change_collision_mask("batit_kicked_up", false, 2, 10, 29, 27, 61, 0);
 sprite_change_offset("batit_kicked_up_fall", 18, 60);
 sprite_change_offset("batit_hurt", 22, 63);
+if(!sprite_get_xoffset(sprite_get("batit_explode"))){
+    sprite_change_collision_mask("batit_explode", true, 0, 0, 0, 0, 0, 0); // this breaks the sprite if it runs more than once
+}
 sprite_change_offset("batit_explode", 56, 88);
 sprite_change_offset("batit_nspecial", 62, 126);
 sprite_change_offset("batit_fstrong", 30, 60);
@@ -123,17 +126,3 @@ sprite_change_offset("kirby_nspecial_icon", 8, 10);
 
 //miiverse support
 sprite_change_offset("miiverse_joshua", 60, 30);
-
-
-if (attack == AT_NSPECIAL){
-    if (window == 2){
-        if(special_down && charge < 4){
-            charge += 1;
-            increase += 0.5;
-            set_hitbox_value(AT_NSPECIAL, 1, HG_DAMAGE, 9*increase);
-        } else{
-            window = 3;
-            window_timer = 0;
-        }
-    }
-}

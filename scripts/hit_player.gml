@@ -61,8 +61,9 @@ if(my_hitboxID.attack == AT_USPECIAL && my_hitboxID.hbox_num > 2 && my_hitboxID.
     hit_player_obj.should_make_shockwave = false;
 }
 
-// random alt rune
-if(randomAltOnHit){
-    sprite_change_offset("dog", random_func(10, NUM_ALTS, true), sprite_get_yoffset(sprite_get("dog")));
-    init_shader();
+// [Random alt on hit feature]
+// Random alt on hit
+if(randomAltOnHit){ // if "random alt on hit" activated
+    set_color_profile_slot(0, 8, random_func(10, get_color_profile_slot_b(0, 8), true), get_color_profile_slot_g(0, 8), get_color_profile_slot_b(0, 8)); // update the unlimited alt to a random alt
+    init_shader(); // update the alt visually
 }

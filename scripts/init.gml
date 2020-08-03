@@ -135,6 +135,10 @@ canSwitchProjectiles = true;
 strongsMandatory = false;
 canSwitchStrongs = true;
 
+// [Random alt on hit feature]
+randomAltOnHit = false; // holds whether this feature has been activated
+
+// Make these clear the buffer of the inputs that you use for costume changing during the intro. This prevents costume switching when restarting a game if either input is mapped to A. [Edit optional]
 clear_button_buffer(PC_SPECIAL_PRESSED);
 clear_button_buffer(PC_JUMP_PRESSED);
 
@@ -182,7 +186,7 @@ sweetspotHfx = hit_fx_create(sprite_get("batit_sweetspot_hfx"), 35);
 //intro
 introTimer = -4;
 introTimer2 = 0;
-switch(sprite_get_xoffset(sprite_get("dog"))){
+switch(get_color_profile_slot_r(0, 8)){
     case 6:
         introSprite = sprite_get("intro_abyss");
         numIntroFrames = 20;
@@ -195,9 +199,6 @@ switch(sprite_get_xoffset(sprite_get("dog"))){
         introSprite = sprite_get("intro");
         numIntroFrames = 7;
 }
-
-//random alt on hit
-randomAltOnHit = false;
 
 //player article support
 hit_player_article_gml = false;

@@ -1,719 +1,183 @@
 // init shader
 
-NUM_ALTS = 33;
-if(!("onlineCSS" in self) || !onlineCSS){
-    var curAlt = get_player_color(player);
-    if(!sprite_get_bbox_left(sprite_get("dog"))){
-        sprite_change_collision_mask("batit_explode", true, 0, 0, 0, 0, 0, 0);
-        sprite_change_offset("dog", curAlt, curAlt);
-        sprite_change_collision_mask("dog", false, 2, 1, 1, 1, 1, 1);
-    }
-    var curRealAlt = sprite_get_xoffset(sprite_get("dog"));
-    var prevAlt = sprite_get_yoffset(sprite_get("dog"));
-    if(curAlt != prevAlt){
-        if((curAlt > prevAlt && curAlt < prevAlt + 8) || curAlt < prevAlt - 8){
-            curRealAlt++;
-            if(curRealAlt == NUM_ALTS){
-                curRealAlt = 0;
+// set this to the number of color rows you use (Rivals has a max of 8)
+#macro NUM_COLOR_ROWS 8
+var NUM_ALTS = get_color_profile_slot_b(0, 8); // this holds the number of alts you have
+var onCSS = "ping_color" in self; // this detects whether you're on the CSS or not
+
+// [Random alt feature]
+// variables for the random alt
+var onSSS = "ss_page_swap" in self; // this detects whether you're on the SSS or not
+// Set this to whichever alt is your random alt. Setting this to -1, or some number that isn't one of your alts, will make it so that you don't have a ranom alt. [Edit necessary]
+#macro RANDOM_ALT 33
+// Set this to whichever alt you want the random alt to default to if you somehow skipped the SSS. You are able to make this the random alt itself if you want.
+#macro DEFAULT_RANDOM_ALT 0
+
+// [Row jump feature]
+// macros for allowing row jumping on the CSS
+// Set this macro to the frame leeway recognizing a row jump. Set this to 0 if you don't want to allow row jumping. [Edit necessary]
+#macro ROW_SWITCH_FRAME_LIMIT 0
+// these are too macros used to keep track of whether you last increased or decreased your alt
+#macro ALT_INCREASED 1
+#macro ALT_DECREASED 2
+
+// decide what the current alt is
+var curRealAlt; // the variable that holds the alt that your character will look like
+if(onCSS){ // if you're on the CSS
+    var onlineCSS = get_color_profile_slot_b(0, 9); // whether you're on the online CSS (-1 = unknown/first frame of CSS, 0 = offline, 1 = online)
+    
+    if(onlineCSS == -1){ // initial character load
+        curRealAlt = get_player_color(player); // just use whichever alt the character gets selected (this is always the default alt, 0)
+        set_color_profile_slot(0, 8, curRealAlt, curRealAlt, get_color_profile_slot_b(0, 8)); // update the color slot to reflect the selected alt (the b value remains unchanged)
+        /* [Select sound feature] [Edit optional]
+        sound_play(sound_get("JoshuaParryUse")); // You can play a sound here to have it play only when you select the character
+        */
+    } else if(onlineCSS == 0){ // offline css
+        // [Row jump feature]
+        var rowSwitchTimer = get_color_profile_slot_r(0, 9); // this is the timer since you last switched alt
+        var lastAltAction = get_color_profile_slot_g(0, 9); // this is whether you last increased or decreased your alt (or neither if you just selected the character)
+
+        var curAlt = get_player_color(player); // the current base game alt
+        curRealAlt = get_color_profile_slot_r(0, 8); // the current unlimited alt
+        var prevAlt = get_color_profile_slot_g(0, 8); // the previous base game alt
+        if(curAlt != prevAlt){ // you switched alt
+            if((curAlt > prevAlt && curAlt < prevAlt + 8) || curAlt < prevAlt - 8){ // You increased your alt. This accounts for going from the highest alt to the smallest alt and skipping alts because of other players.
+                curRealAlt++; // increase your unlimited alt
+                if(curRealAlt == NUM_ALTS){ // if you've passed the number of unlimited alts you have
+                    curRealAlt = 0; // reset your unlimited alt to the default alt
+                }
+
+                // [Row jump feature]
+                // jump up a row
+                if(lastAltAction == ALT_DECREASED && rowSwitchTimer < ROW_SWITCH_FRAME_LIMIT){ // if you last decreased your alt and you increased after quick enough
+                    curRealAlt += 16; // go up a row
+                    if(curRealAlt >= NUM_ALTS){ // if you pass the number of alts you have
+                        curRealAlt = curRealAlt % 16; // go back to the first row
+                    }
+                }
+                lastAltAction = ALT_INCREASED; // you just increased your alt so the last action you did was increase your alt
+            } else{ // You decreased your alt. This accounts for going from the smallest alt to the highest alt and skipping alts because of other players.
+                if(curRealAlt == 0){ // if you're the smallest unlimited alt
+                    curRealAlt = NUM_ALTS; // set the current alt to the number of alts you have (this will get decreased since you start counting alts at 0)
+                }
+                curRealAlt--; // decrease your unlimited alt
+
+                // [Row jump feature]
+                // jump down a row
+                if(lastAltAction == ALT_INCREASED && rowSwitchTimer < ROW_SWITCH_FRAME_LIMIT){ // if you last increased your alt and you increased after quick enough
+                    curRealAlt -= 16; // go down a row
+                    if(curRealAlt < 0){ // if you pass the smallest alt you have
+                        while(curRealAlt+16 < NUM_ALTS){ // could not think of better math cause dumb
+                            curRealAlt += 16; // go to the last row
+                        }
+                    }
+                }
+                lastAltAction = ALT_DECREASED; // you just decreased your alt so the last action you did was decrease your alt
             }
-        } else{
-            if(curRealAlt == 0){
-                curRealAlt = NUM_ALTS;
-            }
-            curRealAlt--;
+            // [Row jump feature]
+            rowSwitchTimer = 0; // reset the switch timer since you just switched alt
+            set_color_profile_slot(0, 9, rowSwitchTimer, lastAltAction, get_color_profile_slot_b(0, 9)); // update the switch timer and last action in their color slots (the b value remains unchanged)
         }
+        set_color_profile_slot(0, 8, curRealAlt, curAlt, get_color_profile_slot_b(0, 8)); // update the unlimited alt and the previous base alt in their color slots (the b value remaiins unchanged) 
+    } else if(onlineCSS == 1){ //online css
+        curRealAlt = get_player_color(0); // the online CSS has you as player 0, but the player variable is not set to 0 while init_shader runs so this is necessary
+        set_color_profile_slot(0, 8, curRealAlt, curRealAlt, get_color_profile_slot_b(0, 8)); // update the color slot to reflect the selected alt (the b value remains unchanged)
     }
 
-    // set shading to normal
+    // [Random alt feature]
+    set_color_profile_slot(0, 10, get_color_profile_slot_r(0, 10), get_color_profile_slot_g(0, 10), 0); // reset the SSS timer while you're on the CSS (the r and g values remain unchanged)
+
+    /* [Alt sound feature] [Edit optional]
+    // This sets up custom sound effects that play when you select an alt on the CSS. This is completely optional, you can just ignore this if you don't want to play any sounds
+    var currentPlayingAltSfx = get_color_profile_slot_r(0, 10); // the alt which last had its sfx play (even if it didn't actually have anything play)
+    var currentPlayingSfxId = get_color_profile_slot_g(0, 10); // the id of the last sfx that played so that it can be stopped (-1 if none was played)
+    var altSpecificSfx = array_create(NUM_ALTS, 0); // set the indexes of this array to the sfx you want to play for the corresponding slot, if any (the rest will just be 0 and won't play anything) [Edit necessary]
+    altSpecificSfx[0] = sound_get("JoshuaParryUse"); // some random examples
+    altSpecificSfx[3] = sound_get("pencilTCO");
+    altSpecificSfx[13] = sound_get("tauntMono");
+    altSpecificSfx[26] = sound_get("textappearTAA");
+    // play the sfx for your alt if it has one
+    if(curRealAlt != currentPlayingAltSfx){ // the current unlimited alt doesn't match the alt that last had its sfx play
+        if(currentPlayingSfxId){ // if there was a sound played that needs to be stopped (it might have played entirely already, but it will still count)
+            sound_stop(currentPlayingSfxId); // stop the old sound
+            currentPlayingSfxId = -1; // the the current sfx id to -1 since no sound is playing
+        }
+        if(altSpecificSfx[curRealAlt]){ // if this alt has a sound to play
+            currentPlayingSfxId = sound_play(altSpecificSfx[curRealAlt]); // play that sound and update the last played sound id
+        }
+        set_color_profile_slot(0, 10, curRealAlt, currentPlayingSfxId, get_color_profile_slot_b(0, 10)); // update the color slots for the last alt to play a sound and last sound ID (the b value remains unchanged)
+    }
+    */
+} else{ // if you're not on the CSS
+    if(get_color_profile_slot_r(0, 8) == -1){ // you still don't have an unlimited alt selected
+        var curAlt = get_player_color(player); // just use the current base game alt
+        set_color_profile_slot(0, 8, curAlt, curAlt, get_color_profile_slot_b(0, 8)); // update the color slot to reflect the selected alt (the b value remains unchanged)
+    }
+    curRealAlt = get_color_profile_slot_r(0, 8); // the current unlimited alt
+
+    // [Random alt feature]
+    if(onSSS){ // on the stage selection screen
+        set_color_profile_slot(0, 10, get_color_profile_slot_r(0, 10), get_color_profile_slot_g(0, 10), get_color_profile_slot_b(0, 10)+1); // Increment the SSS timer (the b value). The r and g values remain unchanged.
+    } else { // in a match or playtesting
+        if(curRealAlt == RANDOM_ALT && object_index != oTestPlayer){ // if you have the random alt selected and are not playtesting
+            if(get_color_profile_slot_b(0, 10)){ // if you were on the stage selection screen for at least one frame
+                curRealAlt = get_color_profile_slot_b(0, 10)%NUM_ALTS; // select an alt based on how long you were on the SSS
+                if(curRealAlt == RANDOM_ALT){ // if the random alt got selected
+                    set_color_profile_slot(0, 10, get_color_profile_slot_r(0, 10), get_color_profile_slot_g(0, 10), get_color_profile_slot_b(0, 10)+1); // Increment the SSS timer once (the b value). The r and g values remain unchanged.
+                    curRealAlt = get_color_profile_slot_b(0, 10)%NUM_ALTS; // reselect the alt so that it isn't the random alt
+                }
+            } else { // you skipped the stage selection screen
+                curRealtAlt = DEFAULT_RANDOM_ALT; // just use the default random alt
+            }
+        }
+    }
+}
+
+// You can get rid of this part if none of your alts change the default shading [Edit optional]
+// set the shading of the color slots
+if(curRealAlt == 7 || curRealAlt == RANDOM_ALT){ // EA alt and the random alt (change this to check for whichever of your alts have no shading) [Edit necessary]
+    // set shading to 0 for every color slot
+    for(var i = 0; i < 8; i++){
+        set_character_color_shading(i, 0);
+    }
+} else{ // normal alt
+    // set shading to normal for every color slot
     for(var i = 0; i < 8; i++){
         set_character_color_shading(i, 1);
     }
+}
 
-    switch(curRealAlt){
-        case 0:
-            // Default alt
-            set_character_color_slot( 0, 57, 92, 104, 256 ); //Jacket
-            set_character_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 111, 170, 193, 256 ); //Pants
-            set_character_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_character_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 149, 67, 94, 256 ); //Stem
-            set_character_color_slot( 7, 82, 180, 127, 256 ); //Leaves
-            // Default alt article colors
-            set_article_color_slot( 0, 57, 92, 104, 256 ); //Jacket
-            set_article_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 111, 170, 193, 256 ); //Pants
-            set_article_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_article_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 149, 67, 94, 256 ); //Stem
-            set_article_color_slot( 7, 82, 180, 127, 256 ); //Leaves
-            break;
-        case 1:
-            // Hime alt
-            set_character_color_slot( 0, 116, 184, 229, 256 ); //Jacket
-            set_character_color_slot( 1, 223, 155, 154, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 206, 180, 167, 256 ); //Pants
-            set_character_color_slot( 3, 109, 140, 161, 256 ); //Hair
-            set_character_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 255, 254, 255, 256 ); //Stem
-            set_character_color_slot( 7, 237, 127, 126, 256 ); //Leaves
-            // Hime alt article colors
-            set_article_color_slot( 0, 116, 184, 229, 256 ); //Jacket
-            set_article_color_slot( 1, 223, 155, 154, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 206, 180, 167, 256 ); //Pants
-            set_article_color_slot( 3, 109, 140, 161, 256 ); //Hair
-            set_article_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 255, 254, 255, 256 ); //Stem
-            set_article_color_slot( 7, 237, 127, 126, 256 ); //Leaves
-            break;
-        case 2:
-            // Liz alt
-            set_character_color_slot( 0, 0, 0, 0, 256 ); //Jacket
-            set_character_color_slot( 1, 204, 119, 119, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 245, 95, 140, 256 ); //Pants
-            set_character_color_slot( 3, 245, 95, 140, 256 ); //Hair
-            set_character_color_slot( 4, 41, 41, 100, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 37, 21, 71, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 93, 244, 188, 256 ); //Stem
-            set_character_color_slot( 7, 93, 244, 188, 256 ); //Leaves
-            // Liz alt article colors
-            set_article_color_slot( 0, 0, 0, 0, 256 ); //Jacket
-            set_article_color_slot( 1, 204, 119, 119, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 245, 95, 140, 256 ); //Pants
-            set_article_color_slot( 3, 245, 95, 140, 256 ); //Hair
-            set_article_color_slot( 4, 41, 41, 100, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 37, 21, 71, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 93, 244, 188, 256 ); //Stem
-            set_article_color_slot( 7, 93, 244, 188, 256 ); //Leaves
-            break;
-        case 3:
-            // Acid Rainbows alt
-            set_character_color_slot( 0, 71, 185, 89, 256 ); //Jacket
-            set_character_color_slot( 1, 221, 159, 134, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 149, 176, 196, 256 ); //Pants
-            set_character_color_slot( 3, 182, 73, 218, 256 ); //Hair
-            set_character_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 213, 41, 77, 256 ); //Stem
-            set_character_color_slot( 7, 118, 37, 54, 256 ); //Leaves
-            // Acid Rainbows alt article colors
-            set_article_color_slot( 0, 71, 185, 89, 256 ); //Jacket
-            set_article_color_slot( 1, 221, 159, 134, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 149, 176, 196, 256 ); //Pants
-            set_article_color_slot( 3, 182, 73, 218, 256 ); //Hair
-            set_article_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 213, 41, 77, 256 ); //Stem
-            set_article_color_slot( 7, 118, 37, 54, 256 ); //Leaves
-            break;
-        case 4:
-            // Donyoku alt
-            set_character_color_slot( 0, 76, 89, 92, 256 ); //Jacket
-            set_character_color_slot( 1, 192, 172, 123, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 243, 157, 25, 256 ); //Pants
-            set_character_color_slot( 3, 62, 64, 96, 256 ); //Hair
-            set_character_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 243, 157, 25, 256 ); //Stem
-            set_character_color_slot( 7, 50, 206, 225, 256 ); //Leaves
-            // Donyoku alt article colors
-            set_article_color_slot( 0, 76, 89, 92, 256 ); //Jacket
-            set_article_color_slot( 1, 192, 172, 123, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 243, 157, 25, 256 ); //Pants
-            set_article_color_slot( 3, 62, 64, 96, 256 ); //Hair
-            set_article_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 243, 157, 25, 256 ); //Stem
-            set_article_color_slot( 7, 50, 206, 225, 256 ); //Leaves
-            break;
-        case 5:
-            // Pomme alt
-            set_character_color_slot( 0, 167, 83, 132, 256 ); //Jacket
-            set_character_color_slot( 1, 233, 190, 224, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 251, 234, 244, 256 ); //Pants
-            set_character_color_slot( 3, 241, 140, 214, 256 ); //Hair
-            set_character_color_slot( 4, 66, 26, 91, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 35, 13, 64, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 251, 234, 244, 256 ); //Stem
-            set_character_color_slot( 7, 183, 101, 184, 256 ); //Leaves
-            // Pomme alt article colors
-            set_article_color_slot( 0, 167, 83, 132, 256 ); //Jacket
-            set_article_color_slot( 1, 233, 190, 224, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 251, 234, 244, 256 ); //Pants
-            set_article_color_slot( 3, 241, 140, 214, 256 ); //Hair
-            set_article_color_slot( 4, 66, 26, 91, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 35, 13, 64, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 251, 234, 244, 256 ); //Stem
-            set_article_color_slot( 7, 183, 101, 184, 256 ); //Leaves
-            break;
-        case 6:
-            // Abyss alt
-            set_character_color_slot( 0, 116, 94, 135, 256 ); //Jacket
-            set_character_color_slot( 1, 111, 127, 188, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 79, 61, 94, 256 ); //Pants
-            set_character_color_slot( 3, 79, 61, 94, 256 ); //Hair
-            set_character_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 220, 113, 255, 256 ); //Stem
-            set_character_color_slot( 7, 166, 172, 214, 256 ); //Leaves
-            // Abyss alt article colors
-            set_article_color_slot( 0, 116, 94, 135, 256 ); //Jacket
-            set_article_color_slot( 1, 111, 127, 188, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 79, 61, 94, 256 ); //Pants
-            set_article_color_slot( 3, 79, 61, 94, 256 ); //Hair
-            set_article_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 220, 113, 255, 256 ); //Stem
-            set_article_color_slot( 7, 166, 172, 214, 256 ); //Leaves
-            break;
-        case 7:
-            // Early Access alt
-            set_character_color_slot( 0, 83, 122, 62, 256 ); //Jacket
-            set_character_color_slot( 1, 211, 226, 154, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 167, 186, 74, 256 ); //Pants
-            set_character_color_slot( 3, 83, 122, 62, 256 ); //Hair
-            set_character_color_slot( 4, 211, 226, 154, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 211, 226, 154, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 83, 122, 62, 256 ); //Stem
-            set_character_color_slot( 7, 167, 186, 74, 256 ); //Leaves
-            // Early Access alt article colors
-            set_article_color_slot( 0, 83, 122, 62, 256 ); //Jacket
-            set_article_color_slot( 1, 211, 226, 154, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 167, 186, 74, 256 ); //Pants
-            set_article_color_slot( 3, 83, 122, 62, 256 ); //Hair
-            set_article_color_slot( 4, 211, 226, 154, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 211, 226, 154, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 83, 122, 62, 256 ); //Stem
-            set_article_color_slot( 7, 167, 186, 74, 256 ); //Leaves
-            // set shading to 0
-            for(var i = 0; i < 8; i++){
-                set_character_color_shading(i, 0);
-            }
-            break;
-        case 8:
-            // Contest One alt
-            set_character_color_slot( 0, 155, 70, 70, 256 ); //Jacket
-            set_character_color_slot( 1, 225, 175, 155, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 63, 53, 53, 256 ); //Pants
-            set_character_color_slot( 3, 123, 80, 56, 256 ); //Hair
-            set_character_color_slot( 4, 111, 53, 53, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 75, 34, 34, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 55, 105, 70, 256 ); //Stem
-            set_character_color_slot( 7, 53, 47, 56, 256 ); //Leaves
-            // Contest One alt article colors
-            set_article_color_slot( 0, 155, 70, 70, 256 ); //Jacket
-            set_article_color_slot( 1, 225, 175, 155, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 63, 53, 53, 256 ); //Pants
-            set_article_color_slot( 3, 123, 80, 56, 256 ); //Hair
-            set_article_color_slot( 4, 111, 53, 53, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 75, 34, 34, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 55, 105, 70, 256 ); //Stem
-            set_article_color_slot( 7, 53, 47, 56, 256 ); //Leaves
-            break;
-        case 9:
-            // Sans alt
-            set_character_color_slot( 0, 104, 151, 205, 256 ); //Jacket
-            set_character_color_slot( 1, 212, 192, 190, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 207, 233, 252, 256 ); //Pants
-            set_character_color_slot( 3, 177, 177, 177, 256 ); //Hair
-            set_character_color_slot( 4, 215, 216, 218, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 163, 166, 177, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 93, 139, 97, 256 ); //Stem
-            set_character_color_slot( 7, 240, 135, 189, 256 ); //Leaves
-            // Sans alt article colors
-            set_article_color_slot( 0, 104, 151, 205, 256 ); //Jacket
-            set_article_color_slot( 1, 212, 192, 190, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 207, 233, 252, 256 ); //Pants
-            set_article_color_slot( 3, 177, 177, 177, 256 ); //Hair
-            set_article_color_slot( 4, 215, 216, 218, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 163, 166, 177, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 93, 139, 97, 256 ); //Stem
-            set_article_color_slot( 7, 240, 135, 189, 256 ); //Leaves
-            break;
-        case 10:
-            // Contest Three alt
-            set_character_color_slot( 0, 221, 221, 221, 256 ); //Jacket
-            set_character_color_slot( 1, 229, 194, 175, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 96, 90, 88, 256 ); //Pants
-            set_character_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_character_color_slot( 4, 85, 133, 104, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 63, 104, 79, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 115, 119, 125, 256 ); //Stem
-            set_character_color_slot( 7, 201, 87, 87, 256 ); //Leaves
-            // Contest Three alt article colors
-            set_article_color_slot( 0, 221, 221, 221, 256 ); //Jacket
-            set_article_color_slot( 1, 229, 194, 175, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 96, 90, 88, 256 ); //Pants
-            set_article_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_article_color_slot( 4, 85, 133, 104, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 63, 104, 79, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 115, 119, 125, 256 ); //Stem
-            set_article_color_slot( 7, 201, 87, 87, 256 ); //Leaves
-            break;
-        case 11:
-            // Content Four alt
-            set_character_color_slot( 0, 182, 99, 156, 256 ); //Jacket
-            set_character_color_slot( 1, 232, 178, 199, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 163, 42, 71, 256 ); //Pants
-            set_character_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_character_color_slot( 4, 222, 187, 217, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 192, 155, 196, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 177, 46, 122, 256 ); //Stem
-            set_character_color_slot( 7, 203, 127, 143, 256 ); //Leaves
-            // Content Four alt article colors
-            set_article_color_slot( 0, 182, 99, 156, 256 ); //Jacket
-            set_article_color_slot( 1, 232, 178, 199, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 163, 42, 71, 256 ); //Pants
-            set_article_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_article_color_slot( 4, 222, 187, 217, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 192, 155, 196, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 177, 46, 122, 256 ); //Stem
-            set_article_color_slot( 7, 203, 127, 143, 256 ); //Leaves
-            break;
-        case 12:
-            // Voidfox alt
-            set_character_color_slot( 0, 113, 181, 88, 256 ); //Jacket
-            set_character_color_slot( 1, 255, 255, 255, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 49, 49, 49, 256 ); //Pants
-            set_character_color_slot( 3, 0, 0, 0, 256 ); //Hair
-            set_character_color_slot( 4, 255, 255, 255, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 167, 161, 173, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 49, 49, 49, 256 ); //Stem
-            set_character_color_slot( 7, 52, 96, 36, 256 ); //Leaves
-            // Voidfox alt article colors
-            set_article_color_slot( 0, 113, 181, 88, 256 ); //Jacket
-            set_article_color_slot( 1, 255, 255, 255, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 49, 49, 49, 256 ); //Pants
-            set_article_color_slot( 3, 0, 0, 0, 256 ); //Hair
-            set_article_color_slot( 4, 255, 255, 255, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 167, 161, 173, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 49, 49, 49, 256 ); //Stem
-            set_article_color_slot( 7, 52, 96, 36, 256 ); //Leaves
-            break;
-        case 13:
-            // Classic alt
-            set_character_color_slot( 0, 34, 52, 94, 256 ); //Jacket
-            set_character_color_slot( 1, 202, 113, 113, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 67, 66, 116, 256 ); //Pants
-            set_character_color_slot( 3, 43, 42, 42, 256 ); //Hair
-            set_character_color_slot( 4, 202, 227, 225, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 174, 195, 199, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 69, 24, 40, 256 ); //Stem
-            set_character_color_slot( 7, 65, 125, 146, 256 ); //Leaves
-            // Classic alt article colors
-            set_article_color_slot( 0, 34, 52, 94, 256 ); //Jacket
-            set_article_color_slot( 1, 202, 113, 113, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 67, 66, 116, 256 ); //Pants
-            set_article_color_slot( 3, 43, 42, 42, 256 ); //Hair
-            set_article_color_slot( 4, 202, 227, 225, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 174, 195, 199, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 69, 24, 40, 256 ); //Stem
-            set_article_color_slot( 7, 65, 125, 146, 256 ); //Leaves
-            break;
-        case 14:
-            // Giik alt
-            set_character_color_slot( 0, 254, 254, 254, 256 ); //Jacket
-            set_character_color_slot( 1, 59, 37, 47, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 253, 220, 153, 256 ); //Pants
-            set_character_color_slot( 3, 253, 220, 153, 256 ); //Hair
-            set_character_color_slot( 4, 80, 56, 55, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 59, 37, 47, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 254, 254, 254, 256 ); //Stem
-            set_character_color_slot( 7, 253, 220, 153, 256 ); //Leaves
-            // Giik alt article colors
-            set_article_color_slot( 0, 254, 254, 254, 256 ); //Jacket
-            set_article_color_slot( 1, 59, 37, 47, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 253, 220, 153, 256 ); //Pants
-            set_article_color_slot( 3, 253, 220, 153, 256 ); //Hair
-            set_article_color_slot( 4, 80, 56, 55, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 59, 37, 47, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 254, 254, 254, 256 ); //Stem
-            set_article_color_slot( 7, 253, 220, 153, 256 ); //Leaves
-            break;
-        case 15:
-            // Kris alt
-            set_character_color_slot( 0, 255, 119, 205, 256 ); //Jacket
-            set_character_color_slot( 1, 117, 250, 237, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 68, 68, 145, 256 ); //Pants
-            set_character_color_slot( 3, 33, 33, 81, 256 ); //Hair
-            set_character_color_slot( 4, 201, 228, 242, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 113, 113, 156, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 237, 148, 165, 256 ); //Stem
-            set_character_color_slot( 7, 237, 148, 165, 256 ); //Leaves
-            // Kris alt article colors
-            set_article_color_slot( 0, 255, 119, 205, 256 ); //Jacket
-            set_article_color_slot( 1, 117, 250, 237, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 68, 68, 145, 256 ); //Pants
-            set_article_color_slot( 3, 33, 33, 81, 256 ); //Hair
-            set_article_color_slot( 4, 201, 228, 242, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 113, 113, 156, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 237, 148, 165, 256 ); //Stem
-            set_article_color_slot( 7, 237, 148, 165, 256 ); //Leaves
-            break;
-        case 16:
-            // Obama alt
-            set_character_color_slot( 0, 76, 76, 76, 256 ); //Jacket
-            set_character_color_slot( 1, 178, 114, 45, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 76, 76, 76, 256 ); //Pants
-            set_character_color_slot( 3, 67, 51, 31, 256 ); //Hair
-            set_character_color_slot( 4, 55, 55, 55, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 43, 43, 43, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 224, 224, 224, 256 ); //Stem
-            set_character_color_slot( 7, 255, 57, 57, 256 ); //Leaves
-            // Obama alt article colors
-            set_article_color_slot( 0, 76, 76, 76, 256 ); //Jacket
-            set_article_color_slot( 1, 178, 114, 45, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 76, 76, 76, 256 ); //Pants
-            set_article_color_slot( 3, 67, 51, 31, 256 ); //Hair
-            set_article_color_slot( 4, 55, 55, 55, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 43, 43, 43, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 224, 224, 224, 256 ); //Stem
-            set_article_color_slot( 7, 255, 57, 57, 256 ); //Leaves
-            break;
-        case 17:
-            // Wireframe alt
-            set_character_color_slot( 0, 0, 0, 0, 0 ); //Jacket
-            set_character_color_slot( 1, 0, 0, 0, 0 ); //Skin/Pot
-            set_character_color_slot( 2, 0, 0, 0, 0 ); //Pants
-            set_character_color_slot( 3, 0, 0, 0, 0 ); //Hair
-            set_character_color_slot( 4, 0, 0, 0, 0 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 0, 0, 0, 0 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 0, 0, 0, 0 ); //Stem
-            set_character_color_slot( 7, 0, 0, 0, 0 ); //Leaves
-            // Wireframe alt article colors
-            set_article_color_slot( 0, 0, 0, 0, 0 ); //Jacket
-            set_article_color_slot( 1, 0, 0, 0, 0 ); //Skin/Pot
-            set_article_color_slot( 2, 0, 0, 0, 0 ); //Pants
-            set_article_color_slot( 3, 0, 0, 0, 0 ); //Hair
-            set_article_color_slot( 4, 0, 0, 0, 0 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 0, 0, 0, 0 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 0, 0, 0, 0 ); //Stem
-            set_article_color_slot( 7, 0, 0, 0, 0 ); //Leaves
-            break;
-        case 18:
-            // Ellie alt
-            set_character_color_slot( 0, 186, 235, 254, 256 ); //Jacket
-            set_character_color_slot( 1, 217, 176, 100, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 53, 115, 183, 256 ); //Pants
-            set_character_color_slot( 3, 249, 244, 153, 256 ); //Hair
-            set_character_color_slot( 4, 248, 248, 248, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 216, 220, 222, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 31, 31, 31, 256 ); //Stem
-            set_character_color_slot( 7, 120, 231, 243, 256 ); //Leaves
-            // Ellie alt article colors
-            set_article_color_slot( 0, 186, 235, 254, 256 ); //Jacket
-            set_article_color_slot( 1, 217, 176, 100, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 53, 115, 183, 256 ); //Pants
-            set_article_color_slot( 3, 249, 244, 153, 256 ); //Hair
-            set_article_color_slot( 4, 248, 248, 248, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 216, 220, 222, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 31, 31, 31, 256 ); //Stem
-            set_article_color_slot( 7, 120, 231, 243, 256 ); //Leaves
-            break;
-        case 19:
-            // Adam Carra alt
-            set_character_color_slot( 0, 75, 75, 75, 256 ); //Jacket
-            set_character_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 255, 243, 23, 256 ); //Pants
-            set_character_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_character_color_slot( 4, 255, 255, 255, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 222, 222, 222, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 44, 43, 43, 256 ); //Stem
-            set_character_color_slot( 7, 191, 164, 19, 256 ); //Leaves
-            // Adam Carra alt article colors
-            set_article_color_slot( 0, 75, 75, 75, 256 ); //Jacket
-            set_article_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 255, 243, 23, 256 ); //Pants
-            set_article_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_article_color_slot( 4, 255, 255, 255, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 222, 222, 222, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 44, 43, 43, 256 ); //Stem
-            set_article_color_slot( 7, 191, 164, 19, 256 ); //Leaves
-            break;
-        case 20:
-            // Junior High alt
-            set_character_color_slot( 0, 55, 97, 149, 256 ); //Jacket
-            set_character_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 197, 166, 126, 256 ); //Pants
-            set_character_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_character_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 187, 230, 231, 256 ); //Stem
-            set_character_color_slot( 7, 155, 170, 235, 256 ); //Leaves
-            // Junior High alt article colors
-            set_article_color_slot( 0, 55, 97, 149, 256 ); //Jacket
-            set_article_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 197, 166, 126, 256 ); //Pants
-            set_article_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_article_color_slot( 4, 224, 222, 220, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 191, 178, 181, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 187, 230, 231, 256 ); //Stem
-            set_article_color_slot( 7, 155, 170, 235, 256 ); //Leaves
-            break;
-        case 21:
-            // Zircon alt
-            set_character_color_slot( 0, 1, 229, 255, 256 ); //Jacket
-            set_character_color_slot( 1, 209, 94, 60, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 1, 229, 255, 256 ); //Pants
-            set_character_color_slot( 3, 249, 246, 240, 256 ); //Hair
-            set_character_color_slot( 4, 249, 246, 240, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 224, 211, 193, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 129, 39, 39, 256 ); //Stem
-            set_character_color_slot( 7, 1, 229, 255, 256 ); //Leaves
-            // Zircon alt article colors
-            set_article_color_slot( 0, 1, 229, 255, 256 ); //Jacket
-            set_article_color_slot( 1, 209, 94, 60, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 1, 229, 255, 256 ); //Pants
-            set_article_color_slot( 3, 249, 246, 240, 256 ); //Hair
-            set_article_color_slot( 4, 249, 246, 240, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 224, 211, 193, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 129, 39, 39, 256 ); //Stem
-            set_article_color_slot( 7, 1, 229, 255, 256 ); //Leaves
-            break;
-        case 22:
-            // Sakurai alt
-            set_character_color_slot( 0, 53, 53, 53, 256 ); //Jacket
-            set_character_color_slot( 1, 215, 142, 103, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 27, 22, 37, 256 ); //Pants
-            set_character_color_slot( 3, 85, 49, 42, 256 ); //Hair
-            set_character_color_slot( 4, 111, 46, 46, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 75, 31, 31, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 111, 46, 46, 256 ); //Stem
-            set_character_color_slot( 7, 53, 53, 53, 256 ); //Leaves
-            // Sakurai alt article colors
-            set_article_color_slot( 0, 53, 53, 53, 256 ); //Jacket
-            set_article_color_slot( 1, 215, 142, 103, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 27, 22, 37, 256 ); //Pants
-            set_article_color_slot( 3, 85, 49, 42, 256 ); //Hair
-            set_article_color_slot( 4, 111, 46, 46, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 75, 31, 31, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 111, 46, 46, 256 ); //Stem
-            set_article_color_slot( 7, 53, 53, 53, 256 ); //Leaves
-            break;
-        case 23:
-            // Lucy alt
-            set_character_color_slot( 0, 67, 58, 54, 256 ); //Jacket
-            set_character_color_slot( 1, 211, 176, 146, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 95, 20, 45, 256 ); //Pants
-            set_character_color_slot( 3, 221, 179, 145, 256 ); //Hair
-            set_character_color_slot( 4, 240, 242, 244, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 175, 188, 210, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 95, 20, 45, 256 ); //Stem
-            set_character_color_slot( 7, 240, 242, 244, 256 ); //Leaves
-            // Lucy alt article colors
-            set_article_color_slot( 0, 67, 58, 54, 256 ); //Jacket
-            set_article_color_slot( 1, 211, 176, 146, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 95, 20, 45, 256 ); //Pants
-            set_article_color_slot( 3, 221, 179, 145, 256 ); //Hair
-            set_article_color_slot( 4, 240, 242, 244, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 175, 188, 210, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 95, 20, 45, 256 ); //Stem
-            set_article_color_slot( 7, 240, 242, 244, 256 ); //Leaves
-            break;
-        case 24:
-            // Starfy alt
-            set_character_color_slot( 0, 227, 107, 132, 256 ); //Jacket
-            set_character_color_slot( 1, 243, 191, 29, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 255, 239, 67, 256 ); //Pants
-            set_character_color_slot( 3, 243, 191, 29, 256 ); //Hair
-            set_character_color_slot( 4, 255, 239, 67, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 243, 191, 29, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 227, 107, 132, 256 ); //Stem
-            set_character_color_slot( 7, 117, 217, 255, 256 ); //Leaves
-            // Starfy alt article colors
-            set_article_color_slot( 0, 227, 107, 132, 256 ); //Jacket
-            set_article_color_slot( 1, 243, 191, 29, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 255, 239, 67, 256 ); //Pants
-            set_article_color_slot( 3, 243, 191, 29, 256 ); //Hair
-            set_article_color_slot( 4, 255, 239, 67, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 243, 191, 29, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 227, 107, 132, 256 ); //Stem
-            set_article_color_slot( 7, 117, 217, 255, 256 ); //Leaves
-            break;
-        case 25:
-            // Yes, Indeed alt
-            set_character_color_slot( 0, 75, 71, 64, 256 ); //Jacket
-            set_character_color_slot( 1, 164, 123, 91, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 146, 129, 116, 256 ); //Pants
-            set_character_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_character_color_slot( 4, 227, 193, 169, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 164, 123, 91, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 57, 54, 47, 256 ); //Stem
-            set_character_color_slot( 7, 227, 193, 169, 256 ); //Leaves
-            // Yes, Indeed alt article colors
-            set_article_color_slot( 0, 75, 71, 64, 256 ); //Jacket
-            set_article_color_slot( 1, 164, 123, 91, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 146, 129, 116, 256 ); //Pants
-            set_article_color_slot( 3, 51, 44, 41, 256 ); //Hair
-            set_article_color_slot( 4, 227, 193, 169, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 164, 123, 91, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 57, 54, 47, 256 ); //Stem
-            set_article_color_slot( 7, 227, 193, 169, 256 ); //Leaves
-            break;
-        case 26:
-            // Smolburn alt
-            set_character_color_slot( 0, 122, 90, 78, 256 ); //Jacket
-            set_character_color_slot( 1, 175, 126, 62, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 122, 92, 80, 256 ); //Pants
-            set_character_color_slot( 3, 255, 124, 0, 256 ); //Hair
-            set_character_color_slot( 4, 220, 203, 105, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 175, 126, 62, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 255, 124, 0, 256 ); //Stem
-            set_character_color_slot( 7, 255, 228, 0, 256 ); //Leaves
-            // Smolburn alt article colors
-            set_article_color_slot( 0, 122, 90, 78, 256 ); //Jacket
-            set_article_color_slot( 1, 175, 126, 62, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 122, 92, 80, 256 ); //Pants
-            set_article_color_slot( 3, 255, 124, 0, 256 ); //Hair
-            set_article_color_slot( 4, 220, 203, 105, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 175, 126, 62, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 255, 124, 0, 256 ); //Stem
-            set_article_color_slot( 7, 255, 228, 0, 256 ); //Leaves
-            break;
-        case 27:
-            // Minicane alt
-            set_character_color_slot( 0, 59, 73, 135, 256 ); //Jacket
-            set_character_color_slot( 1, 130, 173, 177, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 59, 73, 135, 256 ); //Pants
-            set_character_color_slot( 3, 59, 73, 135, 256 ); //Hair
-            set_character_color_slot( 4, 205, 247, 247, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 130, 173, 177, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 59, 73, 135, 256 ); //Stem
-            set_character_color_slot( 7, 130, 173, 177, 256 ); //Leaves
-            // Minicane alt article colors
-            set_article_color_slot( 0, 59, 73, 135, 256 ); //Jacket
-            set_article_color_slot( 1, 130, 173, 177, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 59, 73, 135, 256 ); //Pants
-            set_article_color_slot( 3, 59, 73, 135, 256 ); //Hair
-            set_article_color_slot( 4, 205, 247, 247, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 130, 173, 177, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 59, 73, 135, 256 ); //Stem
-            set_article_color_slot( 7, 130, 173, 177, 256 ); //Leaves
-            break;
-        case 28:
-            // Wrastiny alt
-            set_character_color_slot( 0, 97, 68, 96, 256 ); //Jacket
-            set_character_color_slot( 1, 129, 60, 116, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 230, 218, 25, 256 ); //Pants
-            set_character_color_slot( 3, 97, 68, 96, 256 ); //Hair
-            set_character_color_slot( 4, 246, 173, 197, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 210, 135, 180, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 182, 182, 182, 256 ); //Stem
-            set_character_color_slot( 7, 141, 231, 255, 256 ); //Leaves
-            // Wrastiny alt article colors
-            set_article_color_slot( 0, 97, 68, 96, 256 ); //Jacket
-            set_article_color_slot( 1, 129, 60, 116, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 230, 218, 25, 256 ); //Pants
-            set_article_color_slot( 3, 97, 68, 96, 256 ); //Hair
-            set_article_color_slot( 4, 246, 173, 197, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 210, 135, 180, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 182, 182, 182, 256 ); //Stem
-            set_article_color_slot( 7, 141, 231, 255, 256 ); //Leaves
-            break;
-        case 29:
-            // MunchKragg alt
-            set_character_color_slot( 0, 187, 155, 143, 256 ); //Jacket
-            set_character_color_slot( 1, 79, 122, 62, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 79, 122, 62, 256 ); //Pants
-            set_character_color_slot( 3, 187, 155, 143, 256 ); //Hair
-            set_character_color_slot( 4, 213, 216, 221, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 139, 149, 167, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 213, 216, 221, 256 ); //Stem
-            set_character_color_slot( 7, 137, 105, 93, 256 ); //Leaves
-            // MunchKragg alt article colors
-            set_article_color_slot( 0, 187, 155, 143, 256 ); //Jacket
-            set_article_color_slot( 1, 79, 122, 62, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 79, 122, 62, 256 ); //Pants
-            set_article_color_slot( 3, 187, 155, 143, 256 ); //Hair
-            set_article_color_slot( 4, 213, 216, 221, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 139, 149, 167, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 213, 216, 221, 256 ); //Stem
-            set_article_color_slot( 7, 137, 105, 93, 256 ); //Leaves
-            break;
-        case 30:
-            // Buch alt
-            set_character_color_slot( 0, 39, 92, 171, 256 ); //Jacket
-            set_character_color_slot( 1, 200, 200, 240, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 130, 56, 64, 256 ); //Pants
-            set_character_color_slot( 3, 107, 126, 146, 256 ); //Hair
-            set_character_color_slot( 4, 220, 203, 105, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 200, 126, 30, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 107, 126, 146, 256 ); //Stem
-            set_character_color_slot( 7, 59, 73, 135, 256 ); //Leaves
-            // Buch alt article colors
-            set_article_color_slot( 0, 39, 92, 171, 256 ); //Jacket
-            set_article_color_slot( 1, 200, 200, 240, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 130, 56, 64, 256 ); //Pants
-            set_article_color_slot( 3, 107, 126, 146, 256 ); //Hair
-            set_article_color_slot( 4, 220, 203, 105, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 200, 126, 30, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 107, 126, 146, 256 ); //Stem
-            set_article_color_slot( 7, 59, 73, 135, 256 ); //Leaves
-            break;
-        case 31:
-            // Feri alt
-            set_character_color_slot( 0, 17, 126, 23, 256 ); //Jacket
-            set_character_color_slot( 1, 169, 71, 225, 256 ); //Skin/Pot
-            set_character_color_slot( 2, 43, 51, 203, 256 ); //Pants
-            set_character_color_slot( 3, 75, 10, 240, 256 ); //Hair
-            set_character_color_slot( 4, 168, 19, 19, 256 ); //Shoe/Shirt Light
-            set_character_color_slot( 5, 168, 19, 19, 256 ); //Shoe/Shirt Dark
-            set_character_color_slot( 6, 17, 126, 23, 256 ); //Stem
-            set_character_color_slot( 7, 255, 48, 224, 256 ); //Leaves
-            // Feri alt article colors
-            set_article_color_slot( 0, 17, 126, 23, 256 ); //Jacket
-            set_article_color_slot( 1, 169, 71, 225, 256 ); //Skin/Pot
-            set_article_color_slot( 2, 43, 51, 203, 256 ); //Pants
-            set_article_color_slot( 3, 75, 10, 240, 256 ); //Hair
-            set_article_color_slot( 4, 168, 19, 19, 256 ); //Shoe/Shirt Light
-            set_article_color_slot( 5, 168, 19, 19, 256 ); //Shoe/Shirt Dark
-            set_article_color_slot( 6, 17, 126, 23, 256 ); //Stem
-            set_article_color_slot( 7, 255, 48, 224, 256 ); //Leaves
-            break;
-        case 32:
-            // Rainbow alt
-            if(curAlt != prevAlt || !("color_rgb" in self)){ // set the start colors of the sprite here (only set the amount of color slots you actually use)
-                color_rgb[0] = make_color_rgb(57, 92, 104); //Jacket -- put the RGB values here for each corresponding slot 
-                color_rgb[1] = -1; //Skin/Pot -- just put -1 if you don't want the rainbow effect to apply to this slot
-                color_rgb[2] = make_color_rgb(111, 170, 193); //Pants
-                color_rgb[3] = make_color_rgb(75, 10, 240); //Hair
-                color_rgb[4] = make_color_rgb(220, 203, 105); //Shoe/Shirt Light
-                color_rgb[5] = make_color_rgb(200, 126, 30); //Shoe/Shirt Dark
-                color_rgb[6] = make_color_rgb(17, 126, 23); //Stem
-                color_rgb[7] = make_color_rgb(82, 180, 127); //Leaves
-            }
-            var hue;
-            var color_hsv;
-            var hue_speed = 1; // this is the speed of the hue shift
-            for(var i = 0; i < array_length(color_rgb); i++){ // update the rainbow slots here
-                if(color_rgb[i] != -1){
-                    set_character_color_slot(i, color_get_red(color_rgb[i]), color_get_green(color_rgb[i]), color_get_blue(color_rgb[i]), 256);
-                    set_article_color_slot(i, color_get_red(color_rgb[i]), color_get_green(color_rgb[i]), color_get_blue(color_rgb[i]), 256);
-                    hue = (color_get_hue(color_rgb[i]) + hue_speed) % 255; // finds the hue and shifts it
-                    color_hsv = make_color_hsv(hue, color_get_saturation(color_rgb[i]), color_get_value(color_rgb[i])); // creates a new gamemaker colour variable using the shifted hue
-                    color_rgb[i] = make_color_rgb(color_get_red(color_hsv), color_get_green(color_hsv), color_get_blue(color_hsv));
-                }
-            }
-            // set the normal color slots here
-            // Rainbow alt
-            set_character_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
-            // Rainbow alt article colors
-            set_article_color_slot( 1, 216, 155, 141, 256 ); //Skin/Pot
-            break;
-    }
+//set the alpha color for the color rows (this can be specific to the row if you want, but it isn't by default in this template)
+var alphaValue; // The variable that holds the alpha value for the color rows. You can just set this to 255 and get rid of the if statement stuff below if none of your alts mess with it.  [Edit optional]
+if(curRealAlt == 17){ // Wireframe alt (change the 17 to whichever alts you want to be wireframe) [Edit necessary]
+    alphaValue = 0; // invisible
+} else { // normal alts
+    alphaValue = 255; // fully visible
+}
 
-    sprite_change_offset("dog", curRealAlt, curAlt ); // x is the actual alt and is the previous normal alt
-} else {
-    switch(get_player_color(0)){
-        case 7:
-            // set shading to 0
-            for(var i = 0; i < 8; i++){
-                set_character_color_shading(i, 0);
-            }
-            break;
+// Your alt's color rows are set here
+switch(curRealAlt){ // this switch statement is just here in case you want specific behavior for certain alts
+    default: // any row without a specfic case
+        for(var i = 0; i < NUM_COLOR_ROWS; i++){ // this is where your current color is set to the alt you have selected according to the system
+            set_character_color_slot(i, get_color_profile_slot_r(curRealAlt, i), get_color_profile_slot_g(curRealAlt, i), get_color_profile_slot_b(curRealAlt, i), alphaValue); // the character color slots are set according to the corresponding alt that you set up in colors.gml
+            set_article_color_slot(i, get_color_profile_slot_r(curRealAlt, i), get_color_profile_slot_g(curRealAlt, i), get_color_profile_slot_b(curRealAlt, i), alphaValue); // the article (and everything other than the player) color slots are set according to the corresponding alt that you set up in colors.gml
+        }
+        break;
+}
+
+// You can get rid of this if you don't have a rainbow alt [Edit optional]
+// rainbow alt
+if(curRealAlt == 32){ // make this check for your rainbow alt [Edit necessary]
+    var hue;
+    var color_hsv;
+    var color_rgb;
+    var hue_speed = 1; // this is the speed of the hue shift
+    for(var i = 0; i < NUM_COLOR_ROWS; i++){ // update the rainbow slots here
+        if(i != 1){ // make sure you don't change the hue for the color rows that you don't want the rainbow effect on [Edit necessary]
+            color_rgb = make_color_rgb(get_color_profile_slot_r(curRealAlt, i), get_color_profile_slot_g(curRealAlt, i), get_color_profile_slot_b(curRealAlt, i)); // make an rgb variable from the current color of this color row
+            hue = (color_get_hue(color_rgb) + hue_speed) % 255; // finds the hue and shifts it
+            color_hsv = make_color_hsv(hue, color_get_saturation(color_rgb), color_get_value(color_rgb)); // creates a new gamemaker colour variable using the shifted hue
+            set_color_profile_slot(curRealAlt, i, color_get_red(color_hsv), color_get_green(color_hsv), color_get_blue(color_hsv)); // update the alt's color slot to have the shifted hue (won't be used until the next time init_shader.gml runs)
+        }
     }
 }

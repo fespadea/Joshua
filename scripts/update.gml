@@ -426,35 +426,44 @@ if (introTimer2 < 4) {
 }
 
 // alt changing
+// The amount of frames into the match during which you can change your alt or activate "random alt on hit" if you keep that feature. You can change this amount if you want. I believe the countdown is actually 122 frames, but allowing changes that late makes it possible to accidentally change alt while trying to do something early in the match. [Edit optional]
 #macro CHANGE_ALT_FRAME_LIMIT 100
-if (get_gameplay_time() < CHANGE_ALT_FRAME_LIMIT) {
-    if(taunt_down){
-        if(special_down && jump_down){
-            randomAltOnHit = true;
+if (get_gameplay_time() < CHANGE_ALT_FRAME_LIMIT){ // you are still in the countdown
+    // [Random alt on hit feature]
+    // If you don't want this feature, get rid of this first if statement, but keep the two else if statements below it. Make sure to change the first else if statement into a normal if statement. [Edit optional]
+    if(taunt_down){ // if taunt pressed (this prevents you from switching alts)
+        if(special_down && jump_down){ // if special and jump are held down
+            randomAltOnHit = true; // activate "random alt on hit"
         }
-        clear_button_buffer(PC_SPECIAL_PRESSED);
+        clear_button_buffer(PC_SPECIAL_PRESSED); // clear the buffers for the inputs used to switch alts in order to avoid switching alts after taunt is released due to the buffer [Edit optional]
         clear_button_buffer(PC_JUMP_PRESSED);
-    } else if(special_pressed){
-        var curRealAlt = sprite_get_xoffset(sprite_get("dog"));
-        curRealAlt += 16;
-        if(curRealAlt >= NUM_ALTS){
-            curRealAlt = curRealAlt % 16;
+    } else if(special_pressed){ // input to increment your current real alt to the next row [Edit optional]
+        var curRealAlt = get_color_profile_slot_r(0, 8); // get your current unlimited alt
+        curRealAlt += 16; // go up a row
+        if(curRealAlt >= get_color_profile_slot_b(0, 8)){ // if you pass the number of alts you have
+            curRealAlt = curRealAlt % 16; // go back to the first row
         }
-        clear_button_buffer(PC_SPECIAL_PRESSED);
-        sprite_change_offset("dog", curRealAlt, sprite_get_yoffset(sprite_get("dog")));
-        init_shader();
-    } else if(jump_pressed){
-        var curRealAlt = sprite_get_xoffset(sprite_get("dog"));
-        curRealAlt -= 16;
-        if(curRealAlt < 0){
-            while(curRealAlt+16 < NUM_ALTS){ // could not think of better math cause dumb
-                curRealAlt += 16;
+        clear_button_buffer(PC_SPECIAL_PRESSED); // so that one input only increases the alt once (change this with the above [Edit optional])
+        set_color_profile_slot(0, 8, curRealAlt, get_color_profile_slot_g(0, 8), get_color_profile_slot_b(0, 8)); // update the unlimited alt in the color slot (the g and b values remain unchanged)
+        init_shader(); // update the alt visually
+    } else if(jump_pressed){ // input to decrement your current real alt to the next row [Edit optional]
+        var curRealAlt = get_color_profile_slot_r(0, 8); // get your current unlimited alt
+        curRealAlt -= 16; // go down a row
+        if(curRealAlt < 0){ // if you pass the smallest alt you have
+            while(curRealAlt+16 < get_color_profile_slot_b(0, 8)){ // could not think of better math cause dumb
+                curRealAlt += 16; // go to the last row
             }
         }
-        clear_button_buffer(PC_JUMP_PRESSED);
-        sprite_change_offset("dog", curRealAlt, sprite_get_yoffset(sprite_get("dog")));
-        init_shader();
+        clear_button_buffer(PC_JUMP_PRESSED); // so that one input only decreases the alt once (change this with the above [Edit optional])
+        set_color_profile_slot(0, 8, curRealAlt, get_color_profile_slot_g(0, 8), get_color_profile_slot_b(0, 8)); // update the unlimited alt in the color slot (the g and b values remain unchanged)
+        init_shader(); // update the alt visually
     }
+}
+
+// You don't need this if you don't have a rainbow alt [Edit optional]
+// rainbow alt
+if(get_color_profile_slot_r(0, 8) == 32){ // check that you've selected the rainbow alt [Edit necessary]
+    init_shader(); // run init_shader to update the hue
 }
 
 //mark recent hit on a player article
@@ -467,7 +476,7 @@ if(has_hit_player_article_still_new_update_gml){
     has_hit_player_article_still_new_update_gml = false;
     // random alt rune
     if(runeC){
-        sprite_change_offset("dog", random_func(10, NUM_ALTS, true), sprite_get_yoffset(sprite_get("dog")));
+        sprite_change_offset("dog", random_func(10, get_color_profile_slot_b(0, 8), true), sprite_get_yoffset(sprite_get("dog")));
         init_shader();
     }
     if(instance_exists(my_hitboxID_player_article) && instance_exists(hit_player_article_obj)){
@@ -496,11 +505,6 @@ if(has_hit_player_article_still_new_update_gml){
             }
         }
     }
-}
-
-//rainbow alt
-if(sprite_get_xoffset(sprite_get("dog")) == 32){
-    init_shader();
 }
 
 //kirby support

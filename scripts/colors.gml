@@ -32,8 +32,20 @@ set_color_profile_slot_range( 6, 12, 3, 18 );
 set_color_profile_slot( 0, 7, 82, 180, 127 );
 set_color_profile_slot_range( 7, 27, 9, 28 );
 
+// This is setup for the unlimited alts system (you can't use shading slot 8, 9, or 10 anyway)
+// set this macro to the number of alts you have [Edit necessary]
+#macro NUM_ALTS 34
+set_color_profile_slot( 0, 8, -1, 0, NUM_ALTS ); // r = current unlimited alt; g = previous base game alt; b = total number of unlimited alts
+set_color_profile_slot( 0, 9, 0, 0, -1 ); // r = timer between alt switches on CSS; g = whether you last increased or decreased your alt on the CSS; b = whether you're on the online or offline CSS (-1 means not yet known)
+set_color_profile_slot( 0, 10, -1, -1, 0 ); // r = the alt whose sfx last played even if it's blank; g = the id of the last played sound or -1 if no sound was played; b = timer for the random alt
+
 // ALTERNATE COLORS
-set_num_palettes( 16 );
+set_num_palettes( NUM_ALTS ); // you should actually be fine if you just set this to 16, but I have it like this anyway
+
+// You also have to actually make all the alts. You can make the extra ones like you would make normal ones. I recommend using this tool: https://cl-9a.github.io/RoAColorsGmlHelper/
+// You can increase the maximum number of alts at the bottom
+// This is what Joshua & Batit's colors.gml looks like (made with the above tool): https://pastebin.com/1wtd5fkR
+// [Edit necessary]
 
 // Hime
 set_color_profile_slot( 1, 0, 116, 184, 229 ); //Jacket
@@ -184,6 +196,186 @@ set_color_profile_slot( 15, 4, 201, 228, 242 ); //Shoe/Shirt Light
 set_color_profile_slot( 15, 5, 113, 113, 156 ); //Shoe/Shirt Dark
 set_color_profile_slot( 15, 6, 237, 148, 165 ); //Stem
 set_color_profile_slot( 15, 7, 237, 148, 165 ); //Leaves
+
+// Obama
+set_color_profile_slot( 16, 0, 76, 76, 76 ); //Jacket
+set_color_profile_slot( 16, 1, 178, 114, 45 ); //Skin/Pot
+set_color_profile_slot( 16, 2, 76, 76, 76 ); //Pants
+set_color_profile_slot( 16, 3, 67, 51, 31 ); //Hair
+set_color_profile_slot( 16, 4, 55, 55, 55 ); //Shoe/Shirt Light
+set_color_profile_slot( 16, 5, 43, 43, 43 ); //Shoe/Shirt Dark
+set_color_profile_slot( 16, 6, 224, 224, 224 ); //Stem
+set_color_profile_slot( 16, 7, 5, 57, 57 ); //Leaves
+
+// Wireframe
+set_color_profile_slot( 17, 0, 0, 255, 0 ); //Jacket
+set_color_profile_slot( 17, 1, 0, 255, 0 ); //Skin/Pot
+set_color_profile_slot( 17, 2, 0, 255, 0 ); //Pants
+set_color_profile_slot( 17, 3, 0, 255, 0 ); //Hair
+set_color_profile_slot( 17, 4, 0, 255, 0 ); //Shoe/Shirt Light
+set_color_profile_slot( 17, 5, 0, 255, 0 ); //Shoe/Shirt Dark
+set_color_profile_slot( 17, 6, 0, 255, 0 ); //Stem
+set_color_profile_slot( 17, 7, 0, 255, 0 ); //Leaves
+
+// Ellie
+set_color_profile_slot( 18, 0, 186, 235, 254 ); //Jacket
+set_color_profile_slot( 18, 1, 217, 176, 100 ); //Skin/Pot
+set_color_profile_slot( 18, 2, 53, 115, 183 ); //Pants
+set_color_profile_slot( 18, 3, 249, 244, 153 ); //Hair
+set_color_profile_slot( 18, 4, 248, 248, 248 ); //Shoe/Shirt Light
+set_color_profile_slot( 18, 5, 216, 220, 222 ); //Shoe/Shirt Dark
+set_color_profile_slot( 18, 6, 31, 31, 31 ); //Stem
+set_color_profile_slot( 18, 7, 120, 231, 243 ); //Leaves
+
+// Adam Carra
+set_color_profile_slot( 19, 0, 75, 75, 75 ); //Jacket
+set_color_profile_slot( 19, 1, 216, 155, 141 ); //Skin/Pot
+set_color_profile_slot( 19, 2, 255, 243, 23 ); //Pants
+set_color_profile_slot( 19, 3, 51, 44, 41 ); //Hair
+set_color_profile_slot( 19, 4, 255, 255, 255 ); //Shoe/Shirt Light
+set_color_profile_slot( 19, 5, 222, 222, 222 ); //Shoe/Shirt Dark
+set_color_profile_slot( 19, 6, 44, 43, 43 ); //Stem
+set_color_profile_slot( 19, 7, 191, 164, 19 ); //Leaves
+
+// Junior High
+set_color_profile_slot( 20, 0, 55, 97, 149 ); //Jacket
+set_color_profile_slot( 20, 1, 216, 155, 141 ); //Skin/Pot
+set_color_profile_slot( 20, 2, 197, 166, 126 ); //Pants
+set_color_profile_slot( 20, 3, 51, 44, 41 ); //Hair
+set_color_profile_slot( 20, 4, 224, 222, 220 ); //Shoe/Shirt Light
+set_color_profile_slot( 20, 5, 191, 178, 181 ); //Shoe/Shirt Dark
+set_color_profile_slot( 20, 6, 187, 230, 231 ); //Stem
+set_color_profile_slot( 20, 7, 155, 170, 235 ); //Leaves
+
+// Zircon
+set_color_profile_slot( 21, 0, 1, 229, 255 ); //Jacket
+set_color_profile_slot( 21, 1, 209, 94, 60 ); //Skin/Pot
+set_color_profile_slot( 21, 2, 1, 229, 255 ); //Pants
+set_color_profile_slot( 21, 3, 249, 246, 240 ); //Hair
+set_color_profile_slot( 21, 4, 249, 246, 240 ); //Shoe/Shirt Light
+set_color_profile_slot( 21, 5, 224, 211, 193 ); //Shoe/Shirt Dark
+set_color_profile_slot( 21, 6, 129, 39, 39 ); //Stem
+set_color_profile_slot( 21, 7, 1, 229, 255 ); //Leaves
+
+// Sakurai
+set_color_profile_slot( 22, 0, 53, 53, 53 ); //Jacket
+set_color_profile_slot( 22, 1, 215, 142, 103 ); //Skin/Pot
+set_color_profile_slot( 22, 2, 27, 22, 37 ); //Pants
+set_color_profile_slot( 22, 3, 85, 49, 42 ); //Hair
+set_color_profile_slot( 22, 4, 111, 46, 46 ); //Shoe/Shirt Light
+set_color_profile_slot( 22, 5, 75, 31, 31 ); //Shoe/Shirt Dark
+set_color_profile_slot( 22, 6, 111, 46, 46 ); //Stem
+set_color_profile_slot( 22, 7, 53, 53, 53 ); //Leaves
+
+// Lucy
+set_color_profile_slot( 23, 0, 67, 58, 54 ); //Jacket
+set_color_profile_slot( 23, 1, 211, 176, 146 ); //Skin/Pot
+set_color_profile_slot( 23, 2, 95, 20, 45 ); //Pants
+set_color_profile_slot( 23, 3, 221, 179, 145 ); //Hair
+set_color_profile_slot( 23, 4, 240, 242, 244 ); //Shoe/Shirt Light
+set_color_profile_slot( 23, 5, 175, 188, 210 ); //Shoe/Shirt Dark
+set_color_profile_slot( 23, 6, 95, 20, 45 ); //Stem
+set_color_profile_slot( 23, 7, 240, 242, 244 ); //Leaves
+
+// Starfy
+set_color_profile_slot( 24, 0, 227, 107, 132 ); //Jacket
+set_color_profile_slot( 24, 1, 243, 191, 29 ); //Skin/Pot
+set_color_profile_slot( 24, 2, 255, 239, 67 ); //Pants
+set_color_profile_slot( 24, 3, 243, 191, 29 ); //Hair
+set_color_profile_slot( 24, 4, 255, 239, 67 ); //Shoe/Shirt Light
+set_color_profile_slot( 24, 5, 243, 191, 29 ); //Shoe/Shirt Dark
+set_color_profile_slot( 24, 6, 227, 107, 132 ); //Stem
+set_color_profile_slot( 24, 7, 117, 217, 255 ); //Leaves
+
+// Yes, Indeed
+set_color_profile_slot( 25, 0, 75, 71, 64 ); //Jacket
+set_color_profile_slot( 25, 1, 164, 123, 91 ); //Skin/Pot
+set_color_profile_slot( 25, 2, 146, 129, 116 ); //Pants
+set_color_profile_slot( 25, 3, 51, 44, 41 ); //Hair
+set_color_profile_slot( 25, 4, 227, 193, 169 ); //Shoe/Shirt Light
+set_color_profile_slot( 25, 5, 164, 123, 91 ); //Shoe/Shirt Dark
+set_color_profile_slot( 25, 6, 57, 54, 47 ); //Stem
+set_color_profile_slot( 25, 7, 227, 193, 169 ); //Leaves
+
+// Smolburn
+set_color_profile_slot( 26, 0, 122, 90, 78 ); //Jacket
+set_color_profile_slot( 26, 1, 175, 126, 62 ); //Skin/Pot
+set_color_profile_slot( 26, 2, 122, 92, 80 ); //Pants
+set_color_profile_slot( 26, 3, 255, 124, 0 ); //Hair
+set_color_profile_slot( 26, 4, 220, 203, 105 ); //Shoe/Shirt Light
+set_color_profile_slot( 26, 5, 175, 126, 62 ); //Shoe/Shirt Dark
+set_color_profile_slot( 26, 6, 255, 124, 0 ); //Stem
+set_color_profile_slot( 26, 7, 255, 228, 0 ); //Leaves
+
+// Minicane
+set_color_profile_slot( 27, 0, 59, 73, 135 ); //Jacket
+set_color_profile_slot( 27, 1, 130, 173, 177 ); //Skin/Pot
+set_color_profile_slot( 27, 2, 59, 73, 135 ); //Pants
+set_color_profile_slot( 27, 3, 59, 73, 135 ); //Hair
+set_color_profile_slot( 27, 4, 205, 247, 247 ); //Shoe/Shirt Light
+set_color_profile_slot( 27, 5, 130, 173, 177 ); //Shoe/Shirt Dark
+set_color_profile_slot( 27, 6, 59, 73, 135 ); //Stem
+set_color_profile_slot( 27, 7, 130, 173, 177 ); //Leaves
+
+// Wrastiny
+set_color_profile_slot( 28, 0, 97, 68, 96 ); //Jacket
+set_color_profile_slot( 28, 1, 129, 60, 116 ); //Skin/Pot
+set_color_profile_slot( 28, 2, 230, 218, 25 ); //Pants
+set_color_profile_slot( 28, 3, 97, 68, 96 ); //Hair
+set_color_profile_slot( 28, 4, 246, 173, 197 ); //Shoe/Shirt Light
+set_color_profile_slot( 28, 5, 210, 135, 180 ); //Shoe/Shirt Dark
+set_color_profile_slot( 28, 6, 182, 182, 182 ); //Stem
+set_color_profile_slot( 28, 7, 141, 231, 255 ); //Leaves
+
+// MunchKragg
+set_color_profile_slot( 29, 0, 187, 155, 143 ); //Jacket
+set_color_profile_slot( 29, 1, 79, 122, 62 ); //Skin/Pot
+set_color_profile_slot( 29, 2, 79, 122, 62 ); //Pants
+set_color_profile_slot( 29, 3, 187, 155, 143 ); //Hair
+set_color_profile_slot( 29, 4, 213, 216, 221 ); //Shoe/Shirt Light
+set_color_profile_slot( 29, 5, 139, 149, 167 ); //Shoe/Shirt Dark
+set_color_profile_slot( 29, 6, 213, 216, 221 ); //Stem
+set_color_profile_slot( 29, 7, 137, 105, 93 ); //Leaves
+
+// Buch
+set_color_profile_slot( 30, 0, 39, 92, 171 ); //Jacket
+set_color_profile_slot( 30, 1, 200, 200, 240 ); //Skin/Pot
+set_color_profile_slot( 30, 2, 130, 56, 64 ); //Pants
+set_color_profile_slot( 30, 3, 107, 126, 146 ); //Hair
+set_color_profile_slot( 30, 4, 220, 203, 105 ); //Shoe/Shirt Light
+set_color_profile_slot( 30, 5, 200, 126, 30 ); //Shoe/Shirt Dark
+set_color_profile_slot( 30, 6, 107, 126, 146 ); //Stem
+set_color_profile_slot( 30, 7, 59, 73, 135 ); //Leaves
+
+// Feri
+set_color_profile_slot( 31, 0, 17, 126, 23 ); //Jacket
+set_color_profile_slot( 31, 1, 169, 71, 225 ); //Skin/Pot
+set_color_profile_slot( 31, 2, 43, 51, 203 ); //Pants
+set_color_profile_slot( 31, 3, 75, 10, 240 ); //Hair
+set_color_profile_slot( 31, 4, 168, 19, 19 ); //Shoe/Shirt Light
+set_color_profile_slot( 31, 5, 168, 19, 19 ); //Shoe/Shirt Dark
+set_color_profile_slot( 31, 6, 17, 126, 23 ); //Stem
+set_color_profile_slot( 31, 7, 255, 48, 224 ); //Leaves
+
+// Rainbow
+set_color_profile_slot( 32, 0, 57, 92, 104 ); //Jacket
+set_color_profile_slot( 32, 1, 216, 155, 141 ); //Skin/Pot
+set_color_profile_slot( 32, 2, 111, 170, 193 ); //Pants
+set_color_profile_slot( 32, 3, 75, 10, 240 ); //Hair
+set_color_profile_slot( 32, 4, 220, 203, 105 ); //Shoe/Shirt Light
+set_color_profile_slot( 32, 5, 200, 126, 30 ); //Shoe/Shirt Dark
+set_color_profile_slot( 32, 6, 17, 126, 23 ); //Stem
+set_color_profile_slot( 32, 7, 82, 180, 127 ); //Leaves
+
+// Random
+set_color_profile_slot( 33, 0, 255, 255, 255 ); //Jacket
+set_color_profile_slot( 33, 1, 255, 255, 255 ); //Skin/Pot
+set_color_profile_slot( 33, 2, 255, 255, 255 ); //Pants
+set_color_profile_slot( 33, 3, 255, 255, 255 ); //Hair
+set_color_profile_slot( 33, 4, 255, 255, 255 ); //Shoe/Shirt Light
+set_color_profile_slot( 33, 5, 255, 255, 255 ); //Shoe/Shirt Dark
+set_color_profile_slot( 33, 6, 255, 255, 255 ); //Stem
+set_color_profile_slot( 33, 7, 255, 255, 255 ); //Leaves
 
 
 /* This is a comment used by that one RoA colors.gml generator tool to store palette data. You can safely keep it in your colors.gml if you plan to re-use the tool later, or safely remove it if you don't.
