@@ -640,12 +640,22 @@ if(batitHealth < 1){
         }
         preserveHitboxes = false;
         playerLockout[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0)] = max(round(attackFacing.no_other_hit+2), 0);
-        hitstun = round(attackFacing.kb_value*4 + (50-batitHealth)*0.12*attackFacing.kb_scale*4*0.65);
+        var hitstunFactor;
+        if(attackFacing.hitstun_factor == -1){
+            hitstunFactor = 0;
+        } else if(attackFacing.hitstun_factor == 0){
+            hitstunFactor = 1;
+        } else {
+            hitstunFactor = attackFacing.hitstun_factor;
+        }
+        hitstun = round((attackFacing.kb_value*4 + (50-batitHealth)*0.12*attackFacing.kb_scale*4*0.65)*hitstunFactor);
         if(attackFacing.hbox_group != -1){
             hGroupCheck[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0), attackFacing.hbox_group] = 1;
             batitHitboxesReset[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0)] = false;
         }
-        changeState(6);
+        if(hitstun > 0){
+            changeState(6);
+        }
     }
 }
 
