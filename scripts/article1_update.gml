@@ -641,7 +641,7 @@ if(batitHealth < 1){
         preserveHitboxes = false;
         playerLockout[attackFacing.player + (attackFacing.player_id.clone ? 10 : 0)] = max(round(attackFacing.no_other_hit+2), 0);
         var hitstunFactor;
-        if(attackFacing.hitstun_factor == -1){
+        if(attackFacing.hitstun_factor < 0){
             hitstunFactor = 0;
         } else if(attackFacing.hitstun_factor == 0){
             hitstunFactor = 1;
