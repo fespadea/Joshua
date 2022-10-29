@@ -35,12 +35,11 @@ set_color_profile_slot_range( 7, 27, 9, 28 );
 // This is setup for the unlimited alts system (you can't use shading slot 8, 9, or 10 anyway)
 // set this macro to the number of alts you have [Edit necessary]
 #macro NUM_ALTS 34
-set_color_profile_slot( 0, 8, -1, 0, NUM_ALTS ); // r = current unlimited alt; g = previous base game alt; b = total number of unlimited alts
-set_color_profile_slot( 0, 9, 0, 0, -1 ); // r = timer between alt switches on CSS; g = whether you last increased or decreased your alt on the CSS; b = whether you're on the online or offline CSS (-1 means not yet known)
-set_color_profile_slot( 0, 10, -1, -1, 0 ); // r = the alt whose sfx last played even if it's blank; g = the id of the last played sound or -1 if no sound was played; b = timer for the random alt
+set_color_profile_slot( 0, 8, NUM_ALTS, 0, -1 ); // r = total number of unlimited alts; g = unlimited alt (used to save when returning to css); and b unused
+print("colors");
 
 // ALTERNATE COLORS
-set_num_palettes( NUM_ALTS ); // you should actually be fine if you just set this to 16, but I have it like this anyway
+set_num_palettes( NUM_ALTS ); // you should actually be fine if you just set this to 32, but I have it like this anyway
 
 // You also have to actually make all the alts. You can make the extra ones like you would make normal ones. I recommend using this tool: https://cl-9a.github.io/RoAColorsGmlHelper/
 // You can increase the maximum number of alts at the bottom

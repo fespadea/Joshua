@@ -135,12 +135,28 @@ canSwitchProjectiles = true;
 strongsMandatory = false;
 canSwitchStrongs = true;
 
+/*
+These are the variables to decide which bits of the synced variable you want to dedicate
+to allowing more alts (from bit 0 to 31). These should match what you put in css_init.gml.
+[Edit necessary]
+*/
+FIRST_BIT_UNLIMITED = 0;
+LAST_BIT_UNLIMITED = 31;
+
+// the currently selected unlimited alt
+unlimitedAlt = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)[1];
+
 // [Random alt on hit feature]
 randomAltOnHit = false; // holds whether this feature has been activated
 
-// Make these clear the buffer of the inputs that you use for costume changing during the intro. This prevents costume switching when restarting a game if either input is mapped to A. [Edit optional]
-clear_button_buffer(PC_SPECIAL_PRESSED);
-clear_button_buffer(PC_JUMP_PRESSED);
+// Variable to hold the number of alts 
+NUM_UNLIMITED_ALTS = get_color_profile_slot_r(0, 8);
+
+// [Random Alt]
+// Check if the random alt is selected
+if(unlimitedAlt == NUM_UNLIMITED_ALTS-1){ // This means the next alt isn't set which means this is the last alt
+    updateUnlimitedAlt(random_func(0, unlimitedAlt, true), false);
+}
 
 // Nudge variables
 autoNudge = true;
@@ -186,7 +202,7 @@ sweetspotHfx = hit_fx_create(sprite_get("batit_sweetspot_hfx"), 35);
 //intro
 introTimer = -4;
 introTimer2 = 0;
-switch(get_color_profile_slot_r(0, 8)){
+switch(unlimitedAlt){
     case 6:
         introSprite = sprite_get("intro_abyss");
         numIntroFrames = 20;
@@ -470,3 +486,54 @@ for (var rune_num = 0; rune_num < array_length(rune_letters); rune_num++){
 }
 // variable used to activate runesUpdated at the start of the match
 runesEnabled = get_match_setting(SET_RUNES);
+
+
+
+
+
+#define updateUnlimitedAlt
+unlimitedAlt = argument[0];
+if(argument_count > 1 && argument[1])
+    set_color_profile_slot( 0, 8, get_color_profile_slot_r(0, 8), unlimitedAlt, get_color_profile_slot_b(0, 8) );
+var prevVarVals = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED);
+set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT_UNLIMITED, unlimitedAlt, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, prevVarVals[2], 31-LAST_BIT_UNLIMITED));
+
+#define split_synced_var
+///args chunk_lengths...
+var num_chunks = argument_count;
+var chunk_arr = array_create(argument_count);
+var synced_var = get_synced_var(player);
+var chunk_offset = 0
+for (var i = 0; i < num_chunks; i++) {
+    var chunk_len = argument[i]; //print(chunk_len);
+    var chunk_mask = (1 << chunk_len)-1
+    chunk_arr[i] = (synced_var >> chunk_offset) & chunk_mask;
+    //print(`matching shift = ${chunk_len}`);
+    chunk_offset += chunk_len;
+}
+// print(chunk_arr);
+return chunk_arr;
+
+#define generate_synced_var
+///args chunks...
+///Given pairs of chunks and their lengths in bits, compiles them into one value.
+//arg format: chunk, bit_length, chunk, bit_length, etc.
+var output = 0;
+var num_chunks = argument_count/2;
+if num_chunks != floor(num_chunks) {
+    print("error generating synced var - function formatted wrong.");
+    return 0;
+}
+var total_len = 0;
+for (var i = num_chunks-1; i >= 0; i--) {
+    var pos = (i*2);
+    var shift = (pos-1 >= 0) ? argument[pos-1] : 0;
+    total_len += argument[pos+1];
+    output = output | argument[pos];
+    output = output << shift;
+}
+if total_len > 32 {
+    print(`error generating synced var - bit length surpassed 32! (${total_len} bits.)`);
+    return 0;
+}
+return real(output);

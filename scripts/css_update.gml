@@ -1,7 +1,8 @@
 // css update
 
+
 var curGameAlt = get_player_color(player); // the current base game alt
-unlimitedAlt = split_synced_var(FIRST_BIT, LAST_BIT-FIRST_BIT+1, 31-LAST_BIT)[1]; // the currently selected alt
+unlimitedAlt = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)[1]; // the currently selected alt
 
 if(curGameAlt != prevAlt){ // you switched alt
     if((curGameAlt > prevAlt && curGameAlt < prevAlt + 8) || curGameAlt < prevAlt - 8){ // You increased your alt. This accounts for going from the highest alt to the smallest alt and skipping alts because of other players.
@@ -17,17 +18,14 @@ if(curGameAlt != prevAlt){ // you switched alt
         unlimitedAlt--; // decrease your unlimited alt
     }
     prevAlt = curGameAlt;
+    var prevVarVals = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)
+    set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT_UNLIMITED, unlimitedAlt, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, prevVarVals[2], 31-LAST_BIT_UNLIMITED));
     init_shader();
 }
-
-var prevVarVals = split_synced_var(FIRST_BIT, LAST_BIT-FIRST_BIT+1, 31-LAST_BIT)
-set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT, unlimitedAlt, LAST_BIT-FIRST_BIT+1, prevVarVals[2], 31-LAST_BIT));
-
-
 // You don't need this if you don't have a rainbow alt [Edit optional]
-// rainbow alt
+// rainbow alt [Edit necessary]
 #macro RAINBOW_ALT 32
-if(unlimitedAlt == RAINBOW_ALT){ // check that you've selected the rainbow alt [Edit necessary]
+if(unlimitedAlt == RAINBOW_ALT){
     init_shader(); // run init_shader to update the hue
 }
 

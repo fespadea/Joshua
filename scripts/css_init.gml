@@ -8,14 +8,13 @@ These are the variables to decide which bits of the synced variable you want to 
 to allowing more alts (from bit 0 to 31). You likely aren't using this if you don't 
 know what it is, so you don't need to touch it if you don't. [Edit necessary]
 */
-FIRST_BIT = 0;
-LAST_BIT = 31;
+FIRST_BIT_UNLIMITED = 0;
+LAST_BIT_UNLIMITED = 31;
 
-// Reset initial selected alt to 0.
-// This is to avoid a synced var value carrying over from a different character.
-var prevVarVals = split_synced_var(FIRST_BIT, LAST_BIT-FIRST_BIT+1, 31-LAST_BIT)
-set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT, 0, LAST_BIT-FIRST_BIT+1, prevVarVals[2], 31-LAST_BIT));
-unlimitedAlt = 0;
+// get selected unlimited alt
+unlimitedAlt = -1;
+var prevVarVals = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED);
+set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT_UNLIMITED, unlimitedAlt, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, prevVarVals[2], 31-LAST_BIT_UNLIMITED));
 prevAlt = get_player_color(player);
 
 
@@ -54,7 +53,8 @@ altName[29]  = "MunchKragg";
 altName[30]  = "Buch";
 altName[31]  = "Feri";
 altName[32]  = "Rainbow";
-altName[33]  = "Random"; // Only put as many names as you have alts
+altName[array_length(altName)]  = "Random"; // Only put as many names as you have alts
+
 
 
 

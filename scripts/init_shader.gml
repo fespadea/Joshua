@@ -4,14 +4,27 @@
 #macro NUM_COLOR_ROWS 8
 
 // Special Alts
-#macro RANDOM_ALT 33
+// #macro RANDOM_ALT 33 (I've decided to always just make Random the last alt)
 #macro EA_ALT 7
 #macro RAINBOW_ALT 32
 #macro WIREFRAME_ALT 17
 
+/*
+I don't want this to break on the SSS, and I think checking if you're on the SSS would be more 
+expensive than just making this variable every time this runs.
+*/
+/*
+These are the macros to decide which bits of the synced variable you want to dedicate
+to allowing more alts (from bit 0 to 31). These should match what you put in css_init.gml.
+[Edit necessary]
+*/
+#macro FIRST_BIT_UNLIMITED 0
+#macro LAST_BIT_UNLIMITED 31
+var unlimitedAlt = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)[1];
+
 // You can get rid of this part if none of your alts change the default shading [Edit optional]
 // set the shading of the color slots
-if(unlimitedAlt == EA_ALT || unlimitedAlt == RANDOM_ALT){ // EA alt and the random alt (change this to check for whichever of your alts have no shading) [Edit necessary]
+if(unlimitedAlt == EA_ALT || get_color_profile_slot_r(0, 8)){ // EA alt and the random alt (change this to check for whichever of your alts have no shading) [Edit necessary]
     // set shading to 0 for every color slot
     for(var i = 0; i < 8; i++){
         set_character_color_shading(i, 0);
@@ -57,3 +70,44 @@ if(unlimitedAlt == RAINBOW_ALT){ // make this check for your rainbow alt [Edit n
         }
     }
 }
+
+
+#define split_synced_var
+///args chunk_lengths...
+var num_chunks = argument_count;
+var chunk_arr = array_create(argument_count);
+var synced_var = get_synced_var(player);
+var chunk_offset = 0
+for (var i = 0; i < num_chunks; i++) {
+    var chunk_len = argument[i]; //print(chunk_len);
+    var chunk_mask = (1 << chunk_len)-1
+    chunk_arr[i] = (synced_var >> chunk_offset) & chunk_mask;
+    //print(`matching shift = ${chunk_len}`);
+    chunk_offset += chunk_len;
+}
+// print(chunk_arr);
+return chunk_arr;
+
+#define generate_synced_var
+///args chunks...
+///Given pairs of chunks and their lengths in bits, compiles them into one value.
+//arg format: chunk, bit_length, chunk, bit_length, etc.
+var output = 0;
+var num_chunks = argument_count/2;
+if num_chunks != floor(num_chunks) {
+    print("error generating synced var - function formatted wrong.");
+    return 0;
+}
+var total_len = 0;
+for (var i = num_chunks-1; i >= 0; i--) {
+    var pos = (i*2);
+    var shift = (pos-1 >= 0) ? argument[pos-1] : 0;
+    total_len += argument[pos+1];
+    output = output | argument[pos];
+    output = output << shift;
+}
+if total_len > 32 {
+    print(`error generating synced var - bit length surpassed 32! (${total_len} bits.)`);
+    return 0;
+}
+return real(output);
