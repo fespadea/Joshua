@@ -1,18 +1,6 @@
 // css draw
 
-// trying to get get funky profile slots in css_init.gml and css_update.gml seems to cause crashes on load under certain conditions
-if(unlimitedAlt == -1){
-    unlimitedAlt = get_color_profile_slot_g(0, 8);
-    var prevVarVals = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)
-    set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT_UNLIMITED, unlimitedAlt, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, prevVarVals[2], 31-LAST_BIT_UNLIMITED));
-    init_shader();
-}
-set_color_profile_slot( 0, 8, get_color_profile_slot_r(0, 8), unlimitedAlt, get_color_profile_slot_b(0, 8) );
-
-
 // This is an edit of Muno's CSS template: https://pastebin.com/uquifNY8
-var temp_x = x + 8; // the base x position
-var temp_y = y + 9; // the base y position
 
 // This offsets the alt name stuff when on the online CSS so that the picture thing doesn't cover it up. Set this to 0 if you don't like it. [Edit optional]
 var bottomPartOffset = onlineCSS ? -10 : 0;
@@ -28,11 +16,47 @@ for(var i = 0; i < ceil(array_length(altName)/16); i++){ // draw the rectangles 
     }
 }
 
+
 draw_set_halign(fa_left);
+
+draw_sprite_ext(cssUnlimitedScrollButton, 0, unlimitedUpButtonX, unlimitedUpButtonY, 1, 1, 0, holdUnlimitedUpButton ? c_gray : -1, 1);
+draw_sprite_ext(cssUnlimitedScrollButton, 0, unlimitedDownButtonX, unlimitedDownButtonY, 1, -1, 0, holdUnlimitedDownButton ? c_gray : -1, 1);
+var unlimitedButtonDivisonY = unlimitedUpButtonY+(unlimitedDownButtonY-unlimitedUpButtonY)/2+1;
+var unlimitedButtonDivisonX = unlimitedUpButtonX;
+draw_sprite_ext(cssUnlimitedScrollButtonDivision, 0, unlimitedButtonDivisonX, unlimitedButtonDivisonY, 1, -1, 0, -1, 1);
 
 //include alt. name
 // display the name of the currently selected alt
 textDraw(temp_x + 2, temp_y + bottomPartOffset + 124 - 5*(ceil(array_length(altName)/16)-1), "fName", c_white, 0, 1000, 1, true, 1, "Alt. " + (unlimitedAlt < 9 ? "0" : "") + string(unlimitedAlt+1) + ": " + altName[unlimitedAlt]);
+
+#macro C_COLOR c_maroon
+draw_toggle_label(projectileMandatoryToggleSpriteX, projectileMandatoryToggleSpriteY, hoverProjectilesMandatory, C_COLOR, "attack");
+draw_toggle_label(strongsMandatoryToggleSpriteX, strongsMandatoryToggleSpriteY, hoverStrongsMandatory, C_COLOR, "strong");
+draw_toggle_label(autoNudgeToggleSpriteX, autoNudgeToggleSpriteY, hoverAutoNudge, C_COLOR, "auto nudge");
+
+draw_sprite_ext(toggleIconSprite, 0, projectileMandatoryToggleSpriteX, projectileMandatoryToggleSpriteY, 2, 2, 0, !projectilesMandatory ? -1 : c_gray, 1);
+draw_sprite_ext(toggleIconSprite, 0, strongsMandatoryToggleSpriteX, strongsMandatoryToggleSpriteY, 2, 2, 0, !strongsMandatory ? -1 : c_gray, 1);
+draw_sprite_ext(toggleIconSprite, 0, autoNudgeToggleSpriteX, autoNudgeToggleSpriteY, 2, 2, 0, autoNudge ? -1 : c_gray, 1);
+
+
+#define draw_toggle_label(baseX, baseY, width, color, toggleLabel)
+if(width){
+    var LABEL_PROJECTILE_MANDATORY_WIDTH = string_width_ext(toggleLabel, 0, 100)+8;
+    draw_sprite_ext(toggleLabelRightSprite, 0, baseX-LABEL_PROJECTILE_MANDATORY_WIDTH+LABEL_PROJECTILE_MANDATORY_WIDTH*width/LABEL_SPEED, baseY-4, 1, 1, 0, color, 1);
+    draw_sprite_ext(toggleLabelCenterSprite, 0, baseX-LABEL_PROJECTILE_MANDATORY_WIDTH, baseY-4, LABEL_PROJECTILE_MANDATORY_WIDTH*width/LABEL_SPEED/2, 1, 0, color, 1);
+    draw_sprite_ext(toggleLabelLeftSprite, 0, baseX-LABEL_PROJECTILE_MANDATORY_WIDTH, baseY-4, 1, 1, 0, color, 1);
+    draw_text_ext_transformed_color_outline(baseX-LABEL_PROJECTILE_MANDATORY_WIDTH+2, baseY+1, toggleLabel, 0, 100, width/LABEL_SPEED, 1, 0, c_white, c_white, c_white, c_white, 1);
+}
+
+#define draw_text_ext_transformed_color_outline(x, y, string, sep, w, xscale, yscale, angle, c1, c2, c3, c4, alpha)
+
+for (var i = -1; i < 2; i++){
+    for (var j = -1; j < 2; j++){
+        draw_text_ext_transformed_color(x + i * 2, y + j * 2, string, sep, w, xscale, yscale, angle, c_black, c_black, c_black, c_black, alpha);
+    }
+}
+
+draw_text_ext_transformed_color(x, y, string, sep, w, xscale, yscale, angle, c1, c2, c3, c4, alpha);
 
 
 #define textDraw(x, y, font, color, lineb, linew, scale, outline, alpha, string)

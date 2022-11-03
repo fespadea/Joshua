@@ -3,20 +3,48 @@
 // player is set to 0 online
 onlineCSS = player == 0; // true if on the online CSS
 
+
+
 /*
 These are the variables to decide which bits of the synced variable you want to dedicate
 to allowing more alts (from bit 0 to 31). You likely aren't using this if you don't 
 know what it is, so you don't need to touch it if you don't. [Edit necessary]
 */
 FIRST_BIT_UNLIMITED = 0;
-LAST_BIT_UNLIMITED = 31;
+LAST_BIT_UNLIMITED = 28;
 
 // get selected unlimited alt
-unlimitedAlt = -1;
-var prevVarVals = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED);
-set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT_UNLIMITED, unlimitedAlt, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, prevVarVals[2], 31-LAST_BIT_UNLIMITED));
+if(init == 1 || "markLoaded" in self){
+    unlimitedAlt = 0;
+    updateUnlimitedAlt();
+    bools = [0,0,1];
+} else{
+    unlimitedAlt = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)[1];
+    bools = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 1,1,1);
+    bools = [bools[2],bools[3],bools[4]];
+}
 prevAlt = get_player_color(player);
+init_shader();
+markLoaded = 0;
 
+// base x and y values
+temp_x = x + 8;
+temp_y = y + 9;
+
+// css UI sprites
+cssUnlimitedScrollButton = sprite_get("css_unlimited_scroll_button");
+sprite_change_offset( "css_unlimited_scroll_button", 0,  0);
+cssUnlimitedScrollButtonDivision = sprite_get("css_unlimited_scroll_button_division");
+sprite_change_offset( "css_unlimited_scroll_button_division", 0,  0);
+
+holdUnlimitedUpButton = false;
+holdUnlimitedDownButton = false;
+altSwitchSound = asset_get("mfx_change_color");
+
+unlimitedUpButtonX = temp_x+182;
+unlimitedUpButtonY = temp_y+88;
+unlimitedDownButtonX = unlimitedUpButtonX;
+unlimitedDownButtonY = unlimitedUpButtonY+34;
 
 //Alt names [Edit necessary]
 altName = [];
@@ -58,7 +86,44 @@ altName[array_length(altName)]  = "Random"; // Only put as many names as you hav
 
 
 
+// Toggle Sprites
+toggleIconSprite = sprite_get("toggle_icon");
+toggleLabelRightSprite = sprite_get("toggle_label_right");
+toggleLabelLeftSprite = sprite_get("toggle_label_left");
+sprite_change_offset( "toggle_label_left", sprite_get_width(toggleLabelLeftSprite), 0);
+toggleLabelCenterSprite = sprite_get("toggle_label_center");
 
+projectileMandatoryToggleSpriteX = temp_x+182;
+projectileMandatoryToggleSpriteY = temp_y+24;
+strongsMandatoryToggleSpriteX = projectileMandatoryToggleSpriteX;
+strongsMandatoryToggleSpriteY = projectileMandatoryToggleSpriteY+22;
+autoNudgeToggleSpriteX = projectileMandatoryToggleSpriteX;
+autoNudgeToggleSpriteY = strongsMandatoryToggleSpriteY+22;
+
+// Toggle booleans
+projectilesMandatory = bools[0] == 1;
+strongsMandatory = bools[1] == 1;
+autoNudge = bools[2] == 1;
+
+holdToggle = false; // holding a toggle boolean
+
+LABEL_SPEED = 15;
+hoverProjectilesMandatory = 0;
+LABEL_PROJECTILE_MANDATORY_WIDTH = 26;
+hoverStrongsMandatory = 0;
+LABEL_STRONG_MANDATORY_WIDTH = 26;
+hoverAutoNudge = 0;
+LABEL_AUTO_NUDGE_WIDTH = 22;
+
+
+#define updateUnlimitedAlt
+var syncedVar = get_synced_var(player);
+var newSyncedVar = 0;
+newSyncedVar += syncedVar >> (LAST_BIT_UNLIMITED+1) << (LAST_BIT_UNLIMITED+1);
+newSyncedVar += (unlimitedAlt & ((1 << (LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1))-1)) << FIRST_BIT_UNLIMITED;
+newSyncedVar += syncedVar & ((1 << (FIRST_BIT_UNLIMITED))-1);
+set_synced_var(player, newSyncedVar);
+init_shader();
 
 #define split_synced_var
 ///args chunk_lengths...

@@ -19,12 +19,12 @@ to allowing more alts (from bit 0 to 31). These should match what you put in css
 [Edit necessary]
 */
 #macro FIRST_BIT_UNLIMITED 0
-#macro LAST_BIT_UNLIMITED 31
+#macro LAST_BIT_UNLIMITED 28
 var unlimitedAlt = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)[1];
 
 // You can get rid of this part if none of your alts change the default shading [Edit optional]
 // set the shading of the color slots
-if(unlimitedAlt == EA_ALT || get_color_profile_slot_r(0, 8)){ // EA alt and the random alt (change this to check for whichever of your alts have no shading) [Edit necessary]
+if(unlimitedAlt == EA_ALT){ // EA alt (change this to check for whichever of your alts have no shading) [Edit necessary]
     // set shading to 0 for every color slot
     for(var i = 0; i < 8; i++){
         set_character_color_shading(i, 0);

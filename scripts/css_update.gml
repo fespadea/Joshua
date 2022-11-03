@@ -18,9 +18,7 @@ if(curGameAlt != prevAlt){ // you switched alt
         unlimitedAlt--; // decrease your unlimited alt
     }
     prevAlt = curGameAlt;
-    var prevVarVals = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)
-    set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT_UNLIMITED, unlimitedAlt, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, prevVarVals[2], 31-LAST_BIT_UNLIMITED));
-    init_shader();
+    updateUnlimitedAlt();
 }
 // You don't need this if you don't have a rainbow alt [Edit optional]
 // rainbow alt [Edit necessary]
@@ -28,6 +26,126 @@ if(curGameAlt != prevAlt){ // you switched alt
 if(unlimitedAlt == RAINBOW_ALT){
     init_shader(); // run init_shader to update the hue
 }
+
+suppress_cursor = false;
+if(get_instance_x(cursor_id) >= unlimitedUpButtonX && get_instance_x(cursor_id) <= unlimitedUpButtonX + sprite_get_width(cssUnlimitedScrollButton) 
+	&& get_instance_y(cursor_id) >= unlimitedUpButtonY && get_instance_y(cursor_id) <= unlimitedUpButtonY + sprite_get_height(cssUnlimitedScrollButton)){
+    suppress_cursor = true;
+    if(menu_a_pressed){
+        if(!holdUnlimitedUpButton){
+            holdUnlimitedUpButton = true;
+            sound_play(altSwitchSound);
+            unlimitedAlt += 16;
+            if(unlimitedAlt >= array_length(altName)){
+                unlimitedAlt = unlimitedAlt % 16;
+            }
+            updateUnlimitedAlt();
+        }
+    } else if(!menu_a_down){
+        holdUnlimitedUpButton = false;
+    }
+} else{
+    holdUnlimitedUpButton = false;
+}
+
+if(get_instance_x(cursor_id) >= unlimitedDownButtonX && get_instance_x(cursor_id) <= unlimitedDownButtonX + sprite_get_width(cssUnlimitedScrollButton) 
+	&& get_instance_y(cursor_id) >= unlimitedDownButtonY - sprite_get_height(cssUnlimitedScrollButton) && get_instance_y(cursor_id) <= unlimitedDownButtonY){
+    suppress_cursor = true;
+    if(menu_a_pressed){
+        if(!holdUnlimitedDownButton){
+            holdUnlimitedDownButton = true;
+            sound_play(altSwitchSound);
+            unlimitedAlt -= 16;
+            if(unlimitedAlt < 0){
+                while(unlimitedAlt+16 < array_length(altName)){ // could not think of better math cause dumb
+                    unlimitedAlt += 16;
+                }
+            }
+            updateUnlimitedAlt();
+        }
+    } else if(!menu_a_down){
+        holdUnlimitedDownButton = false;
+    }
+} else{
+    holdUnlimitedDownButton = false;
+}
+
+
+// toggles
+if(get_instance_x(cursor_id) >= projectileMandatoryToggleSpriteX && get_instance_x(cursor_id) <= projectileMandatoryToggleSpriteX + sprite_get_width(toggleIconSprite)*2 
+	&& get_instance_y(cursor_id) >= projectileMandatoryToggleSpriteY && get_instance_y(cursor_id) <= projectileMandatoryToggleSpriteY + sprite_get_height(toggleIconSprite)*2){
+    suppress_cursor = true;
+    if(hoverProjectilesMandatory < LABEL_SPEED){
+        hoverProjectilesMandatory++;
+    }
+    if(menu_a_pressed){
+        if(!holdButton){
+            holdButton = true;
+            projectilesMandatory = !projectilesMandatory;
+        }
+    } else if(!menu_a_down){
+        holdButton = false;
+    }
+} else{
+    holdButton = false;
+    if(hoverProjectilesMandatory > 0){
+        hoverProjectilesMandatory--;
+    }
+}
+if(get_instance_x(cursor_id) >= strongsMandatoryToggleSpriteX && get_instance_x(cursor_id) <= strongsMandatoryToggleSpriteX + sprite_get_width(toggleIconSprite)*2 
+	&& get_instance_y(cursor_id) >= strongsMandatoryToggleSpriteY && get_instance_y(cursor_id) <= strongsMandatoryToggleSpriteY + sprite_get_height(toggleIconSprite)*2){
+    suppress_cursor = true;
+    if(hoverStrongsMandatory < LABEL_SPEED){
+        hoverStrongsMandatory++;
+    }
+    if(menu_a_pressed){
+        if(!holdButton){
+            holdButton = true;
+            strongsMandatory = !strongsMandatory;
+        }
+    } else if(!menu_a_down){
+        holdButton = false;
+    }
+} else{
+    holdButton = false;
+    if(hoverStrongsMandatory > 0){
+        hoverStrongsMandatory--;
+    }
+}
+if(get_instance_x(cursor_id) >= autoNudgeToggleSpriteX && get_instance_x(cursor_id) <= autoNudgeToggleSpriteX + sprite_get_width(toggleIconSprite)*2 
+	&& get_instance_y(cursor_id) >= autoNudgeToggleSpriteY && get_instance_y(cursor_id) <= autoNudgeToggleSpriteY + sprite_get_height(toggleIconSprite)*2){
+    suppress_cursor = true;
+    if(hoverAutoNudge < LABEL_SPEED){
+        hoverAutoNudge++;
+    }
+    if(menu_a_pressed){
+        if(!holdButton){
+            holdButton = true;
+            autoNudge = !autoNudge;
+        }
+    } else if(!menu_a_down){
+        holdButton = false;
+    }
+} else{
+    holdButton = false;
+    if(hoverAutoNudge > 0){
+        hoverAutoNudge--;
+    }
+}
+
+var prevVarVals = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)
+set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT_UNLIMITED, prevVarVals[1], LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, projectilesMandatory, 1, strongsMandatory, 1, autoNudge, 1));
+
+
+
+#define updateUnlimitedAlt
+var syncedVar = get_synced_var(player);
+var newSyncedVar = 0;
+newSyncedVar += syncedVar >> (LAST_BIT_UNLIMITED+1) << (LAST_BIT_UNLIMITED+1);
+newSyncedVar += (unlimitedAlt & ((1 << (LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1))-1)) << FIRST_BIT_UNLIMITED;
+newSyncedVar += syncedVar & ((1 << (FIRST_BIT_UNLIMITED))-1);
+set_synced_var(player, newSyncedVar);
+init_shader();
 
 
 #define split_synced_var

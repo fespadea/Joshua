@@ -127,21 +127,25 @@ currentUspecialSprite = -1;
 currentUspecialImageIndex = -1;
 currentUspecialHurtSprite = -1;
 
-// batit aerial attack variables
-doStrong = true;
-doAttack = true;
-projectilesMandatory = false;
-canSwitchProjectiles = true;
-strongsMandatory = false;
-canSwitchStrongs = true;
-
 /*
 These are the variables to decide which bits of the synced variable you want to dedicate
 to allowing more alts (from bit 0 to 31). These should match what you put in css_init.gml.
 [Edit necessary]
 */
 FIRST_BIT_UNLIMITED = 0;
-LAST_BIT_UNLIMITED = 31;
+LAST_BIT_UNLIMITED = 28;
+
+// toggles from synced var
+bools = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 1,1,1);
+bools = [bools[2],bools[3],bools[4]];
+
+// batit aerial attack variables
+doStrong = true;
+doAttack = true;
+projectilesMandatory = bools[0] == 1;
+canSwitchProjectiles = true;
+strongsMandatory = bools[1] == 1;
+canSwitchStrongs = true;
 
 // the currently selected unlimited alt
 unlimitedAlt = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)[1];
@@ -149,17 +153,19 @@ unlimitedAlt = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BI
 // [Random alt on hit feature]
 randomAltOnHit = false; // holds whether this feature has been activated
 
-// Variable to hold the number of alts 
-NUM_UNLIMITED_ALTS = get_color_profile_slot_r(0, 8);
+// Variable to hold the number of alts [Edit necessary]
+NUM_UNLIMITED_ALTS = 34;
 
 // [Random Alt]
 // Check if the random alt is selected
+randomSelected = false;
 if(unlimitedAlt == NUM_UNLIMITED_ALTS-1){ // This means the next alt isn't set which means this is the last alt
     updateUnlimitedAlt(random_func(0, unlimitedAlt, true), false);
+    randomSelected = true;
 }
 
 // Nudge variables
-autoNudge = true;
+autoNudge = bools[2] == 1;
 canSwitchNudge = true;
 
 // Batit nspecial cooldown
@@ -493,10 +499,12 @@ runesEnabled = get_match_setting(SET_RUNES);
 
 #define updateUnlimitedAlt
 unlimitedAlt = argument[0];
-if(argument_count > 1 && argument[1])
-    set_color_profile_slot( 0, 8, get_color_profile_slot_r(0, 8), unlimitedAlt, get_color_profile_slot_b(0, 8) );
-var prevVarVals = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED);
-set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT_UNLIMITED, unlimitedAlt, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, prevVarVals[2], 31-LAST_BIT_UNLIMITED));
+var syncedVar = get_synced_var(player);
+var newSyncedVar = 0;
+newSyncedVar += syncedVar >> (LAST_BIT_UNLIMITED+1) << (LAST_BIT_UNLIMITED+1);
+newSyncedVar += (unlimitedAlt & ((1 << (LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1))-1)) << FIRST_BIT_UNLIMITED;
+newSyncedVar += syncedVar & ((1 << (FIRST_BIT_UNLIMITED))-1);
+set_synced_var(player, newSyncedVar);
 
 #define split_synced_var
 ///args chunk_lengths...
@@ -513,27 +521,3 @@ for (var i = 0; i < num_chunks; i++) {
 }
 // print(chunk_arr);
 return chunk_arr;
-
-#define generate_synced_var
-///args chunks...
-///Given pairs of chunks and their lengths in bits, compiles them into one value.
-//arg format: chunk, bit_length, chunk, bit_length, etc.
-var output = 0;
-var num_chunks = argument_count/2;
-if num_chunks != floor(num_chunks) {
-    print("error generating synced var - function formatted wrong.");
-    return 0;
-}
-var total_len = 0;
-for (var i = num_chunks-1; i >= 0; i--) {
-    var pos = (i*2);
-    var shift = (pos-1 >= 0) ? argument[pos-1] : 0;
-    total_len += argument[pos+1];
-    output = output | argument[pos];
-    output = output << shift;
-}
-if total_len > 32 {
-    print(`error generating synced var - bit length surpassed 32! (${total_len} bits.)`);
-    return 0;
-}
-return real(output);

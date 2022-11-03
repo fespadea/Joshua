@@ -32,14 +32,8 @@ set_color_profile_slot_range( 6, 12, 3, 18 );
 set_color_profile_slot( 0, 7, 82, 180, 127 );
 set_color_profile_slot_range( 7, 27, 9, 28 );
 
-// This is setup for the unlimited alts system (you can't use shading slot 8, 9, or 10 anyway)
-// set this macro to the number of alts you have [Edit necessary]
-#macro NUM_ALTS 34
-set_color_profile_slot( 0, 8, NUM_ALTS, 0, -1 ); // r = total number of unlimited alts; g = unlimited alt (used to save when returning to css); and b unused
-print("colors");
-
 // ALTERNATE COLORS
-set_num_palettes( NUM_ALTS ); // you should actually be fine if you just set this to 32, but I have it like this anyway
+set_num_palettes( 34 ); // you should actually be fine if you just set this to 32, but I have it like this anyway
 
 // You also have to actually make all the alts. You can make the extra ones like you would make normal ones. I recommend using this tool: https://cl-9a.github.io/RoAColorsGmlHelper/
 // You can increase the maximum number of alts at the bottom

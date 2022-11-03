@@ -202,6 +202,8 @@ if(shield_down && taunt_down){
 } else {
     canSwitchNudge = true;
 }
+var prevVarVals = split_synced_var(FIRST_BIT_UNLIMITED, LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, 31-LAST_BIT_UNLIMITED)
+set_synced_var(player, generate_synced_var(prevVarVals[0], FIRST_BIT_UNLIMITED, prevVarVals[1], LAST_BIT_UNLIMITED-FIRST_BIT_UNLIMITED+1, projectilesMandatory, 1, strongsMandatory, 1, autoNudge, 1));
 
 //reset pickup batit variable
 if(pickUpBatit && !((state == PS_ATTACK_AIR || state == PS_ATTACK_GROUND) && attack == AT_FSPECIAL)){
@@ -898,7 +900,8 @@ if(get_gameplay_time() == 2 || wasReloaded){ // runs at the beginning of the mat
         tutorialPages[pageNum++] = "If you're fast, you can just repress the inputs immediately to make Batit attack sooner.";
         tutorialPages[pageNum++] = "However, you also have the option to toggle this option, so that Batit always attacks with you (assuming he's able to).";
         tutorialPages[pageNum++] = "This is done by pressing taunt+attack for the attacks and taunt + strong for the strongs at any point during a match.";
-        tutorialPages[pageNum++] = "These two toggles are independent of each other, and their status is indicated by the top two lights on the HUD (attack is top and strong is middle).";
+        tutorialPages[pageNum++] = "This can also be toggled on the CSS by clicking the toggle buttons (attack is top and strong is middle).";
+        tutorialPages[pageNum++] = "These two toggles are independent of each other, and their status is indicated by the top two lights on the HUD.";
         tutorialPages[pageNum++] = "Next, I'll go over some specific interactions that Joshua's moves can have with Batit.";
         tutorialPages[pageNum++] = "The most simple is that fspecial picks up Batit. It also functions as a grab (this takes priority over picking up Batit).";
         tutorialPages[pageNum++] = "Next is uspecial. When Joshua is using uspecial and touching Batit, he can press special (or up-special with special stick) to transition into his Batitful uspecial.";
@@ -913,6 +916,7 @@ if(get_gameplay_time() == 2 || wasReloaded){ // runs at the beginning of the mat
         tutorialPages[pageNum++] = "Nudge can also be cancelled into any of Batit's attacks, but he loses his invincibility and hitbox.";
         tutorialPages[pageNum++] = "In order to not nudge Batit, Joshua has to hold shield during his attack.";
         tutorialPages[pageNum++] = "Nudging can be toggled to not be default, so that you have to hold shield during attacks to nudge Batit by pressing taunt+shield anytime during a match.";
+        tutorialPages[pageNum++] = "This can also be toggled on the CSS by clicking the bottom toggle button.";
         tutorialPages[pageNum++] = "The state of this toggle is indicated by the bottom light on the HUD.";
         tutorialPages[pageNum++] = "One last thing regarding the extra alts on the CSS. They can't be selected online, so you can press special during the countdown to change to the alt on the next row or jump to go the other way (this loops).";
         tutorialPages[pageNum++] = "Also, you can activate 'switch to a random alt on hit' during the countdown by holding taunt, special, and jump at the same time. You can't switch alts while holding taunt.";
@@ -1010,3 +1014,44 @@ if(runeN){
     clear_button_buffer(PC_DOWN_STRONG_PRESSED);
     clear_button_buffer(PC_SPECIAL_PRESSED);
 }
+
+
+#define split_synced_var
+///args chunk_lengths...
+var num_chunks = argument_count;
+var chunk_arr = array_create(argument_count);
+var synced_var = get_synced_var(player);
+var chunk_offset = 0
+for (var i = 0; i < num_chunks; i++) {
+    var chunk_len = argument[i]; //print(chunk_len);
+    var chunk_mask = (1 << chunk_len)-1
+    chunk_arr[i] = (synced_var >> chunk_offset) & chunk_mask;
+    //print(`matching shift = ${chunk_len}`);
+    chunk_offset += chunk_len;
+}
+// print(chunk_arr);
+return chunk_arr;
+
+#define generate_synced_var
+///args chunks...
+///Given pairs of chunks and their lengths in bits, compiles them into one value.
+//arg format: chunk, bit_length, chunk, bit_length, etc.
+var output = 0;
+var num_chunks = argument_count/2;
+if num_chunks != floor(num_chunks) {
+    print("error generating synced var - function formatted wrong.");
+    return 0;
+}
+var total_len = 0;
+for (var i = num_chunks-1; i >= 0; i--) {
+    var pos = (i*2);
+    var shift = (pos-1 >= 0) ? argument[pos-1] : 0;
+    total_len += argument[pos+1];
+    output = output | argument[pos];
+    output = output << shift;
+}
+if total_len > 32 {
+    print(`error generating synced var - bit length surpassed 32! (${total_len} bits.)`);
+    return 0;
+}
+return real(output);
