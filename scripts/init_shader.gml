@@ -87,27 +87,3 @@ for (var i = 0; i < num_chunks; i++) {
 }
 // print(chunk_arr);
 return chunk_arr;
-
-#define generate_synced_var
-///args chunks...
-///Given pairs of chunks and their lengths in bits, compiles them into one value.
-//arg format: chunk, bit_length, chunk, bit_length, etc.
-var output = 0;
-var num_chunks = argument_count/2;
-if num_chunks != floor(num_chunks) {
-    print("error generating synced var - function formatted wrong.");
-    return 0;
-}
-var total_len = 0;
-for (var i = num_chunks-1; i >= 0; i--) {
-    var pos = (i*2);
-    var shift = (pos-1 >= 0) ? argument[pos-1] : 0;
-    total_len += argument[pos+1];
-    output = output | argument[pos];
-    output = output << shift;
-}
-if total_len > 32 {
-    print(`error generating synced var - bit length surpassed 32! (${total_len} bits.)`);
-    return 0;
-}
-return real(output);
