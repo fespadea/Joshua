@@ -64,7 +64,7 @@ if(my_hitboxID.attack == AT_USPECIAL && my_hitboxID.hbox_num > 2 && my_hitboxID.
 // [Random alt on hit feature]
 // Random alt on hit
 if(randomAltOnHit){ // if "random alt on hit" activated
-    updateUnlimitedAlt(random_func(10, NUM_UNLIMITED_ALTS, true), false); // update the unlimited alt to a random alt
+    updateUnlimitedAlt(random_func(10, NUM_UNLIMITED_ALTS-1, true), false); // update the unlimited alt to a random alt
     init_shader(); // update the alt visually
 }
 

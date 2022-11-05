@@ -427,7 +427,7 @@ if (introTimer2 < 4) {
     introTimer++;
 }
 
-// alt changing
+// activate random alt on hit
 // The amount of frames into the match during which you can activate "random alt on hit" if you keep that feature. You can change this amount if you want. I believe the countdown is actually 122 frames, but allowing changes that late makes it possible to accidentally change alt while trying to do something early in the match. [Edit optional]
 #macro CHANGE_ALT_FRAME_LIMIT 100
 if (get_gameplay_time() < CHANGE_ALT_FRAME_LIMIT){ // you are still in the countdown

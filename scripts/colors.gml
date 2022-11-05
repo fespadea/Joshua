@@ -32,13 +32,13 @@ set_color_profile_slot_range( 6, 12, 3, 18 );
 set_color_profile_slot( 0, 7, 82, 180, 127 );
 set_color_profile_slot_range( 7, 27, 9, 28 );
 
-// ALTERNATE COLORS
-set_num_palettes( 34 ); // you should actually be fine if you just set this to 32, but I have it like this anyway
-
 // You also have to actually make all the alts. You can make the extra ones like you would make normal ones. I recommend using this tool: https://cl-9a.github.io/RoAColorsGmlHelper/
 // You can increase the maximum number of alts at the bottom
 // This is what Joshua & Batit's colors.gml looks like (made with the above tool): https://pastebin.com/1wtd5fkR
 // [Edit necessary]
+
+// ALTERNATE COLORS
+set_num_palettes( 34 ); // you should actually be fine if you just set this to 32, but I have it like this anyway
 
 // Hime
 set_color_profile_slot( 1, 0, 116, 184, 229 ); //Jacket
